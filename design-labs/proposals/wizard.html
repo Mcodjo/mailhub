@@ -10,293 +10,314 @@ body { background: var(--gray); min-height: 100vh; }
 
 /* ---- Navbar ---- */
 .nav {
-  background: var(--ink);
-  border-bottom: 1px solid rgba(255,255,255,.06);
+  background: var(--ink); border-bottom: 1px solid rgba(255,255,255,.06);
 }
 .nav-inner {
-  max-width: 860px; margin: 0 auto;
-  height: 56px; display: flex; align-items: center; gap: var(--s4);
-  padding: 0 var(--s5);
+  max-width: 1000px; margin: 0 auto; height: 56px;
+  display: flex; align-items: center; gap: var(--s4); padding: 0 var(--s5);
 }
 .nav-sep { flex: 1; }
 .nav-av {
   width: 30px; height: 30px; border-radius: 50%;
   background: var(--steel); color: var(--white);
-  display: grid; place-items: center;
-  font-size: var(--fs-xs); font-weight: 700; flex: none;
+  display: grid; place-items: center; font-size: var(--fs-xs); font-weight: 700; flex: none;
 }
 
-/* ---- Conteneur principal ---- */
-.wiz-wrap {
-  max-width: 640px; margin: var(--s7) auto;
+/* ---- Conteneur ---- */
+.wiz-layout {
+  max-width: 1000px; margin: var(--s7) auto;
   padding: 0 var(--s5);
+  display: grid; grid-template-columns: 260px 1fr;
+  gap: var(--s6); align-items: start;
 }
 
-/* ---- Anneau de progression ---- */
-.progress-block {
-  text-align: center; margin-bottom: var(--s7);
+/* ===== Stepper vertical (colonne gauche) ===== */
+.stepper { position: sticky; top: var(--s7); }
+.stepper-title {
+  font-size: var(--fs-xs); font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-30); margin-bottom: var(--s5);
 }
-.ring-wrap { position: relative; display: inline-block; }
-svg.ring { transform: rotate(-90deg); }
-.ring-track { fill: none; stroke: var(--gray-mid); stroke-width: 5; }
-.ring-bar {
-  fill: none; stroke: var(--steel); stroke-width: 5;
-  stroke-linecap: round;
-  stroke-dasharray: 251.3; /* 2π×40 */
-  stroke-dashoffset: 62.8; /* 75% done = offset 25% */
-  transition: stroke-dashoffset .4s ease;
-}
-.ring-label {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-}
-.ring-pct { font-size: var(--fs-xl); font-weight: 700; line-height: 1; }
-.ring-sub { font-size: var(--fs-xs); color: var(--ink-55); font-weight: 500; }
-.progress-title {
-  margin-top: var(--s4);
-  font-size: var(--fs-lg); font-weight: 700;
-}
-.progress-sub { font-size: var(--fs-sm); color: var(--ink-55); margin-top: var(--s2); }
+.step-list { list-style: none; margin: 0; padding: 0; position: relative; }
 
-/* ---- Étapes ---- */
-.steps { display: flex; flex-direction: column; gap: var(--s3); }
-.step-card {
+/* Ligne verticale continue */
+.step-list::before {
+  content: '';
+  position: absolute; top: 18px; left: 17px;
+  width: 2px; height: calc(100% - 36px);
+  background: var(--gray-mid);
+}
+
+.step-li {
+  display: flex; gap: var(--s3); align-items: flex-start;
+  padding: 0 0 var(--s5); position: relative;
+}
+.step-li:last-child { padding-bottom: 0; }
+
+/* Rondelle */
+.step-dot {
+  width: 36px; height: 36px; border-radius: 50%; flex: none;
+  display: grid; place-items: center; z-index: 1;
+  font-size: var(--fs-xs); font-weight: 700;
+  border: 2px solid var(--gray-mid);
+  background: var(--white);
+  color: var(--ink-30);
+  transition: all .2s;
+}
+.step-li.done .step-dot { background: var(--success-bg); border-color: var(--success); color: var(--success); }
+.step-li.active .step-dot { background: var(--ink); border-color: var(--ink); color: var(--white); }
+.step-li.error .step-dot { background: var(--error-bg); border-color: var(--error); color: var(--error); }
+
+/* Ligne entre étapes : coloriée si done */
+.step-li.done::after {
+  content: '';
+  position: absolute; top: 36px; left: 17px;
+  width: 2px; height: var(--s5);
+  background: var(--success);
+  z-index: 1;
+}
+.step-li:last-child::after { display: none; }
+
+.step-txt { padding-top: 7px; }
+.step-txt h3 { font-size: var(--fs-sm); font-weight: 700; margin-bottom: 2px; }
+.step-txt p { font-size: var(--fs-xs); color: var(--ink-55); margin: 0; line-height: 1.4; }
+.step-txt .badge { margin-top: 5px; }
+
+/* ===== Zone de contenu (colonne droite) ===== */
+.wiz-content { min-width: 0; }
+
+/* En-tête de l'étape active */
+.wiz-head { margin-bottom: var(--s5); }
+.wiz-head h1 { font-size: var(--fs-xl); font-weight: 700; letter-spacing: -.03em; margin-bottom: var(--s2); }
+.wiz-head p { font-size: var(--fs-base); color: var(--ink-55); margin: 0; }
+
+/* Card principale */
+.wiz-card {
   background: var(--white); border: var(--border);
   border-radius: var(--r-lg); box-shadow: var(--sh-1);
-  overflow: hidden;
+  overflow: hidden; margin-bottom: var(--s4);
 }
-.step-card.done { border-color: var(--success-bg); }
-.step-card.active { border-color: var(--steel); box-shadow: 0 0 0 3px rgba(91,132,196,.1); }
-.step-card.error { border-color: var(--error-bg); }
-
-.step-header {
+.wiz-card-head {
+  padding: var(--s4) var(--s5); border-bottom: var(--border);
   display: flex; align-items: center; gap: var(--s3);
-  padding: var(--s4) var(--s5);
-  cursor: pointer;
 }
-.step-icon {
-  width: 36px; height: 36px; border-radius: 50%; flex: none;
-  display: grid; place-items: center;
-  font-size: var(--fs-xs); font-weight: 700;
-}
-.step-icon-done { background: var(--success-bg); color: var(--success); }
-.step-icon-active { background: var(--steel-soft); color: var(--steel); }
-.step-icon-idle { background: var(--gray); color: var(--ink-30); }
-.step-icon-error { background: var(--error-bg); color: var(--error); }
-.step-info { flex: 1; }
-.step-info h3 { font-size: var(--fs-sm); font-weight: 700; margin-bottom: 2px; }
-.step-info p { font-size: var(--fs-xs); color: var(--ink-55); margin: 0; }
-.step-chevron {
-  color: var(--ink-30);
-  transition: transform .18s;
-}
-.step-card.open .step-chevron { transform: rotate(180deg); }
-
-/* Corps de l'étape (expand) */
-.step-body {
-  padding: 0 var(--s5) var(--s5);
-  border-top: var(--border);
-  display: none;
-}
-.step-card.open .step-body { display: block; }
-.step-body .alert { margin-bottom: var(--s4); }
+.wiz-card-head h2 { font-size: var(--fs-sm); font-weight: 700; flex: 1; }
+.wiz-card-body { padding: var(--s5); }
 
 /* Tableau DNS */
 .dns-table {
   width: 100%; border-collapse: collapse; font-size: var(--fs-xs);
-  margin-bottom: var(--s4);
 }
 .dns-table th {
-  text-align: left; padding: 6px 10px;
+  text-align: left; padding: 7px 12px;
   background: var(--gray); border-bottom: var(--border);
   font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
   color: var(--ink-55);
 }
 .dns-table td {
-  padding: 9px 10px; border-bottom: var(--border);
+  padding: 11px 12px; border-bottom: var(--border);
   vertical-align: middle;
 }
 .dns-table tr:last-child td { border-bottom: none; }
 .dns-table code {
   font-family: 'Courier New', monospace; font-size: 11px;
-  background: var(--gray); padding: 2px 6px; border-radius: var(--r-sm);
-  color: var(--ink);
+  background: var(--gray); padding: 2px 7px; border-radius: var(--r-sm); color: var(--ink);
 }
+.dns-table .row-error td { background: var(--error-bg); }
+.dns-table .row-ok td { background: var(--success-bg); }
 .copy-btn {
   background: none; border: none; cursor: pointer;
   color: var(--steel); padding: 0 4px;
-  font-size: var(--fs-xs); font-weight: 600;
-  opacity: .7; transition: opacity .12s;
+  font-size: var(--fs-xs); font-weight: 600; opacity: .7;
+  transition: opacity .12s;
 }
 .copy-btn:hover { opacity: 1; }
+
+/* Alerte SPF */
+.wiz-alert { margin-bottom: var(--s4); }
 
 /* Polling live */
 .poll-row {
   display: flex; align-items: center; gap: var(--s3);
   padding: var(--s3) var(--s4); background: var(--gray);
-  border-radius: var(--r-md); margin-top: var(--s4);
+  border-radius: var(--r-md); border: var(--border);
 }
 .poll-text { flex: 1; font-size: var(--fs-xs); font-weight: 500; }
 
-/* Actions de navigation */
-.wiz-actions {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-top: var(--s7);
+/* Carte info registrar */
+.info-card {
+  background: var(--steel-soft); border: 1px solid var(--steel-mid);
+  border-radius: var(--r-md); padding: var(--s4); margin-top: var(--s4);
+  font-size: var(--fs-xs); line-height: 1.6;
 }
-.wiz-actions .skip { font-size: var(--fs-sm); color: var(--ink-55); }
+.info-card strong { color: var(--steel); display: block; margin-bottom: 4px; }
+
+/* Navigation bas de page */
+.wiz-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: var(--s5);
+}
+.wiz-nav .hint { font-size: var(--fs-xs); color: var(--ink-55); }
 
 /* ---- Responsive ---- */
-@media (max-width: 600px) {
-  .wiz-wrap { margin: var(--s5) auto; }
-  .dns-table { font-size: 10px; }
-  .dns-table td, .dns-table th { padding: 6px; }
+@media (max-width: 760px) {
+  .wiz-layout { grid-template-columns: 1fr; }
+  .stepper { position: static; display: flex; gap: var(--s4); overflow-x: auto; padding-bottom: var(--s3); }
+  .stepper-title { display: none; }
+  .step-list { display: flex; gap: 0; flex-direction: row; }
+  .step-list::before { display: none; }
+  .step-li { flex-direction: column; align-items: center; padding: 0 var(--s3) 0 0; text-align: center; }
+  .step-li::after { display: none; }
+  .step-txt h3 { font-size: 10px; }
+  .step-txt p, .step-txt .badge { display: none; }
 }
 </style>
 </head>
 <body>
 
-<!-- Navbar -->
 <header class="nav">
   <div class="nav-inner">
-    <img src="assets/logo/domial-horizontal-reversed.svg" alt="Domial" height="22">
+    <img src="assets/logo/domial-horizontal-reversed.svg" alt="Domial" height="20">
     <span class="nav-sep"></span>
     <span style="font-size:var(--fs-xs);font-weight:600;color:rgba(191,209,240,.55)">lumen-agence.fr</span>
-    <span class="nav-av" aria-label="Profil">CL</span>
+    <a href="dashboard.html" class="btn btn-sm" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12);color:rgba(191,209,240,.8)">Tableau de bord</a>
+    <span class="nav-av">CL</span>
   </div>
 </header>
 
-<div class="wiz-wrap">
+<div class="wiz-layout">
 
-  <!-- Anneau de progression -->
-  <div class="progress-block">
-    <div class="ring-wrap">
-      <svg class="ring" width="100" height="100" viewBox="0 0 100 100" aria-hidden="true">
-        <circle class="ring-track" cx="50" cy="50" r="40"/>
-        <circle class="ring-bar" cx="50" cy="50" r="40"/>
-      </svg>
-      <div class="ring-label">
-        <span class="ring-pct">75%</span>
-        <span class="ring-sub">3 / 4</span>
-      </div>
-    </div>
-    <h1 class="progress-title">Configuration DNS en cours</h1>
-    <p class="progress-sub">Domaine <strong>lumen-agence.fr</strong> — dernière étape avant l'envoi.</p>
-  </div>
+  <!-- ===== Stepper vertical ===== -->
+  <aside class="stepper" aria-label="Progression">
+    <p class="stepper-title">Configuration DNS en cours</p>
+    <ol class="step-list">
 
-  <!-- Liste des étapes -->
-  <div class="steps" role="list">
-
-    <!-- Étape 1 : Domaine vérifié -->
-    <div class="step-card done" role="listitem">
-      <div class="step-header" aria-expanded="false">
-        <span class="step-icon step-icon-done" aria-hidden="true">
-          <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg>
+      <li class="step-li done">
+        <span class="step-dot" aria-label="Validé">
+          <svg width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg>
         </span>
-        <div class="step-info">
-          <h3>Domaine vérifié</h3>
-          <p>lumen-agence.fr — DNS accessible, propriétaire confirmé</p>
+        <div class="step-txt">
+          <h3>Domaine</h3>
+          <p>lumen-agence.fr vérifié</p>
+          <span class="badge badge-success">Validé</span>
         </div>
-        <span class="badge badge-success">Validé</span>
-      </div>
-    </div>
+      </li>
 
-    <!-- Étape 2 : Boîtes créées -->
-    <div class="step-card done" role="listitem">
-      <div class="step-header" aria-expanded="false">
-        <span class="step-icon step-icon-done" aria-hidden="true">
-          <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg>
+      <li class="step-li done">
+        <span class="step-dot" aria-label="Validé">
+          <svg width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg>
         </span>
-        <div class="step-info">
-          <h3>Boîtes e-mail créées</h3>
-          <p>contact@, devis@, thomas@ — 3 boîtes configurées</p>
+        <div class="step-txt">
+          <h3>Boîtes e-mail</h3>
+          <p>3 alias créés</p>
+          <span class="badge badge-success">Validé</span>
         </div>
-        <span class="badge badge-success">Validé</span>
-      </div>
-    </div>
+      </li>
 
-    <!-- Étape 3 : Enregistrements DNS — ouverte, avec erreur SPF -->
-    <div class="step-card active open error" role="listitem">
-      <div class="step-header" aria-expanded="true">
-        <span class="step-icon step-icon-error" aria-hidden="true">
-          <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M12 2 2 20h20L12 2Z"/></svg>
+      <li class="step-li active error" aria-current="step">
+        <span class="step-dot" aria-label="En cours — erreur">
+          <svg width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M12 2 2 20h20L12 2Z"/></svg>
         </span>
-        <div class="step-info">
+        <div class="step-txt">
           <h3>Enregistrements DNS</h3>
-          <p>SPF · DKIM · DMARC — 1 enregistrement manquant</p>
+          <p>SPF manquant</p>
+          <span class="badge badge-warning">En attente</span>
         </div>
-        <span class="badge badge-warning">En attente</span>
-        <svg class="step-chevron ic" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
-      </div>
-      <div class="step-body">
-        <div class="alert alert-error">
-          <svg class="ic ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <div>L'enregistrement <strong>SPF</strong> n'est pas encore détecté. Ajoutez-le dans la zone DNS de votre registrar et patientez jusqu'à 10 min.</div>
-        </div>
-        <table class="dns-table">
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Nom (host)</th>
-              <th>Valeur</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="badge badge-error">TXT</span></td>
-              <td><code>@</code></td>
-              <td><code>v=spf1 include:domial.fr ~all</code></td>
-              <td><button class="copy-btn" aria-label="Copier la valeur SPF">Copier</button></td>
-            </tr>
-            <tr>
-              <td><span class="badge badge-success">TXT</span></td>
-              <td><code>domial._domainkey</code></td>
-              <td><code>v=DKIM1; k=rsa; p=MIGf…</code></td>
-              <td><span class="badge badge-success" style="font-size:10px">OK</span></td>
-            </tr>
-            <tr>
-              <td><span class="badge badge-success">TXT</span></td>
-              <td><code>_dmarc</code></td>
-              <td><code>v=DMARC1; p=quarantine; rua=mailto:dmarc@domial.fr</code></td>
-              <td><span class="badge badge-success" style="font-size:10px">OK</span></td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="poll-row">
-          <span class="spinner" aria-hidden="true"></span>
-          <span class="poll-text">Vérification automatique en cours — prochain contrôle dans 48 s</span>
-          <button class="btn btn-ghost btn-sm">Vérifier maintenant</button>
-        </div>
-      </div>
-    </div>
+      </li>
 
-    <!-- Étape 4 : Branchement Gmail — en attente -->
-    <div class="step-card" role="listitem">
-      <div class="step-header" aria-expanded="false">
-        <span class="step-icon step-icon-idle" aria-hidden="true">4</span>
-        <div class="step-info">
+      <li class="step-li">
+        <span class="step-dot" aria-label="Non démarré">4</span>
+        <div class="step-txt">
           <h3>Branchement Gmail</h3>
-          <p>Lier votre compte Google pour l'envoi et la réception</p>
+          <p>Lier votre compte Google</p>
+          <span class="badge badge-neutral" style="color:var(--ink-55)">Pas encore</span>
         </div>
-        <span class="badge badge-neutral" style="color:var(--ink-55)">Pas encore</span>
-        <svg class="step-chevron ic" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+      </li>
+
+    </ol>
+  </aside>
+
+  <!-- ===== Contenu de l'étape active ===== -->
+  <div class="wiz-content">
+    <div class="wiz-head">
+      <h1>Enregistrements DNS</h1>
+      <p>Ajoutez ces enregistrements dans la zone DNS de votre registrar. Domial vérifie la propagation automatiquement.</p>
+    </div>
+
+    <!-- Alerte SPF -->
+    <div class="wiz-alert">
+      <div class="alert alert-error">
+        <svg class="ic ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div>L'enregistrement <strong>SPF</strong> n'est pas encore détecté. Ajoutez-le dans votre registrar et patientez 5–10 minutes.</div>
       </div>
     </div>
 
-  </div><!-- /steps -->
+    <!-- Tableau des entrées -->
+    <div class="wiz-card">
+      <div class="wiz-card-head">
+        <svg class="ic" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 3 4 7v6c0 5 8 8 8 8s8-3 8-8V7z"/></svg>
+        <h2>Entrées à ajouter</h2>
+        <span class="badge badge-warning">1 entrée manquante</span>
+      </div>
+      <table class="dns-table">
+        <thead>
+          <tr>
+            <th style="width:70px">Type</th>
+            <th>Nom (host)</th>
+            <th>Valeur</th>
+            <th style="width:80px">Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-error">
+            <td><span class="badge badge-error">TXT</span></td>
+            <td><code>@</code></td>
+            <td>
+              <code>v=spf1 include:domial.fr ~all</code>
+              <button class="copy-btn" aria-label="Copier la valeur SPF">Copier</button>
+            </td>
+            <td><span class="badge badge-error">Manquant</span></td>
+          </tr>
+          <tr class="row-ok">
+            <td><span class="badge badge-success">TXT</span></td>
+            <td><code>domial._domainkey</code></td>
+            <td><code>v=DKIM1; k=rsa; p=MIGf…</code></td>
+            <td><span class="badge badge-success">OK</span></td>
+          </tr>
+          <tr class="row-ok">
+            <td><span class="badge badge-success">TXT</span></td>
+            <td><code>_dmarc</code></td>
+            <td><code>v=DMARC1; p=quarantine; rua=mailto:dmarc@domial.fr</code></td>
+            <td><span class="badge badge-success">OK</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <!-- Navigation -->
-  <div class="wiz-actions">
-    <a href="dashboard.html" class="btn btn-ghost">
-      <svg class="ic" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m19 12-7 7-7-7M12 5v14"/></svg>
-      Tableau de bord
-    </a>
-    <span class="skip">En attente de la propagation DNS…</span>
-    <button class="btn btn-primary" disabled>
-      Étape suivante
-      <svg class="ic" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7M12 5v14"/></svg>
-    </button>
+    <!-- Polling automatique -->
+    <div class="poll-row">
+      <span class="spinner" aria-hidden="true"></span>
+      <span class="poll-text">Vérification automatique — prochain contrôle dans 48 s</span>
+      <button class="btn btn-ghost btn-sm">Vérifier maintenant</button>
+    </div>
+
+    <!-- Info registrar -->
+    <div class="info-card">
+      <strong>Où ajouter ces entrées ?</strong>
+      Connectez-vous à votre registrar (OVH, Gandi, Cloudflare…), ouvrez la zone DNS de <strong>lumen-agence.fr</strong> et ajoutez les enregistrements TXT listés ci-dessus. Les modifications peuvent prendre jusqu'à 10 minutes pour être détectées.
+    </div>
+
+    <!-- Navigation -->
+    <div class="wiz-nav">
+      <button class="btn btn-ghost">
+        <svg class="ic" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+        Retour
+      </button>
+      <span class="hint">En attente de la propagation SPF…</span>
+      <button class="btn btn-primary" disabled>
+        Étape suivante
+        <svg class="ic" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
   </div>
 
 </div>
