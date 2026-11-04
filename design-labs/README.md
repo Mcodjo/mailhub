@@ -30,6 +30,23 @@ Les maquettes validees ici servent de contrat visuel pour l'implementation front
 8. Profil : comptes Gmail connectes, deconnexion OAuth, domaines, alias (F11)
 9. Snippets d'integration (F10) : onglets Laravel / Node.js / WordPress
 
+## Decisions L8 — choix de variantes (2026-11-04)
+Validées explicitement par L8 dans la session :
+
+| Interface | Variante retenue | Statut | Condition / note |
+|---|---|---|---|
+| Landing | `landing-c.html` | **VALIDEE L8** | Hero "installer la boite pro en 10 min" wizard-first |
+| Auth | `auth-b.html` | **VALIDEE L8** | |
+| Boite de reception | `inbox-c.html` | **VALIDEE L8 SOUS CONDITION** | Faisabilité verifiée par DRX le 2026-11-04 : rail de canaux par alias + conversations = OK (emails.alias_id + index, API ?alias=, F11 dans perimetre V1). CONDITION : commentaires internes equipe EXCLUS de V1 (F17 multi-utilisateurs = V2) |
+| Rédaction | `compose-c.html` | **VALIDEE L8** | Page dédiée avec barre latérale de contexte thread |
+| Wizard | `wizard-c.html` | **VALIDEE L8** | Checklist progressive + polling live par enregistrement (CDC-1 alias + propagation 15min-48h) |
+
+Dashboard : non tranché explicitement par L8 — suite logique proposée : aligner sur le modele
+canaux d'inbox-c pour la coherence (dashboard-c), a confirmer.
+
+Arbitrages design-system actés : CTA primaire = encre pleine (contraste 15,7:1) ;
+bleu acier uniquement graphisme ; logo a partir des fichiers kit uniquement, jamais retape.
+
 ## Statuts de maquette
 
 | Fichier | Statut | Date | Notes |

@@ -8,7 +8,9 @@ Fondations validees par L8 le 2026-11-04 : stack Laravel + MySQL, perimetre F01-
 |---|---|---|---|---|
 | FOND-01 | git init + copilot-instructions canonique | DRX | OK 2026-11-04 | Validation L8 du socle en attente |
 | BRAND-01 | Intégration marque Domial in frontend (favicon, manifest, titre, desc) | DRX | OK 2026-11-04 | build Vite OK ; antériorité de marque à vérifier avant usage commercial (note guide) |
-| DESIGN-02 | Benchmark sectoriel + 3 propositions de maquette par interface | drx-mockup | OK 2026-11-04 | 18 maquettes + benchmark.md (12 enseignements sourcés) + README recos ; revue L8 deman­dée |
+| DESIGN-02 | Benchmark sectoriel + 3 propositions de maquette par interface | drx-mockup | OK 2026-11-04 | L8 a retenu: landing-c, auth-b, inbox-c (sous condition: commentaires internes exclus = V2/F17), compose-c, wizard-c; dashboard non tranche |
+| DESIGN-03 | Converger les variantes retenues vers un design system unique (tokens Tailwind 4 dans frontend/) | DRX | TODO | apres tranché dashboard |
+| DESIGN-04 | Préparer inbox-c pour V1 : retirer commentaires internes de la maquette (F17 = V2) | drx-mockup | TODO | condition L8 inbox-c |
 | FOND-02 | Squelette Laravel backend | DRX | OK 2026-11-04 | Laravel 13.40, commit 4da01c6 |
 | FOND-03 | Squelette React frontend | DRX | OK 2026-11-04 | Vite + React + Tailwind 4 |
 | FOND-04 | Squelette Cloudflare Worker | DRX | OK 2026-11-04 | TypeScript, type-check OK |
