@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Domial — La boîte professionnelle de votre domaine</title>
+<title>Domial — Email professionnel sur votre domaine</title>
 <link rel="stylesheet" href="design-system.css">
 <style>
 body { background: var(--white); }
 
-/* ---- Navbar ---- */
+/* ---- Nav ---- */
 .nav {
   position: sticky; top: 0; z-index: 10;
   background: rgba(255,255,255,.92); backdrop-filter: blur(12px);
@@ -19,198 +19,263 @@ body { background: var(--white); }
   display: flex; align-items: center; gap: var(--s4);
   padding: 0 var(--s6); height: 60px;
 }
-.nav-links { display: flex; gap: var(--s5); margin-left: auto; align-items: center; }
+.nav-links {
+  display: flex; gap: var(--s5); margin-left: auto; align-items: center;
+}
 .nav-links a {
   font-size: var(--fs-sm); font-weight: 500; color: var(--ink-55);
   transition: color .15s;
 }
 .nav-links a:hover { color: var(--ink); text-decoration: none; }
 
-/* ---- Hero asymétrique ---- */
+/* ---- Hero — transformation typographique ---- */
 .hero {
-  max-width: 1080px; margin: 0 auto;
-  padding: var(--s8) var(--s6);
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: var(--s8); align-items: center;
+  max-width: 640px; margin: 0 auto;
+  padding: var(--s8) var(--s6) var(--s7);
+  text-align: center;
 }
-.hero-left {}
+
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: var(--s2);
-  background: var(--steel-soft); border: 1px solid var(--steel-mid);
-  border-radius: 99px; padding: 4px 14px; margin-bottom: var(--s5);
-  font-size: var(--fs-xs); font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
-  color: var(--steel);
+  font-size: var(--fs-xs); font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-30); margin-bottom: var(--s7);
 }
-.hero-left h1 {
-  font-size: clamp(30px, 4vw, 48px); font-weight: 700;
-  letter-spacing: -.035em; line-height: 1.1;
-  margin-bottom: var(--s5); text-wrap: balance;
+
+/* Les deux adresses email — la promesse visuelle */
+.hero-transform {
+  display: flex; flex-direction: column; align-items: center;
+  gap: var(--s3); margin-bottom: var(--s6);
 }
-.hero-left h1 em {
-  font-style: normal;
-  background: linear-gradient(135deg, var(--ink) 40%, var(--steel));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+
+.email-chip {
+  display: inline-flex; align-items: center; gap: var(--s3);
+  padding: 14px 24px; border-radius: var(--r-xl);
+  font-size: clamp(14px, 2.4vw, 20px); font-weight: 600;
+  letter-spacing: -.01em; white-space: nowrap;
+}
+.email-chip-before {
+  background: var(--gray); border: var(--border);
+  color: var(--ink-30);
+  text-decoration: line-through; text-decoration-color: var(--ink-30);
+}
+.email-chip-after {
+  background: var(--white); border: 2px solid var(--steel-mid);
+  box-shadow: var(--sh-2); color: var(--ink);
+}
+.email-chip-after .part-local { color: var(--ink); }
+.email-chip-after .part-domain { color: var(--steel); }
+
+.transform-arrow {
+  font-size: 20px; color: var(--gray-mid); line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.transform-arrow svg { color: var(--ink-30); }
+
+.hero h1 {
+  font-size: clamp(22px, 3.6vw, 34px); font-weight: 700;
+  letter-spacing: -.035em; line-height: 1.2;
+  margin-bottom: var(--s3); text-wrap: balance;
 }
 .hero-lead {
-  font-size: var(--fs-base); color: var(--ink-55); line-height: 1.7;
-  max-width: 42ch; margin-bottom: var(--s6);
+  font-size: var(--fs-base); color: var(--ink-55);
+  line-height: 1.7; max-width: 44ch; margin: 0 auto var(--s6);
 }
-.hero-ctas { display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap; }
-.hero-proof {
-  margin-top: var(--s5); font-size: var(--fs-xs);
-  color: var(--ink-30); display: flex; align-items: center; gap: var(--s3);
-}
-.hero-proof .dot-ok { flex: none; }
-
-/* Visuel droite — fausse boîte Gmail */
-.hero-right { position: relative; }
-.email-mockup {
-  background: var(--white); border: var(--border); border-radius: var(--r-xl);
-  box-shadow: var(--sh-3); overflow: hidden;
-}
-.em-topbar {
-  background: var(--ink); padding: 10px 16px;
-  display: flex; align-items: center; gap: var(--s3);
-}
-.em-logo { height: 16px; }
-.em-pill {
-  background: rgba(255,255,255,.1); border-radius: 99px;
-  padding: 3px 10px; font-size: 10px; font-weight: 600;
-  color: rgba(191,209,240,.7);
-}
-.em-row {
-  display: flex; align-items: center; gap: var(--s3);
-  padding: 10px 16px; border-bottom: var(--border);
-  font-size: var(--fs-xs);
-}
-.em-row:last-child { border-bottom: none; }
-.em-av {
-  width: 28px; height: 28px; border-radius: 50%; flex: none;
-  display: grid; place-items: center;
-  font-size: 10px; font-weight: 700; color: var(--white);
-}
-.em-info { flex: 1; }
-.em-from { font-weight: 700; font-size: var(--fs-xs); }
-.em-sub { color: var(--ink-55); }
-.em-time { color: var(--ink-30); white-space: nowrap; }
-.em-badge {
-  font-size: 10px; font-weight: 700;
-  background: var(--steel-soft); color: var(--steel);
-  border-radius: 99px; padding: 2px 8px; white-space: nowrap;
-}
-/* Badge "reçu sur" sous l'adresse */
-.em-alias {
-  display: flex; align-items: center; gap: 4px;
-  font-size: 10px; color: var(--steel); font-weight: 600; margin-top: 2px;
-}
-.em-alias svg { flex: none; }
-/* Flottant déco */
-.hero-right::before {
-  content: ''; position: absolute;
-  width: 200px; height: 200px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(91,132,196,.08), transparent 70%);
-  top: -40px; right: -40px; pointer-events: none;
-}
-.hero-right::after {
-  content: ''; position: absolute;
-  width: 140px; height: 140px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(22,35,59,.04), transparent 70%);
-  bottom: -20px; left: -20px; pointer-events: none;
+.hero-ctas { display: flex; align-items: center; justify-content: center; gap: var(--s3); }
+.hero-note {
+  margin-top: var(--s4); font-size: var(--fs-xs); color: var(--ink-30);
 }
 
-/* ---- Barre de confiance ---- */
-.trust-bar {
-  background: var(--gray); border-top: var(--border); border-bottom: var(--border);
-  padding: var(--s4) var(--s6);
+/* ---- Séparateur ---- */
+.sep {
+  height: 1px; background: var(--gray-mid);
+  max-width: 1080px; margin: 0 auto; opacity: .5;
 }
-.trust-inner {
+
+/* ---- Faits clés ---- */
+.facts {
+  background: var(--gray);
+  border-top: var(--border); border-bottom: var(--border);
+  padding: var(--s5) var(--s6);
+}
+.facts-inner {
   max-width: 1080px; margin: 0 auto;
   display: flex; align-items: center; justify-content: center;
   gap: var(--s7); flex-wrap: wrap;
 }
-.trust-item {
+.fact {
   display: flex; align-items: center; gap: var(--s2);
   font-size: var(--fs-xs); font-weight: 600; color: var(--ink-55);
 }
-.trust-item svg { color: var(--steel); }
+.fact svg { color: var(--steel); flex: none; }
 
-/* ---- Comment ça marche ---- */
-.how {
+/* ---- Pour qui ---- */
+.for-who {
   max-width: 1080px; margin: 0 auto;
   padding: var(--s8) var(--s6);
 }
-.section-label {
-  font-size: var(--fs-xs); font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--steel); margin-bottom: var(--s3);
+.section-eyebrow {
+  font-size: var(--fs-xs); font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--steel);
+  margin-bottom: var(--s3);
 }
-.how h2 { font-size: var(--fs-xl); font-weight: 700; letter-spacing: -.03em; margin-bottom: var(--s7); }
+.for-who h2 {
+  font-size: clamp(22px, 3vw, 32px); font-weight: 700;
+  letter-spacing: -.03em; margin-bottom: var(--s7);
+  max-width: 36ch;
+}
+.profiles-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: var(--s4);
+}
+.profile-card {
+  background: var(--white); border: var(--border);
+  border-radius: var(--r-xl); padding: var(--s5);
+  transition: box-shadow .15s;
+}
+.profile-card:hover { box-shadow: var(--sh-2); }
+.profile-icon {
+  width: 44px; height: 44px; border-radius: var(--r-lg);
+  display: grid; place-items: center;
+  margin-bottom: var(--s4); flex: none;
+}
+.profile-card h3 {
+  font-size: var(--fs-base); font-weight: 700; margin-bottom: var(--s2);
+}
+.profile-card p {
+  font-size: var(--fs-sm); color: var(--ink-55); line-height: 1.6; margin: 0;
+}
+.profile-email {
+  display: inline-block; margin-top: var(--s3);
+  font-size: var(--fs-xs); font-weight: 600;
+  color: var(--steel); background: var(--steel-soft);
+  border-radius: var(--r-sm); padding: 3px 10px;
+}
 
-.steps-row { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--s5); }
-.how-step {
-  position: relative;
+/* ---- Étapes ---- */
+.how {
+  background: var(--gray);
+  border-top: var(--border); border-bottom: var(--border);
 }
-.how-step::after {
-  content: '';
-  position: absolute; top: 20px; left: calc(100% - 10px);
-  width: 20px; height: 1px; background: var(--gray-mid);
+.how-inner {
+  max-width: 1080px; margin: 0 auto;
+  padding: var(--s8) var(--s6);
 }
-.how-step:last-child::after { display: none; }
-.how-num {
-  width: 40px; height: 40px; border-radius: 50%;
+.how-inner h2 {
+  font-size: clamp(22px, 3vw, 32px); font-weight: 700;
+  letter-spacing: -.03em; margin-bottom: var(--s7);
+}
+.steps-row {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: var(--s5);
+}
+.step {
+  background: var(--white); border: var(--border);
+  border-radius: var(--r-xl); padding: var(--s5);
+}
+.step-num {
+  width: 32px; height: 32px; border-radius: 50%;
   background: var(--ink); color: var(--white);
   display: grid; place-items: center;
-  font-size: var(--fs-sm); font-weight: 700;
+  font-size: var(--fs-xs); font-weight: 700;
   margin-bottom: var(--s4);
 }
-.how-step h3 { font-size: var(--fs-base); font-weight: 700; margin-bottom: var(--s2); }
-.how-step p { font-size: var(--fs-sm); color: var(--ink-55); line-height: 1.6; margin: 0; }
+.step h3 { font-size: var(--fs-base); font-weight: 700; margin-bottom: var(--s2); }
+.step p { font-size: var(--fs-sm); color: var(--ink-55); line-height: 1.6; margin: 0; }
+
+/* ---- Prix teaser ---- */
+.price-teaser {
+  max-width: 1080px; margin: 0 auto;
+  padding: var(--s8) var(--s6);
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s6);
+  flex-wrap: wrap;
+}
+.price-left {}
+.price-left .section-eyebrow { margin-bottom: var(--s3); }
+.price-left h2 {
+  font-size: clamp(22px, 3vw, 32px); font-weight: 700;
+  letter-spacing: -.03em; margin-bottom: var(--s3);
+}
+.price-left p { font-size: var(--fs-base); color: var(--ink-55); margin: 0; max-width: 48ch; }
+
+.price-card {
+  background: var(--white); border: var(--border);
+  border-radius: var(--r-xl); box-shadow: var(--sh-2);
+  padding: var(--s6); min-width: 240px; text-align: center; flex: none;
+}
+.price-amount {
+  font-size: 56px; font-weight: 700;
+  letter-spacing: -.04em; line-height: 1;
+  color: var(--ink); margin-bottom: var(--s1);
+}
+.price-amount sup { font-size: 24px; font-weight: 600; vertical-align: super; letter-spacing: 0; }
+.price-period {
+  font-size: var(--fs-xs); font-weight: 600; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--ink-30);
+  margin-bottom: var(--s5);
+}
+.price-items {
+  list-style: none; padding: 0; margin: 0 0 var(--s5);
+  text-align: left; display: flex; flex-direction: column; gap: var(--s2);
+}
+.price-items li {
+  display: flex; align-items: center; gap: var(--s2);
+  font-size: var(--fs-sm); color: var(--ink-55);
+}
+.price-items li svg { color: var(--success); flex: none; }
 
 /* ---- CTA final ---- */
 .cta-band {
-  background: var(--ink); margin: 0;
-  padding: var(--s8) var(--s6);
-  text-align: center;
+  background: var(--ink); padding: var(--s8) var(--s6); text-align: center;
 }
 .cta-band h2 {
-  font-size: var(--fs-xl); font-weight: 700; color: var(--white);
-  letter-spacing: -.03em; margin-bottom: var(--s3);
+  font-size: clamp(22px, 3vw, 32px); font-weight: 700;
+  color: var(--white); letter-spacing: -.03em;
+  margin-bottom: var(--s3); text-wrap: balance;
 }
 .cta-band p { color: rgba(191,209,240,.65); font-size: var(--fs-base); margin-bottom: var(--s6); }
-.cta-row { display: flex; align-items: center; justify-content: center; gap: var(--s3); }
-.cta-row .btn-light {
-  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.12);
-  color: rgba(191,209,240,.8); font: 600 var(--fs-sm)/1 var(--font);
-  padding: 11px 20px; min-height: 42px; border-radius: var(--r-md);
+.cta-row { display: flex; align-items: center; justify-content: center; gap: var(--s3); flex-wrap: wrap; }
+
+.btn-white {
+  background: var(--white); color: var(--ink);
+  font: 600 var(--fs-sm)/1 var(--font);
+  padding: 13px 24px; border-radius: var(--r-md); border: none;
+  display: inline-flex; align-items: center; gap: var(--s2);
+  cursor: pointer; transition: opacity .15s;
+}
+.btn-white:hover { opacity: .9; text-decoration: none; }
+.btn-outline-light {
+  background: transparent; border: 1px solid rgba(255,255,255,.18);
+  color: rgba(191,209,240,.8);
+  font: 500 var(--fs-sm)/1 var(--font);
+  padding: 13px 24px; border-radius: var(--r-md);
   display: inline-flex; align-items: center; gap: var(--s2);
   transition: background .15s;
 }
-.cta-row .btn-light:hover { background: rgba(255,255,255,.18); text-decoration: none; }
-.cta-row .btn-white {
-  background: var(--white); color: var(--ink);
-  font: 600 var(--fs-sm)/1 var(--font);
-  padding: 11px 20px; min-height: 42px; border-radius: var(--r-md); border: none;
-  display: inline-flex; align-items: center; gap: var(--s2); cursor: pointer;
-  transition: opacity .15s;
-}
-.cta-row .btn-white:hover { opacity: .9; text-decoration: none; }
+.btn-outline-light:hover { background: rgba(255,255,255,.08); text-decoration: none; }
 
 /* ---- Footer ---- */
 footer {
   border-top: var(--border);
   padding: var(--s5) var(--s6);
-  display: flex; align-items: center; justify-content: center; gap: var(--s5);
+  display: flex; align-items: center; justify-content: center;
+  gap: var(--s5); flex-wrap: wrap;
   font-size: var(--fs-xs); color: var(--ink-30);
 }
 footer a { color: var(--ink-55); }
 
 /* ---- Responsive ---- */
 @media (max-width: 860px) {
-  .hero { grid-template-columns: 1fr; gap: var(--s6); padding: var(--s6) var(--s5); }
-  .hero-right { order: -1; }
+  .profiles-grid { grid-template-columns: 1fr; }
   .steps-row { grid-template-columns: 1fr; }
-  .how-step::after { display: none; }
+  .price-teaser { flex-direction: column; align-items: flex-start; }
+  .price-card { width: 100%; }
   .nav-links a:not(.btn) { display: none; }
-  .trust-inner { gap: var(--s5); }
+  .facts-inner { gap: var(--s5); }
+}
+@media (max-width: 540px) {
+  .hero { padding: var(--s7) var(--s5) var(--s6); }
+  .email-chip { font-size: 13px; padding: 11px 18px; }
 }
 </style>
 </head>
@@ -221,141 +286,173 @@ footer a { color: var(--ink-55); }
     <a href="landing.html" aria-label="Domial">
       <img src="assets/logo/domial-horizontal.svg" alt="Domial" height="24">
     </a>
-    <nav class="nav-links" aria-label="Navigation principale">
-      <a href="#">Comment ça marche</a>
-      <a href="#">Tarifs</a>
+    <nav class="nav-links">
+      <a href="#comment">Comment ça marche</a>
+      <a href="pricing.html">Tarifs</a>
       <a href="auth.html">Connexion</a>
-      <a href="auth.html" class="btn btn-primary">Commencer — c'est gratuit</a>
+      <a href="auth.html" class="btn btn-primary">Créer mon compte</a>
     </nav>
   </div>
 </header>
 
 <main>
-  <!-- Hero -->
+
+  <!-- Hero — la transformation, sans screenshot -->
   <section class="hero">
-    <div class="hero-left">
-      <span class="hero-eyebrow">
-        <span class="dot dot-ok" aria-hidden="true"></span>
-        Installation en 10 minutes
-      </span>
-      <h1>Votre boîte pro sur<br><em>votre propre domaine</em>,<br>dans Gmail.</h1>
-      <p class="hero-lead">Domial crée contact@votredomaine.fr et configure DNS, SPF, DKIM, DMARC automatiquement. Zéro serveur, zéro technique — juste une crédibilité immédiate.</p>
-      <div class="hero-ctas">
-        <a href="wizard.html" class="btn btn-primary btn-lg">Configurer mon domaine</a>
-        <a href="#comment" class="btn btn-ghost btn-lg">Voir comment ça marche</a>
+    <p class="hero-eyebrow">Email professionnel · Domial</p>
+
+    <div class="hero-transform" role="img" aria-label="Transformation d'une adresse Gmail générique vers une adresse sur votre domaine">
+      <div class="email-chip email-chip-before" aria-label="Avant : adresse Gmail générique">
+        thomas.agence2024@gmail.com
       </div>
-      <p class="hero-proof">
-        <span class="dot dot-ok" aria-hidden="true"></span>
-        Sans carte bancaire · Annulation libre · SPF/DKIM/DMARC inclus
-      </p>
+      <div class="transform-arrow" aria-hidden="true">
+        <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
+          <path d="M8 2v14M2 11l6 7 6-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="email-chip email-chip-after" aria-label="Après : adresse sur votre domaine">
+        <span class="part-local">contact</span><span style="color:var(--ink-30)">@</span><span class="part-domain">lumen-agence.fr</span>
+      </div>
     </div>
 
-    <!-- Mockup boîte Gmail -->
-    <div class="hero-right">
-      <div class="email-mockup" role="img" aria-label="Aperçu de la boîte de réception Domial dans Gmail">
-        <div class="em-topbar">
-          <img src="assets/logo/domial-horizontal-reversed.svg" class="em-logo" alt="">
-          <span class="em-pill">contact@lumen-agence.fr</span>
-        </div>
-        <div class="em-row">
-          <span class="em-av" style="background:#5B84C4">MB</span>
-          <div class="em-info">
-            <div class="em-from">Mairie de Blois</div>
-            <div class="em-sub">Demande de devis — signalétique Foch…</div>
-            <div class="em-alias">
-              <svg width="10" height="10" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
-              contact@lumen-agence.fr
-            </div>
-          </div>
-          <span class="em-time">09:24</span>
-          <span class="em-badge">Priorité</span>
-        </div>
-        <div class="em-row">
-          <span class="em-av" style="background:#2E6B52">NF</span>
-          <div class="em-info">
-            <div class="em-from">Nina Fabre</div>
-            <div class="em-sub">Re: affiches festival — visuels pour demain…</div>
-            <div class="em-alias">
-              <svg width="10" height="10" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
-              devis@lumen-agence.fr
-            </div>
-          </div>
-          <span class="em-time">08:12</span>
-        </div>
-        <div class="em-row" style="opacity:.55">
-          <span class="em-av" style="background:var(--ink-30)">CS</span>
-          <div class="em-info">
-            <div class="em-from">Contact site web</div>
-            <div class="em-sub">Bonjour, j'ai trouvé vos coordonnées…</div>
-            <div class="em-alias">
-              <svg width="10" height="10" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
-              contact@lumen-agence.fr
-            </div>
-          </div>
-          <span class="em-time">hier</span>
-        </div>
-      </div>
+    <h1>Votre adresse pro sur votre domaine,<br>dans Gmail — en 10 minutes.</h1>
+    <p class="hero-lead">Domial configure automatiquement le DNS, le SPF, le DKIM et le DMARC. Zéro serveur, zéro technique. Votre crédibilité, enfin à la hauteur.</p>
+
+    <div class="hero-ctas">
+      <a href="wizard.html" class="btn btn-primary btn-lg">Configurer mon domaine</a>
+      <a href="#comment" class="btn btn-ghost btn-lg">Voir comment ça marche</a>
     </div>
+    <p class="hero-note">Sans carte bancaire · $2 / an · Annulation libre</p>
   </section>
 
-  <!-- Barre de confiance -->
-  <div class="trust-bar" role="list">
-    <div class="trust-inner">
-      <span class="trust-item" role="listitem">
+  <!-- Faits clés -->
+  <div class="facts" role="list">
+    <div class="facts-inner">
+      <span class="fact" role="listitem">
         <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 3 4 7v6c0 5 8 8 8 8s8-3 8-8V7z"/></svg>
         SPF · DKIM · DMARC automatiques
       </span>
-      <span class="trust-item" role="listitem">
+      <span class="fact" role="listitem">
         <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
-        Jusqu'à 5 boîtes par domaine
+        Plusieurs alias par domaine
       </span>
-      <span class="trust-item" role="listitem">
+      <span class="fact" role="listitem">
         <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>
         Compatible tous registrars
       </span>
-      <span class="trust-item" role="listitem">
+      <span class="fact" role="listitem">
         <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-        Branchement Gmail existant
+        Dans votre Gmail existant
       </span>
     </div>
   </div>
 
-  <!-- Comment ça marche -->
-  <section class="how" id="comment">
-    <p class="section-label">En 3 étapes</p>
-    <h2>Opérationnel en dix minutes</h2>
-    <div class="steps-row">
-      <div class="how-step">
-        <div class="how-num">1</div>
-        <h3>Entrez votre domaine</h3>
-        <p>Domial vérifie la disponibilité DNS en direct et détecte votre registrar pour pré-remplir les champs.</p>
+  <!-- Pour qui -->
+  <section class="for-who">
+    <p class="section-eyebrow">Pour vous si…</p>
+    <h2>Votre email dit qui vous êtes avant même qu'on vous lise.</h2>
+    <div class="profiles-grid">
+      <div class="profile-card">
+        <div class="profile-icon" style="background:#EEF3FB">
+          <svg class="ic" stroke="#5B84C4" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/><path d="m22 7-9.17 6.5a1.56 1.56 0 0 1-1.66 0L2 7"/></svg>
+        </div>
+        <h3>Freelance & consultant</h3>
+        <p>Fini l'adresse Gmail qui fait « amateur ». Présentez-vous avec une adresse que vos clients retiennent et prennent au sérieux.</p>
+        <span class="profile-email">thomas@votrenomdedomaine.fr</span>
       </div>
-      <div class="how-step">
-        <div class="how-num">2</div>
-        <h3>Créez vos boîtes</h3>
-        <p>Choisissez vos alias (contact@, devis@, prenom@…). Le wizard ajoute les enregistrements SPF, DKIM et DMARC automatiquement.</p>
+      <div class="profile-card">
+        <div class="profile-icon" style="background:#EAF4EF">
+          <svg class="ic" stroke="#2E6B52" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+        </div>
+        <h3>Petite entreprise</h3>
+        <p>contact@, devis@, support@ — plusieurs alias organisés sur votre domaine, tous réunis dans un seul Gmail.</p>
+        <span class="profile-email">contact@monentreprise.fr</span>
       </div>
-      <div class="how-step">
-        <div class="how-num">3</div>
-        <h3>Liez votre Gmail</h3>
-        <p>Une autorisation OAuth et vos alias sont opérationnels dans votre Gmail existant. Envoi et réception testés avant ouverture.</p>
+      <div class="profile-card">
+        <div class="profile-icon" style="background:#FBF4E3">
+          <svg class="ic" stroke="#8A6414" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Projet & side project</h3>
+        <p>Lancez votre projet avec une image pro dès le premier email. Sans serveur mail à gérer, sans configuration technique.</p>
+        <span class="profile-email">hello@monprojet.io</span>
       </div>
     </div>
   </section>
+
+  <!-- Comment ça marche -->
+  <section class="how" id="comment">
+    <div class="how-inner">
+      <p class="section-eyebrow">En 3 étapes</p>
+      <h2>Opérationnel en dix minutes</h2>
+      <div class="steps-row">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Entrez votre domaine</h3>
+          <p>Domial détecte votre registrar et vérifie les DNS en temps réel. Pas de zone DNS à comprendre — Domial vous guide enregistrement par enregistrement.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Choisissez vos alias</h3>
+          <p>contact@, devis@, prenom@ — créez autant d'alias que vous voulez. SPF, DKIM et DMARC sont configurés automatiquement.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Liez votre Gmail</h3>
+          <p>Une autorisation Google et vos nouvelles adresses sont opérationnelles dans votre Gmail habituel. Envoi et réception vérifiés avant activation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Prix teaser -->
+  <section class="price-teaser">
+    <div class="price-left">
+      <p class="section-eyebrow">Tarif</p>
+      <h2>Simple. Transparent.<br>$2 par an.</h2>
+      <p>Un tarif unique, sans surprise, sans plan « Pro » caché. Tout ce dont vous avez besoin pour être professionnel, au prix d'un café.</p>
+      <br>
+      <a href="pricing.html" class="btn btn-ghost" style="margin-top:var(--s3)">Voir ce qui est inclus →</a>
+    </div>
+    <div class="price-card">
+      <div class="price-amount"><sup>$</sup>2</div>
+      <p class="price-period">par an · tout inclus</p>
+      <ul class="price-items">
+        <li>
+          <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Domaine illimité
+        </li>
+        <li>
+          <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Alias illimités
+        </li>
+        <li>
+          <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          SPF · DKIM · DMARC
+        </li>
+        <li>
+          <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Gmail existant conservé
+        </li>
+      </ul>
+      <a href="auth.html" class="btn btn-primary btn-block">Commencer maintenant</a>
+    </div>
+  </section>
+
 </main>
 
 <!-- CTA bande finale -->
 <section class="cta-band">
-  <h2>Prêt à passer au pro ?</h2>
-  <p>Votre premier domaine est gratuit. Aucune carte bancaire requise.</p>
+  <h2>Votre prochaine adresse email<br>change tout.</h2>
+  <p>$2 par an. Configuration en 10 minutes. Sans carte requise pour commencer.</p>
   <div class="cta-row">
     <a href="auth.html" class="btn-white">Créer mon compte</a>
-    <a href="auth.html" class="btn-light">Se connecter</a>
+    <a href="auth.html" class="btn-outline-light">Se connecter</a>
   </div>
 </section>
 
 <footer>
   <span>© 2026 Domial</span>
+  <a href="pricing.html">Tarifs</a>
   <a href="#">Mentions légales</a>
   <a href="#">Confidentialité</a>
   <a href="mailto:support@domial.fr">support@domial.fr</a>
