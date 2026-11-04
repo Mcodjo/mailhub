@@ -1,0 +1,703 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>MailPro Hub — CDC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600&display=swap">
+
+<style>
+:root {
+  --bg:        #FFFFFF;
+  --bg-alt:    #F5F7FA;
+  --bg-card:   #FFFFFF;
+  --fg:        #0D1B2A;
+  --fg-muted:  #5B6B7E;
+  --accent:    #0C8CE9;
+  --accent-bg: #EBF5FE;
+  --border:    #DDE3EC;
+  --success:   #0D9E6B;
+  --warn:      #D97706;
+  --radius:    10px;
+  --shadow:    0 1px 3px rgba(0,0,0,.07), 0 4px 12px rgba(0,0,0,.05);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:        #0D1420;
+    --bg-alt:    #161E2E;
+    --bg-card:   #1A2334;
+    --fg:        #E8EDF5;
+    --fg-muted:  #7A8899;
+    --accent:    #38AEFF;
+    --accent-bg: #0E2340;
+    --border:    #263347;
+    --success:   #10C98A;
+    --warn:      #FBB440;
+    --shadow:    0 1px 4px rgba(0,0,0,.3);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:        #0D1420;
+  --bg-alt:    #161E2E;
+  --bg-card:   #1A2334;
+  --fg:        #E8EDF5;
+  --fg-muted:  #7A8899;
+  --accent:    #38AEFF;
+  --accent-bg: #0E2340;
+  --border:    #263347;
+  --success:   #10C98A;
+  --warn:      #FBB440;
+  --shadow:    0 1px 4px rgba(0,0,0,.3);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+}
+.page-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 0 48px;
+  align-items: start;
+}
+.site-header {
+  grid-column: 1 / -1;
+  border-bottom: 1px solid var(--border);
+  padding-block: 32px;
+  margin-bottom: 40px;
+}
+.header-inner { display: flex; align-items: flex-start; gap: 20px; }
+.header-icon {
+  width: 56px; height: 56px;
+  background: var(--accent);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.header-icon svg { width: 30px; height: 30px; fill: #fff; }
+.header-meta { flex: 1; min-width: 0; }
+.doc-label { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+h1 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 800; line-height: 1.2;
+  margin: 0 0 10px; text-wrap: balance; color: var(--fg);
+}
+.header-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 500;
+  padding: 3px 10px; border-radius: 20px;
+  background: var(--bg-alt); color: var(--fg-muted); border: 1px solid var(--border);
+}
+.badge.accent { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); }
+.badge.new { background: #ECFDF5; color: #065F46; border-color: #6EE7B7; }
+
+/* TOC */
+.toc {
+  position: sticky; top: 20px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 0;
+  max-height: calc(100vh - 40px); overflow-y: auto;
+}
+.toc-title { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--fg-muted); padding: 0 20px 12px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+.toc a { display: block; padding: 6px 20px; font-size: 13px; color: var(--fg-muted); text-decoration: none; border-left: 3px solid transparent; transition: color .15s, border-color .15s, background .15s; line-height: 1.4; }
+.toc a:hover, .toc a.active { color: var(--accent); border-left-color: var(--accent); background: var(--accent-bg); }
+.toc a.sub { padding-left: 32px; font-size: 12px; }
+
+/* Content */
+.content { min-width: 0; padding-bottom: 60px; }
+section { margin-bottom: 48px; scroll-margin-top: 24px; }
+h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.25rem; font-weight: 700; margin: 0 0 20px; color: var(--fg); display: flex; align-items: center; gap: 10px; text-wrap: balance; }
+h2 .sec-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; min-width: 28px; border-radius: 7px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; }
+h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; font-weight: 700; color: var(--fg); margin: 24px 0 12px; }
+p { margin: 0 0 14px; }
+p:last-child { margin-bottom: 0; }
+
+/* Cards */
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 16px; box-shadow: var(--shadow); }
+.info-box { background: var(--accent-bg); border: 1px solid var(--accent); border-radius: var(--radius); padding: 14px 18px; font-size: 14px; color: var(--accent); margin-bottom: 16px; display: flex; gap: 10px; }
+.info-box svg { flex-shrink: 0; margin-top: 2px; }
+
+/* Feature grid */
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.feat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); }
+.feat-card .feat-icon { width: 36px; height: 36px; border-radius: 9px; background: var(--accent-bg); display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+.feat-card .feat-icon svg { width: 18px; height: 18px; }
+.feat-card strong { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; color: var(--fg); }
+.feat-card p { font-size: 13px; color: var(--fg-muted); margin: 0; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 16px; }
+table { width: 100%; border-collapse: collapse; min-width: 480px; }
+th { background: var(--bg-alt); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--fg-muted); padding: 10px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+td { padding: 10px 16px; font-size: 13.5px; border-bottom: 1px solid var(--border); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg-alt); }
+.p-high { color: var(--accent); font-weight: 600; }
+.p-med  { color: var(--warn); font-weight: 600; }
+.p-low  { color: var(--fg-muted); font-weight: 600; }
+
+/* Architecture schema */
+.arch {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 24px;
+  background: var(--bg-alt);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.arch-node {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.arch-node.central { border-color: var(--accent); background: var(--accent-bg); }
+.arch-node .node-icon { font-size: 22px; margin-bottom: 6px; }
+.arch-node strong { display: block; font-size: 13px; font-weight: 700; color: var(--fg); }
+.arch-node span { font-size: 11px; color: var(--fg-muted); }
+.arch-arrow { text-align: center; color: var(--fg-muted); font-size: 18px; }
+.arch-label { font-size: 10px; color: var(--accent); font-weight: 600; display: block; margin-top: 3px; }
+
+/* Two-flow diagram */
+.flows { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.flow-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
+.flow-box h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700; margin: 0 0 12px; display: flex; align-items: center; gap: 7px; }
+.flow-step { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; font-size: 13px; color: var(--fg-muted); }
+.flow-num { width: 20px; height: 20px; min-width: 20px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+
+/* Timeline */
+.timeline { position: relative; padding-left: 36px; }
+.timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+.phase { position: relative; margin-bottom: 24px; padding: 18px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+.phase::before { content: ''; position: absolute; left: -31px; top: 20px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-bg); }
+.phase-label { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+.phase h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; margin: 0 0 8px; color: var(--fg); }
+.phase-dur { display: inline-block; font-size: 12px; font-weight: 500; padding: 2px 10px; border-radius: 20px; background: var(--bg-alt); color: var(--fg-muted); border: 1px solid var(--border); margin-bottom: 10px; }
+.phase ul { margin: 0; padding-left: 18px; }
+.phase li { font-size: 13px; color: var(--fg-muted); margin-bottom: 3px; }
+
+/* Checklist */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.checklist li:last-child { border-bottom: none; }
+.check-icon { color: var(--success); flex-shrink: 0; margin-top: 2px; }
+
+/* Stack pills */
+.stack-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+.stack-pill { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--fg); box-shadow: var(--shadow); }
+.stack-pill span { font-size: 11px; color: var(--fg-muted); font-weight: 400; }
+
+.section-divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+
+@media (max-width: 720px) {
+  .page-wrap { grid-template-columns: 1fr; }
+  .toc { display: none; }
+  .arch { grid-template-columns: 1fr; }
+  .arch-arrow { transform: rotate(90deg); }
+  .flows { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="page-wrap">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      </div>
+      <div class="header-meta">
+        <div class="doc-label">Cahier des Charges — v2.0</div>
+        <h1>MailPro Hub — Webmail SaaS multi-domaines avec adresses professionnelles</h1>
+        <div class="header-badges">
+          <span class="badge accent">v2.0</span>
+          <span class="badge">Novembre 2026</span>
+          <span class="badge">SaaS Webmail</span>
+          <span class="badge">Cloudflare Worker</span>
+          <span class="badge new">Gmail OAuth SMTP</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <div class="toc-title">Sommaire</div>
+    <a href="#s1">1. Contexte &amp; vision</a>
+    <a href="#s2">2. Concept de l'outil</a>
+    <a href="#s3">3. Utilisateurs cibles</a>
+    <a href="#s4">4. Architecture générale</a>
+    <a href="#s4" class="sub">Flux réception</a>
+    <a href="#s4" class="sub">Flux envoi</a>
+    <a href="#s5">5. Périmètre fonctionnel</a>
+    <a href="#s5" class="sub">Fonctionnalités MVP</a>
+    <a href="#s5b" class="sub">Fonctionnalités V2</a>
+    <a href="#s6">6. Modules détaillés</a>
+    <a href="#s6" class="sub">Auth &amp; comptes</a>
+    <a href="#s6b" class="sub">Configuration domaine</a>
+    <a href="#s6c" class="sub">OAuth Gmail</a>
+    <a href="#s6d" class="sub">Réception (Worker)</a>
+    <a href="#s6e" class="sub">Interface webmail</a>
+    <a href="#s7">7. Exigences techniques</a>
+    <a href="#s8">8. Stack recommandée</a>
+    <a href="#s9">9. Phases de développement</a>
+    <a href="#s10">10. Livrables</a>
+    <a href="#s11">11. Critères d'acceptation</a>
+  </nav>
+
+  <main class="content">
+
+    <!-- 1 -->
+    <section id="s1">
+      <h2><span class="sec-num">1</span>Contexte &amp; vision</h2>
+      <div class="info-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+        <span><strong>Vision v2 :</strong> L'outil ne se contente plus de configurer une adresse mail pro — il devient la boîte mail elle-même. L'utilisateur envoie et reçoit ses mails directement dans l'interface, sans passer par Gmail.</span>
+      </div>
+      <p>La v1 du concept reposait sur une redirection Cloudflare vers Gmail. Cette approche reste valide pour les cas simples, mais elle présente une limite : l'utilisateur doit jongler entre deux interfaces (l'outil pour configurer, Gmail pour lire et répondre).</p>
+      <p>La v2 centralise tout : configuration, réception, rédaction et envoi se font dans <strong>un seul outil</strong>. Cloudflare reçoit les mails entrants et les pousse vers le backend de l'outil. L'envoi s'appuie sur <strong>Gmail SMTP via OAuth</strong>, ce qui garantit une excellente délivrabilité sans gérer de serveur mail.</p>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- 2 -->
+    <section id="s2">
+      <h2><span class="sec-num">2</span>Concept de l'outil</h2>
+      <p>MailPro Hub est un <strong>webmail SaaS léger</strong> où chaque utilisateur peut :</p>
+      <div class="feature-grid">
+        <div class="feat-card">
+          <div class="feat-icon"><svg viewBox="0 0 24 24" fill="var(--accent)"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg></div>
+          <strong>Configurer son domaine</strong>
+          <p>Wizard rapide : domaine → Cloudflare → DNS → c'est prêt</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon"><svg viewBox="0 0 24 24" fill="var(--accent)"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+          <strong>Recevoir ses mails</strong>
+          <p>Les mails envoyés à <code>contact@domain.com</code> arrivent dans l'interface de l'outil</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon"><svg viewBox="0 0 24 24" fill="var(--accent)"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></div>
+          <strong>Envoyer des mails</strong>
+          <p>Rédiger depuis l'outil, envoi via Gmail SMTP — l'expéditeur affiché est l'adresse pro</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon"><svg viewBox="0 0 24 24" fill="var(--accent)"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
+          <strong>Répondre aux conversations</strong>
+          <p>Threads groupés, réponse directe — le destinataire voit l'adresse pro à tout moment</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon"><svg viewBox="0 0 24 24" fill="var(--accent)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14l-4-4 1.41-1.41L10 13.17l6.59-6.59L18 8l-8 8z"/></svg></div>
+          <strong>Multi-adresses</strong>
+          <p>contact@, info@, support@ — plusieurs alias sur le même domaine</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon"><svg viewBox="0 0 24 24" fill="var(--accent)"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+          <strong>Zéro serveur mail</strong>
+          <p>Pas de Postfix, pas d'IP à gérer — Cloudflare pour recevoir, Gmail pour envoyer</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- 3 -->
+    <section id="s3">
+      <h2><span class="sec-num">3</span>Utilisateurs cibles</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Profil</th><th>Besoin</th><th>Valeur ajoutée de l'outil</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Développeur freelance / agence</strong></td>
+              <td>Fournir une boîte mail pro à chaque client sans coût supplémentaire</td>
+              <td>Crée et livre la boîte en 10 min, gère plusieurs clients depuis un seul dashboard</td>
+            </tr>
+            <tr>
+              <td><strong>PME / entrepreneur</strong></td>
+              <td>Lire et répondre à ses mails pro sans payer G Workspace</td>
+              <td>Interface webmail propre, identité pro préservée, zéro abonnement</td>
+            </tr>
+            <tr>
+              <td><strong>Startup early-stage</strong></td>
+              <td>Adresses pro pour toute l'équipe (contact@, support@, hello@…)</td>
+              <td>Multi-alias, multi-utilisateurs, sans infrastructure mail</td>
+            </tr>
+            <tr>
+              <td><strong>Association / ONG</strong></td>
+              <td>Communication professionnelle avec un budget nul</td>
+              <td>Entièrement gratuit en dessous de 500 mails/jour</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- 4 -->
+    <section id="s4">
+      <h2><span class="sec-num">4</span>Architecture générale</h2>
+
+      <div class="arch">
+        <div class="arch-node">
+          <div class="node-icon">🌐</div>
+          <strong>Expéditeur externe</strong>
+          <span>répond à contact@domain.com</span>
+        </div>
+        <div class="arch-arrow">→<span class="arch-label">Email entrant</span></div>
+        <div class="arch-node central">
+          <div class="node-icon">⚡</div>
+          <strong>Cloudflare Worker</strong>
+          <span>reçoit et pousse vers l'API</span>
+        </div>
+        <div class="arch-arrow">→<span class="arch-label">Webhook POST</span></div>
+        <div class="arch-node">
+          <div class="node-icon">🗄️</div>
+          <strong>Backend + Base de données</strong>
+          <span>stocke le mail, notifie</span>
+        </div>
+      </div>
+
+      <div class="flows">
+        <div class="flow-box">
+          <h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--success)"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            Flux réception
+          </h4>
+          <div class="flow-step"><div class="flow-num">1</div><span>Quelqu'un envoie un mail à <code>contact@domain.com</code></span></div>
+          <div class="flow-step"><div class="flow-num">2</div><span>Cloudflare Email Routing intercepte le mail (enregistrement MX)</span></div>
+          <div class="flow-step"><div class="flow-num">3</div><span>Un Cloudflare Worker analyse le mail et fait un POST vers l'API du backend</span></div>
+          <div class="flow-step"><div class="flow-num">4</div><span>Le backend enregistre le mail en base de données (expéditeur, objet, corps, pièces jointes)</span></div>
+          <div class="flow-step"><div class="flow-num">5</div><span>L'utilisateur voit le mail dans son interface webmail en temps réel (WebSocket ou polling)</span></div>
+        </div>
+        <div class="flow-box">
+          <h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent)"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            Flux envoi
+          </h4>
+          <div class="flow-step"><div class="flow-num">1</div><span>L'utilisateur rédige un mail dans l'interface de l'outil</span></div>
+          <div class="flow-step"><div class="flow-num">2</div><span>Il clique Envoyer</span></div>
+          <div class="flow-step"><div class="flow-num">3</div><span>Le backend appelle Gmail SMTP avec le token OAuth de l'utilisateur</span></div>
+          <div class="flow-step"><div class="flow-num">4</div><span>Gmail expédie le mail — l'expéditeur affiché est <code>contact@domain.com</code></span></div>
+          <div class="flow-step"><div class="flow-num">5</div><span>Le mail est archivé dans la boîte Envoyés de l'outil</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="border-color:var(--warn)">
+        <h3 style="margin-top:0; color:var(--warn)">⚠️ Contrainte Gmail SMTP</h3>
+        <p style="margin:0; font-size:14px;">Gmail SMTP limite à <strong>500 mails/jour</strong> (compte gratuit) et <strong>2 000/jour</strong> (Google Workspace). Pour les utilisateurs à fort volume, prévoir une option de bascule vers Brevo ou Mailgun. L'utilisateur doit avoir autorisé l'outil via <strong>OAuth Google</strong> — les credentials restent stockés côté serveur, chiffrés.</p>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- 5 -->
+    <section id="s5">
+      <h2><span class="sec-num">5</span>Périmètre fonctionnel</h2>
+      <h3>Fonctionnalités MVP</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Fonctionnalité</th><th>Description</th><th>Priorité</th></tr></thead>
+          <tbody>
+            <tr><td>F01</td><td><strong>Authentification utilisateur</strong></td><td>Inscription / connexion par email+mot de passe ou Google OAuth</td><td class="p-high">Haute</td></tr>
+            <tr><td>F02</td><td><strong>Wizard de configuration domaine</strong></td><td>Saisie du domaine, connexion Cloudflare API, génération DNS (MX, SPF, DKIM, DMARC), vérification propagation</td><td class="p-high">Haute</td></tr>
+            <tr><td>F03</td><td><strong>Cloudflare Worker déployé</strong></td><td>Worker qui reçoit les mails et les pousse vers l'API backend via webhook sécurisé</td><td class="p-high">Haute</td></tr>
+            <tr><td>F04</td><td><strong>Connexion Gmail OAuth</strong></td><td>Autorisation OAuth 2.0 pour utiliser Gmail SMTP — token stocké chiffré côté serveur</td><td class="p-high">Haute</td></tr>
+            <tr><td>F05</td><td><strong>Boîte de réception</strong></td><td>Liste des mails reçus avec expéditeur, objet, date, aperçu — lecture complète du mail</td><td class="p-high">Haute</td></tr>
+            <tr><td>F06</td><td><strong>Rédaction &amp; envoi</strong></td><td>Éditeur de mail (texte riche), sélection de l'adresse pro en expéditeur, envoi via Gmail SMTP</td><td class="p-high">Haute</td></tr>
+            <tr><td>F07</td><td><strong>Répondre à un mail</strong></td><td>Réponse directe depuis l'interface, maintien du thread de conversation</td><td class="p-high">Haute</td></tr>
+            <tr><td>F08</td><td><strong>Boîte Envoyés</strong></td><td>Archive des mails envoyés depuis l'outil</td><td class="p-high">Haute</td></tr>
+            <tr><td>F09</td><td><strong>Notifications temps réel</strong></td><td>Indicateur de nouveaux mails (badge, polling toutes les 30s ou WebSocket)</td><td class="p-high">Haute</td></tr>
+            <tr><td>F10</td><td><strong>Code d'intégration généré</strong></td><td>Snippet Laravel/PHP/Node.js avec les credentials SMTP préremplis pour les envois applicatifs</td><td class="p-high">Haute</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="s5b">Fonctionnalités V2</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Fonctionnalité</th><th>Description</th><th>Priorité</th></tr></thead>
+          <tbody>
+            <tr><td>F11</td><td><strong>Multi-alias par domaine</strong></td><td>Plusieurs adresses pro sur un domaine (contact@, info@, support@) avec boîtes séparées</td><td class="p-med">Moyenne</td></tr>
+            <tr><td>F12</td><td><strong>Pièces jointes</strong></td><td>Envoi et réception de fichiers joints (stockage S3 ou équivalent)</td><td class="p-med">Moyenne</td></tr>
+            <tr><td>F13</td><td><strong>Recherche dans les mails</strong></td><td>Recherche full-text sur expéditeur, objet, corps</td><td class="p-med">Moyenne</td></tr>
+            <tr><td>F14</td><td><strong>Score délivrabilité</strong></td><td>Vérification SPF/DKIM/DMARC alignés, test via mail-tester, recommandations</td><td class="p-med">Moyenne</td></tr>
+            <tr><td>F15</td><td><strong>SMTP alternatif</strong></td><td>Option Brevo / Mailgun pour les utilisateurs dépassant les limites Gmail</td><td class="p-med">Moyenne</td></tr>
+            <tr><td>F16</td><td><strong>Import DNS auto (registrar API)</strong></td><td>Connexion OVH, Namecheap pour injecter les enregistrements DNS sans action manuelle</td><td class="p-low">Basse</td></tr>
+            <tr><td>F17</td><td><strong>Multi-utilisateurs par domaine</strong></td><td>Plusieurs membres d'une équipe peuvent accéder aux mêmes boîtes pro</td><td class="p-low">Basse</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- 6 -->
+    <section id="s6">
+      <h2><span class="sec-num">6</span>Modules détaillés</h2>
+
+      <div class="card">
+        <h3 style="margin-top:0">Module 1 — Authentification &amp; comptes</h3>
+        <ul>
+          <li>Inscription par email + mot de passe (hash bcrypt)</li>
+          <li>Connexion Google OAuth optionnelle</li>
+          <li>Profil utilisateur : nom, photo, domaines configurés, token Gmail</li>
+          <li>Sessions sécurisées (JWT ou sessions serveur)</li>
+          <li>Réinitialisation de mot de passe par email</li>
+        </ul>
+      </div>
+
+      <div class="card" id="s6b">
+        <h3 style="margin-top:0">Module 2 — Wizard de configuration domaine</h3>
+        <p><strong>Étape 1 :</strong> Saisie du domaine + préfixe(s) d'adresse (ex. <code>contact</code>)<br>
+        <strong>Étape 2 :</strong> Connexion à l'API Cloudflare (token API) → activation Email Routing → déploiement du Worker<br>
+        <strong>Étape 3 :</strong> Affichage du tableau DNS complet (MX Cloudflare, SPF, DKIM selon SMTP choisi, DMARC)<br>
+        <strong>Étape 4 :</strong> Polling DNS — vérification propagation en temps réel (MX, SPF, DKIM, DMARC)<br>
+        <strong>Étape 5 :</strong> Test d'envoi + test de réception dans l'outil → validation finale</p>
+      </div>
+
+      <div class="card" id="s6c">
+        <h3 style="margin-top:0">Module 3 — Connexion Gmail OAuth (envoi SMTP)</h3>
+        <p>Flux OAuth 2.0 :</p>
+        <ul>
+          <li>L'utilisateur clique "Connecter mon compte Gmail"</li>
+          <li>Redirection vers Google OAuth → consentement pour le scope <code>gmail.send</code></li>
+          <li>Le backend reçoit le <code>access_token</code> + <code>refresh_token</code> et les stocke chiffrés (AES-256) en base</li>
+          <li>Pour chaque envoi, le backend renouvelle le token si expiré et appelle Gmail SMTP via Nodemailer (ou PHPMailer) avec <code>From: contact@domain.com</code></li>
+          <li>L'utilisateur peut déconnecter son compte Gmail depuis son profil</li>
+        </ul>
+        <div class="info-box" style="margin-top:12px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          <span>Le scope minimal requis est <code>https://mail.google.com/</code> ou <code>gmail.send</code>. Ne jamais demander d'accès en lecture à Gmail — uniquement l'envoi.</span>
+        </div>
+      </div>
+
+      <div class="card" id="s6d">
+        <h3 style="margin-top:0">Module 4 — Réception via Cloudflare Worker</h3>
+        <p>Le Worker Cloudflare est déployé automatiquement lors de la configuration du domaine. Il :</p>
+        <ul>
+          <li>Reçoit chaque mail entrant via l'événement <code>email</code> de Cloudflare Email Routing</li>
+          <li>Extrait les données : expéditeur, destinataire, objet, corps (texte + HTML), en-têtes</li>
+          <li>Fait un <code>POST</code> signé (HMAC secret) vers l'endpoint <code>/api/inbound-mail</code> du backend</li>
+          <li>Le backend vérifie la signature, identifie l'adresse destinataire, associe au bon utilisateur et enregistre le mail en base</li>
+          <li>Une notification temps réel est déclenchée (WebSocket ou Server-Sent Events)</li>
+        </ul>
+      </div>
+
+      <div class="card" id="s6e">
+        <h3 style="margin-top:0">Module 5 — Interface webmail</h3>
+        <p>Interface à trois colonnes (sidebar / liste mails / lecture-rédaction) :</p>
+        <div class="table-wrap" style="margin-top:12px">
+          <table>
+            <thead><tr><th>Zone</th><th>Contenu</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Sidebar</strong></td><td>Boîtes (Réception, Envoyés, Brouillons), domaines configurés, bouton Nouveau mail</td></tr>
+              <tr><td><strong>Liste des mails</strong></td><td>Expéditeur, objet, aperçu du corps, date, badge non-lu, indicateur pièce jointe</td></tr>
+              <tr><td><strong>Volet de lecture</strong></td><td>Mail complet, boutons Répondre / Transférer / Supprimer, affichage du thread</td></tr>
+              <tr><td><strong>Rédaction</strong></td><td>Modal ou panneau : De (adresse pro), À, CC, Objet, éditeur riche (gras, liste, lien), Envoyer</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- 7 -->
+    <section id="s7">
+      <h2><span class="sec-num">7</span>Exigences techniques</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Catégorie</th><th>Exigence</th><th>Détail</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Sécurité</strong></td><td>Tokens OAuth chiffrés en base</td><td>AES-256 ou chiffrement au niveau du champ (Laravel Encrypted Casting)</td></tr>
+            <tr><td><strong>Sécurité</strong></td><td>Webhook Cloudflare signé</td><td>HMAC-SHA256 sur chaque requête inbound — rejet si signature invalide</td></tr>
+            <tr><td><strong>Sécurité</strong></td><td>Isolation des données</td><td>Un utilisateur ne peut voir que ses propres mails (Row-level security)</td></tr>
+            <tr><td><strong>Performance</strong></td><td>Chargement boîte &lt; 1 s</td><td>Pagination côté serveur (20 mails par page), index BDD sur <code>recipient + created_at</code></td></tr>
+            <tr><td><strong>Temps réel</strong></td><td>Notification nouveau mail &lt; 5 s</td><td>WebSocket (Laravel Reverb / Socket.io) ou polling toutes les 30 s en fallback</td></tr>
+            <tr><td><strong>Stockage</strong></td><td>Rétention des mails</td><td>12 mois minimum, quota par utilisateur configurable (ex. 1 Go)</td></tr>
+            <tr><td><strong>Conformité</strong></td><td>Scope OAuth minimal</td><td>Demander uniquement <code>gmail.send</code> — jamais de lecture des mails Gmail</td></tr>
+            <tr><td><strong>Responsivité</strong></td><td>Interface mobile-friendly</td><td>Interface webmail adaptée smartphone (single-column sur &lt; 768px)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- 8 -->
+    <section id="s8">
+      <h2><span class="sec-num">8</span>Stack recommandée</h2>
+      <h3>Backend</h3>
+      <div class="stack-grid">
+        <div class="stack-pill">Laravel (PHP) <span>API REST + Auth + Queue</span></div>
+        <div class="stack-pill">MySQL / PostgreSQL <span>Stockage des mails</span></div>
+        <div class="stack-pill">Laravel Reverb <span>WebSocket temps réel</span></div>
+        <div class="stack-pill">Laravel Queue <span>Traitement mails entrants async</span></div>
+      </div>
+      <h3>Frontend</h3>
+      <div class="stack-grid">
+        <div class="stack-pill">React ou Vue.js <span>Interface webmail</span></div>
+        <div class="stack-pill">TailwindCSS <span>UI</span></div>
+        <div class="stack-pill">TipTap / Quill <span>Éditeur de mail riche</span></div>
+        <div class="stack-pill">React Query <span>Polling &amp; cache</span></div>
+      </div>
+      <h3>Infrastructure mail</h3>
+      <div class="stack-grid">
+        <div class="stack-pill">Cloudflare Email Routing <span>Réception gratuite</span></div>
+        <div class="stack-pill">Cloudflare Workers <span>Webhook inbound mail</span></div>
+        <div class="stack-pill">Gmail SMTP + OAuth 2.0 <span>Envoi délivrabilité garantie</span></div>
+        <div class="stack-pill">Brevo / Mailgun <span>Fallback volume élevé</span></div>
+      </div>
+      <h3>Hébergement</h3>
+      <div class="stack-grid">
+        <div class="stack-pill">Railway / Render <span>Backend Laravel</span></div>
+        <div class="stack-pill">Vercel / Netlify <span>Frontend</span></div>
+        <div class="stack-pill">Cloudflare R2 / S3 <span>Pièces jointes (V2)</span></div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- 9 -->
+    <section id="s9">
+      <h2><span class="sec-num">9</span>Phases de développement</h2>
+      <div class="timeline">
+        <div class="phase">
+          <div class="phase-label">Phase 1</div>
+          <h4>Fondations — Auth + Configuration domaine</h4>
+          <div class="phase-dur">4 à 6 jours</div>
+          <ul>
+            <li>Authentification (inscription, connexion, JWT)</li>
+            <li>Wizard de configuration domaine (Cloudflare API, DNS, vérification propagation)</li>
+            <li>Déploiement automatique du Cloudflare Worker</li>
+            <li>Endpoint backend <code>/api/inbound-mail</code> + signature HMAC</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <div class="phase-label">Phase 2</div>
+          <h4>Réception &amp; boîte de réception</h4>
+          <div class="phase-dur">3 à 4 jours</div>
+          <ul>
+            <li>Stockage des mails entrants en base</li>
+            <li>Interface boîte de réception (liste + lecture)</li>
+            <li>Notifications temps réel (WebSocket ou polling)</li>
+            <li>Tri, filtre, marquage lu/non-lu</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <div class="phase-label">Phase 3</div>
+          <h4>Envoi via Gmail OAuth</h4>
+          <div class="phase-dur">3 à 4 jours</div>
+          <ul>
+            <li>Flux OAuth 2.0 Google (scope gmail.send)</li>
+            <li>Stockage sécurisé des tokens (AES-256)</li>
+            <li>Éditeur de rédaction (TipTap)</li>
+            <li>Envoi via Gmail SMTP + archivage dans Envoyés</li>
+            <li>Réponse dans un thread existant</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <div class="phase-label">Phase 4</div>
+          <h4>Polish &amp; code d'intégration</h4>
+          <div class="phase-dur">2 à 3 jours</div>
+          <ul>
+            <li>Génération des snippets Laravel/Node.js/WordPress</li>
+            <li>Score délivrabilité (SPF/DKIM/DMARC alignés)</li>
+            <li>Test d'envoi + test de réception intégrés au wizard</li>
+            <li>Interface responsive mobile</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <div class="phase-label">Phase 5 (V2)</div>
+          <h4>Multi-alias, pièces jointes &amp; équipe</h4>
+          <div class="phase-dur">5 à 7 jours</div>
+          <ul>
+            <li>Multi-alias par domaine avec boîtes séparées</li>
+            <li>Pièces jointes (upload + stockage R2/S3)</li>
+            <li>Recherche full-text</li>
+            <li>Multi-utilisateurs par domaine</li>
+            <li>SMTP alternatif (Brevo) pour gros volumes</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- 10 -->
+    <section id="s10">
+      <h2><span class="sec-num">10</span>Livrables attendus</h2>
+      <ul class="checklist">
+        <li><svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14l-4-4 1.41-1.41L10 13.17l6.59-6.59L18 8l-8 8z"/></svg><span>Application web déployée (URL publique) — backend + frontend + Cloudflare Worker</span></li>
+        <li><svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14l-4-4 1.41-1.41L10 13.17l6.59-6.59L18 8l-8 8z"/></svg><span>Code source versionné (GitHub) avec README d'installation et variables d'environnement documentées</span></li>
+        <li><svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14l-4-4 1.41-1.41L10 13.17l6.59-6.59L18 8l-8 8z"/></svg><span>Guide de configuration OAuth Google (création app Google Cloud, scopes, redirect URIs)</span></li>
+        <li><svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14l-4-4 1.41-1.41L10 13.17l6.59-6.59L18 8l-8 8z"/></svg><span>Documentation du Cloudflare Worker (déploiement, variables secrètes, endpoint webhook)</span></li>
+        <li><svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14l-4-4 1.41-1.41L10 13.17l6.59-6.59L18 8l-8 8z"/></svg><span>Tests automatisés : réception mail via Worker, envoi via Gmail SMTP, vérification DNS</span></li>
+      </ul>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- 11 -->
+    <section id="s11">
+      <h2><span class="sec-num">11</span>Critères d'acceptation</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Critère</th><th>Condition de validation</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Réception dans l'outil</strong></td><td>Un mail envoyé à <code>contact@domain.com</code> apparaît dans l'interface webmail en moins de 10 secondes</td></tr>
+            <tr><td><strong>Envoi depuis l'outil</strong></td><td>Un mail rédigé dans l'outil arrive dans la boîte du destinataire avec <code>contact@domain.com</code> comme expéditeur affiché</td></tr>
+            <tr><td><strong>Délivrabilité</strong></td><td>Score ≥ 80/100 sur mail-tester.com — le mail n'atterrit pas en spam chez Gmail / Outlook</td></tr>
+            <tr><td><strong>OAuth sécurisé</strong></td><td>Le token Gmail n'est jamais exposé côté client ni dans les logs</td></tr>
+            <tr><td><strong>Thread de réponse</strong></td><td>Une réponse depuis l'outil maintient le <code>In-Reply-To</code> et apparaît comme une conversation groupée chez le destinataire</td></tr>
+            <tr><td><strong>Configuration &lt; 10 min</strong></td><td>Un utilisateur non-technique peut créer son compte, configurer son domaine et envoyer son premier mail en moins de 10 minutes</td></tr>
+            <tr><td><strong>Isolation des données</strong></td><td>Un utilisateur A ne peut pas accéder aux mails d'un utilisateur B, même en manipulant les paramètres de requête</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info-box" style="margin-top:16px; color:var(--fg-muted); border-color:var(--border); background:var(--bg-alt);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--accent)"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L12 15.45 7.77 18l1.12-4.81-3.73-3.23 4.92-.42L12 5l1.92 4.53 4.92.42-3.73 3.23L16.23 18z"/></svg>
+        <span><strong>Note :</strong> La propagation DNS peut prendre entre 15 minutes et 48h. L'outil doit l'indiquer clairement à l'étape de vérification et permettre de relancer la vérification manuellement.</span>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function() {
+  const links = document.querySelectorAll('.toc a');
+  const sections = document.querySelectorAll('section[id]');
+  if (!sections.length) return;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector('.toc a[href="#' + e.target.id + '"]');
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+  sections.forEach(s => obs.observe(s));
+})();
+</script>
+
+</body></html>
