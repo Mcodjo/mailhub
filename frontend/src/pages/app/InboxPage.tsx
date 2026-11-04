@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, Link } from 'react-router-dom'
 import { emailsApi } from '../../api/emails'
 import { useAppStore } from '../../store/app'
 import type { Email } from '../../types'
@@ -14,7 +14,7 @@ export function InboxPage() {
   const [loading, setLoading] = useState(true)
   const [replyBody, setReplyBody] = useState('')
   const [replying, setReplying] = useState(false)
-  const { decrementUnread } = useAppStore()
+  const { decrementUnread, aliases } = useAppStore()
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -67,118 +67,168 @@ export function InboxPage() {
   }
 
   const unread = emails.filter((e) => !e.is_read).length
+  const initials = (name: string) => name.split(' ').map((n) => n[0]).slice(0, 2).join('').toUpperCase()
+  const avatarColor = (id: number) => {
+    const colors = ['#5B84C4', '#6B9E7A', '#C4855B', '#9B6BC4', '#C4B85B']
+    return colors[id % colors.length]
+  }
 
   return (
-    <div className="split">
-      {/* ── Colonne liste ── */}
-      <div className="conv-col">
-        <div className="conv-toolbar">
-          <span className="label-title">
-            {aliasId ? 'Boîte filtrée' : 'Boîte de réception'}
-          </span>
-          {unread > 0 && <span className="badge">{unread}</span>}
-          <button className="btn btn-ghost btn-sm" onClick={load} title="Actualiser">
-            <RefreshIcon />
-          </button>
+    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
+      {/* Topbar */}
+      <div className="topbar">
+        <span className="topbar-title">
+          {aliasId ? `Boîte filtrée` : 'Boîte de réception'}
+        </span>
+        <div className="topbar-search">
+          <SearchIcon />
+          Rechercher…
         </div>
-
-        {loading ? (
-          <div style={{ display: 'grid', placeItems: 'center', flex: 1 }}>
-            <Spinner />
-          </div>
-        ) : emails.length === 0 ? (
-          <div style={{ display: 'grid', placeItems: 'center', flex: 1, color: 'var(--ink-30)', fontSize: 'var(--fs-sm)' }}>
-            Aucun message
-          </div>
-        ) : (
-          <div className="conv-list">
-            {emails.map((email) => (
-              <div
-                key={email.id}
-                className={`cv${!email.is_read ? ' unread' : ''}${selected?.id === email.id ? ' active' : ''}`}
-                onClick={() => open(email)}
-              >
-                <div className="cv-top">
-                  <span className="cv-from">{email.from_name ?? email.from_email}</span>
-                  <span className="cv-date">{formatDate(email.received_at)}</span>
-                </div>
-                <div className="cv-subject">{email.subject}</div>
-                <div className="cv-preview">
-                  {email.alias?.local_part}@{email.alias?.domain?.domain}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+        <Link to="/app/compose" className="btn btn-primary btn-sm">
+          + Nouveau message
+        </Link>
+        <button className="btn btn-ghost btn-sm" onClick={load} title="Actualiser">
+          <RefreshIcon />
+        </button>
       </div>
 
-      {/* ── Colonne thread ── */}
-      <div className="thread-col">
-        {selected ? (
-          <>
-            <div className="thread-header">
-              <h2 className="thread-subject">{selected.subject}</h2>
-              <div className="thread-meta">
-                <span>De : <strong>{selected.from_name ?? selected.from_email}</strong></span>
-                {selected.from_name && <span style={{ color: 'var(--ink-55)', fontSize: 'var(--fs-xs)' }}>&lt;{selected.from_email}&gt;</span>}
-                <span style={{ marginLeft: 'auto', fontSize: 'var(--fs-xs)', color: 'var(--ink-55)' }}>
-                  {formatDateLong(selected.received_at)}
-                </span>
-                <button className="btn btn-ghost btn-sm" onClick={() => handleDelete(selected)} title="Supprimer">
-                  <TrashIcon />
-                </button>
-              </div>
-            </div>
-
-            <div className="thread-body">
-              {selected.body_html ? (
-                <iframe
-                  srcDoc={selected.body_html}
-                  sandbox="allow-same-origin"
-                  style={{ width: '100%', border: 'none', minHeight: 300 }}
-                  onLoad={(e) => {
-                    const f = e.currentTarget
-                    f.style.height = f.contentDocument?.body?.scrollHeight + 'px'
-                  }}
-                />
-              ) : (
-                <pre style={{ fontFamily: 'var(--font)', whiteSpace: 'pre-wrap', fontSize: 'var(--fs-sm)', lineHeight: 'var(--lh)' }}>
-                  {selected.body_text ?? '(message vide)'}
-                </pre>
-              )}
-            </div>
-
-            {/* Zone de réponse */}
-            <form className="reply-box" onSubmit={handleReply}>
-              <textarea
-                className="input"
-                rows={4}
-                placeholder="Votre réponse…"
-                value={replyBody}
-                onChange={(e) => setReplyBody(e.target.value)}
-              />
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--s2)', marginTop: 'var(--s2)' }}>
-                <button type="button" className="btn btn-ghost btn-sm" onClick={() => setReplyBody('')}>
-                  Annuler
-                </button>
-                <button type="submit" className="btn btn-primary btn-sm" disabled={replying || !replyBody.trim()}>
-                  {replying ? <Spinner size={14} /> : 'Répondre'}
-                </button>
-              </div>
-            </form>
-          </>
-        ) : (
-          <div className="thread-empty">
-            <InboxEmptyIcon />
-            <p>Sélectionnez un message</p>
+      <div className="split">
+        {/* ── Colonne liste ── */}
+        <div className="conv-col">
+          <div className="conv-toolbar">
+            <span className="label-title">
+              {aliasId ? 'Filtrée' : 'Tous les messages'}
+            </span>
+            {unread > 0 && <span className="badge badge-unread">{unread}</span>}
           </div>
-        )}
+
+          {loading ? (
+            <div style={{ display: 'grid', placeItems: 'center', flex: 1 }}>
+              <Spinner />
+            </div>
+          ) : emails.length === 0 ? (
+            <div style={{ display: 'grid', placeItems: 'center', flex: 1, color: 'var(--ink-30)', fontSize: 'var(--fs-sm)' }}>
+              Aucun message
+            </div>
+          ) : (
+            <div className="conv-list">
+              {emails.map((email) => (
+                <div
+                  key={email.id}
+                  className={`cv${selected?.id === email.id ? ' active' : ''}`}
+                  onClick={() => open(email)}
+                >
+                  {!email.is_read && <div className="cv-unread-dot" />}
+                  <div className="cv-top">
+                    <span className="cv-who">{email.from_name ?? email.from_email}</span>
+                    <span className="cv-time">{formatDate(email.received_at)}</span>
+                  </div>
+                  <div className="cv-sub">{email.subject}</div>
+                  <div className="cv-preview">
+                    {email.alias?.local_part}@{email.alias?.domain?.domain}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* ── Colonne thread ── */}
+        <div className="thread-col">
+          {selected ? (
+            <>
+              <div className="thread-header">
+                <h2>{selected.subject}</h2>
+                <div className="thread-meta">
+                  <span className="badge badge-neutral">{selected.alias?.local_part}@{selected.alias?.domain?.domain}</span>
+                  <span style={{ fontSize: 'var(--fs-xs)', color: 'var(--ink-55)' }}>
+                    {formatDateLong(selected.received_at)}
+                  </span>
+                </div>
+                <div className="thread-acts">
+                  <button className="btn btn-secondary btn-sm" onClick={() => setReplyBody('Répondre…')}>
+                    Répondre
+                  </button>
+                  <button className="btn btn-ghost btn-sm" title="Archiver">
+                    Archiver
+                  </button>
+                  <button className="btn btn-ghost btn-sm" onClick={() => handleDelete(selected)} title="Supprimer">
+                    <TrashIcon />
+                  </button>
+                </div>
+              </div>
+
+              <div className="messages">
+                {/* Carte message reçu */}
+                <div className="msg-card">
+                  <div className="msg-top">
+                    <div className="msg-av" style={{ background: avatarColor(selected.id), color: '#fff' }}>
+                      {initials(selected.from_name ?? selected.from_email)}
+                    </div>
+                    <div className="msg-who">
+                      <div className="msg-name">{selected.from_name ?? selected.from_email}</div>
+                      {selected.from_name && (
+                        <div className="msg-email">{selected.from_email}</div>
+                      )}
+                    </div>
+                    <div className="msg-time">{formatDateLong(selected.received_at)}</div>
+                  </div>
+                  <div className="msg-body">
+                    {selected.body_html ? (
+                      <div dangerouslySetInnerHTML={{ __html: sanitize(selected.body_html) }} />
+                    ) : (
+                      <p style={{ whiteSpace: 'pre-wrap' }}>{selected.body_text ?? '(message vide)'}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Zone de réponse */}
+              <form className="reply-box" onSubmit={handleReply}>
+                <div className="reply-from">
+                  <span>Répondre depuis :</span>
+                  <select defaultValue="">
+                    {aliases.map((a) => (
+                      <option key={a.id} value={a.id}>
+                        {a.local_part}@{a.domain?.domain}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <textarea
+                  className="reply-input"
+                  rows={3}
+                  placeholder="Votre réponse…"
+                  value={replyBody}
+                  onChange={(e) => setReplyBody(e.target.value)}
+                />
+                <div className="reply-foot">
+                  <div className="spacer" />
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={() => setReplyBody('')}>
+                    Annuler
+                  </button>
+                  <button type="submit" className="btn btn-primary btn-sm" disabled={replying || !replyBody.trim()}>
+                    {replying ? <Spinner size={14} /> : 'Envoyer'}
+                  </button>
+                </div>
+              </form>
+            </>
+          ) : (
+            <div className="thread-empty">
+              <InboxEmptyIcon />
+              <p>Sélectionnez un message</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )
 }
 
-// ── Helpers ──────────────────────────────────────────────────────────────
+function sanitize(html: string): string {
+  return html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+}
+
 function formatDate(iso: string): string {
   const d = new Date(iso)
   const now = new Date()
@@ -195,7 +245,14 @@ function formatDateLong(iso: string): string {
   })
 }
 
-// ── Icônes ────────────────────────────────────────────────────────────────
+function SearchIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+      <circle cx="5" cy="5" r="3.5" stroke="currentColor" strokeWidth="1.5"/>
+      <path d="M8.5 8.5l2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  )
+}
 function RefreshIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">

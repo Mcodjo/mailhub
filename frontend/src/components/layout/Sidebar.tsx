@@ -4,12 +4,6 @@ import { useAppStore } from '../../store/app'
 import { logout as apiLogout } from '../../api/auth'
 import { Logo } from '../ui/Logo'
 
-const NAV = [
-  { to: '/app/inbox',     label: 'Boîte de réception', icon: InboxIcon,     badge: true },
-  { to: '/app/compose',   label: 'Composer',           icon: ComposeIcon,   badge: false },
-  { to: '/app/settings',  label: 'Paramètres',         icon: SettingsIcon,  badge: false },
-]
-
 export function Sidebar() {
   const user = useAuthStore((s) => s.user)
   const { logout } = useAuthStore()
@@ -62,25 +56,25 @@ export function Sidebar() {
 
       {/* Navigation principale */}
       <nav className="nav-section">
-        <div className="nav-label">Navigation</div>
-        {NAV.map(({ to, label, icon: Icon, badge }) => (
-          <NavLink
-            key={to}
-            to={to}
-            className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
-          >
-            <Icon />
-            {label}
-            {badge && unreadCount > 0 && (
-              <span className="badge" style={{ marginLeft: 'auto' }}>{unreadCount > 99 ? '99+' : unreadCount}</span>
-            )}
-          </NavLink>
-        ))}
+        <div className="nav-label">Messagerie</div>
+        <NavLink to="/app/inbox" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+          <InboxIcon />
+          Boîte de réception
+          {unreadCount > 0 && (
+            <span className="badge badge-unread" style={{ marginLeft: 'auto' }}>
+              {unreadCount > 99 ? '99+' : unreadCount}
+            </span>
+          )}
+        </NavLink>
+        <NavLink to="/app/compose" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+          <ComposeIcon />
+          Composer
+        </NavLink>
       </nav>
 
       {/* Alias boîtes */}
       {aliases.length > 0 && (
-        <nav className="nav-section" style={{ marginTop: 8 }}>
+        <nav className="nav-section" style={{ marginTop: 4 }}>
           <div className="nav-label">Mes adresses</div>
           {aliases.map((a) => (
             <NavLink
@@ -94,6 +88,19 @@ export function Sidebar() {
           ))}
         </nav>
       )}
+
+      {/* Configuration */}
+      <nav className="nav-section" style={{ marginTop: 4 }}>
+        <div className="nav-label">Configuration</div>
+        <NavLink to="/app/wizard" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+          <DomainIcon />
+          DNS &amp; Domaines
+        </NavLink>
+        <NavLink to="/app/settings" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+          <SettingsIcon />
+          Paramètres
+        </NavLink>
+      </nav>
 
       {/* Pied de sidebar */}
       <div className="sidebar-foot">
@@ -119,10 +126,10 @@ function aliasColor(id: number): string {
   return colors[id % colors.length]
 }
 
-// ── Icônes inline ─────────────────────────────────────────────────────────
+// ── Icônes 16×16 stroke ───────────────────────────────────────────────────
 function InboxIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flex: 'none' }}>
       <rect x="1" y="2" width="14" height="12" rx="2" stroke="currentColor" strokeWidth="1.5" fill="none"/>
       <path d="M1 10h3l1.5 2h5L12 10h3" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
     </svg>
@@ -130,15 +137,23 @@ function InboxIcon() {
 }
 function ComposeIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flex: 'none' }}>
       <path d="M2 10.5V14h3.5l7-7L9 3.5l-7 7z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
       <path d="M11.5 2l2.5 2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
   )
 }
+function DomainIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flex: 'none' }}>
+      <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+      <path d="M8 1.5C6 4 5 6 5 8s1 4 3 6.5M8 1.5C10 4 11 6 11 8s-1 4-3 6.5M1.5 8h13" stroke="currentColor" strokeWidth="1.5"/>
+    </svg>
+  )
+}
 function SettingsIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flex: 'none' }}>
       <circle cx="8" cy="8" r="2.5" stroke="currentColor" strokeWidth="1.5" fill="none"/>
       <path d="M8 1v2M8 13v2M1 8h2M13 8h2M2.93 2.93l1.41 1.41M11.66 11.66l1.41 1.41M2.93 13.07l1.41-1.41M11.66 4.34l1.41-1.41" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
@@ -146,7 +161,7 @@ function SettingsIcon() {
 }
 function LogoutIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flex: 'none' }}>
       <path d="M5 2H2a1 1 0 00-1 1v8a1 1 0 001 1h3M9 10l3-3-3-3M12 7H5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   )

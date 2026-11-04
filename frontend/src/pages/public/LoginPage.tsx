@@ -38,7 +38,7 @@ export function LoginPage() {
           <Logo height={44} />
         </div>
 
-        <h1>Connexion</h1>
+        <h1>Bon retour</h1>
         <p className="sub">Accédez à votre messagerie professionnelle.</p>
 
         {gmailStatus === 'connected' && (
