@@ -1,5 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 
-/* Design Labs MailPro Hub — voir design-labs/design-system.md pour la charte.
-   Les classes DSL (design-tokens) seront importees depuis design-labs/mockups/assets/design-system.css
-   fonte tokens convertis en @theme Tailwind apres validation des maquettes par L8. */
+/* ── Tailwind 4 @theme : tokens Domial ─────────────────────────────────── */
+@theme {
+  --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
+
+  --color-ink:        #16233B;
+  --color-ink-80:     rgba(22,35,59,.80);
+  --color-ink-55:     rgba(22,35,59,.55);
+  --color-ink-30:     rgba(22,35,59,.30);
+  --color-ink-10:     rgba(22,35,59,.07);
+  --color-steel:      #5B84C4;
+  --color-steel-soft: #EEF3FB;
+  --color-steel-mid:  #D0DEFA;
+  --color-gray:       #F5F6F8;
+  --color-gray-mid:   #E4E7EC;
+  --color-success:    #2E6B52;
+  --color-success-bg: #EAF4EF;
+  --color-warning:    #8A6414;
+  --color-warning-bg: #FBF4E3;
+  --color-error:      #A6423A;
+  --color-error-bg:   #FCECEA;
+
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  --shadow-1: 0 1px 3px rgba(22,35,59,.07), 0 1px 2px rgba(22,35,59,.04);
+  --shadow-2: 0 3px 10px rgba(22,35,59,.09), 0 1px 3px rgba(22,35,59,.05);
+  --shadow-3: 0 8px 28px rgba(22,35,59,.11), 0 2px 8px rgba(22,35,59,.06);
+}
+
+/* ── Variables CSS globales (compatibilité composants) ──────────────────── */
+:root {
+  --ink:        #16233B;
+  --ink-80:     rgba(22,35,59,.80);
+  --ink-55:     rgba(22,35,59,.55);
+  --ink-30:     rgba(22,35,59,.30);
+  --ink-10:     rgba(22,35,59,.07);
+  --steel:      #5B84C4;
+  --steel-soft: #EEF3FB;
+  --steel-mid:  #D0DEFA;
+  --white:      #FFFFFF;
+  --gray:       #F5F6F8;
+  --gray-mid:   #E4E7EC;
+  --success:    #2E6B52;
+  --success-bg: #EAF4EF;
+  --warning:    #8A6414;
+  --warning-bg: #FBF4E3;
+  --error:      #A6423A;
+  --error-bg:   #FCECEA;
+  --font:       'Montserrat', system-ui, -apple-system, sans-serif;
+  --fs-xs:  11px; --fs-sm:  13px; --fs-base: 15px;
+  --fs-md:  17px; --fs-lg:  22px; --fs-xl:   28px; --fs-2xl: 36px;
+  --lh: 1.55;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px;
+  --r-sm:5px; --r-md:8px; --r-lg:12px; --r-xl:16px;
+  --border: 1px solid var(--gray-mid);
+  --sh-1: 0 1px 3px rgba(22,35,59,.07), 0 1px 2px rgba(22,35,59,.04);
+  --sh-2: 0 3px 10px rgba(22,35,59,.09), 0 1px 3px rgba(22,35,59,.05);
+  --sh-3: 0 8px 28px rgba(22,35,59,.11), 0 2px 8px rgba(22,35,59,.06);
+}
+
+/* ── Reset global ───────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--gray);
+  font-size: var(--fs-base);
+  line-height: var(--lh);
+  -webkit-font-smoothing: antialiased;
+}
+h1,h2,h3,h4 { margin: 0; line-height: 1.2; letter-spacing: -.02em; }
+p { margin: 0; }
+a { color: var(--steel); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { display: block; max-width: 100%; }
+button { font-family: var(--font); cursor: pointer; border: none; }
+input, textarea, select { font-family: var(--font); }
+
+/* ── Composants utilitaires ─────────────────────────────────────────────── */
+.label {
+  font-size: var(--fs-xs); font-weight: 700;
+  letter-spacing: .07em; text-transform: uppercase;
+  color: var(--ink-55);
+}
+.muted { color: var(--ink-55); }
+.small { font-size: var(--fs-sm); }
+
+/* ── Formulaires ─────────────────────────────────────────────────────────── */
+.input {
+  width: 100%; min-height: 44px;
+  padding: 10px 14px;
+  font: 500 var(--fs-sm)/1.4 var(--font);
+  color: var(--ink);
+  background: var(--gray);
+  border: 1.5px solid transparent;
+  border-radius: var(--r-md);
+  outline: none;
+  transition: border-color .15s, background .15s;
+}
+.input::placeholder { color: var(--ink-30); }
+.input:focus { background: var(--white); border-color: var(--steel); }
+.input.error { border-color: var(--error); background: var(--error-bg); }
+
+/* ── Boutons ─────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s2);
+  min-height: 40px; padding: 9px 20px;
+  font: 600 var(--fs-sm)/1 var(--font);
+  border-radius: var(--r-md);
+  transition: opacity .15s, box-shadow .15s, background .15s;
+  white-space: nowrap;
+}
+.btn:disabled { opacity: .45; pointer-events: none; }
+.btn-primary { background: var(--ink); color: var(--white); }
+.btn-primary:hover { background: #1f3254; box-shadow: var(--sh-2); }
+.btn-secondary { background: var(--white); color: var(--ink); border: 1.5px solid var(--gray-mid); }
+.btn-secondary:hover { border-color: var(--ink-30); box-shadow: var(--sh-1); }
+.btn-steel { background: var(--steel); color: var(--white); }
+.btn-steel:hover { opacity: .88; }
+.btn-ghost { background: transparent; color: var(--ink-55); }
+.btn-ghost:hover { background: var(--gray); color: var(--ink); }
+.btn-sm { min-height: 32px; padding: 6px 14px; font-size: var(--fs-xs); }
+.btn-lg { min-height: 48px; padding: 12px 28px; font-size: var(--fs-base); }
+.btn-full { width: 100%; }
+
+/* ── Badge ───────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 18px; height: 18px; padding: 0 5px;
+  font-size: 10px; font-weight: 700;
+  background: var(--steel); color: var(--white);
+  border-radius: 9px;
+}
+.badge-gray { background: var(--gray-mid); color: var(--ink-55); }
+
+/* ── Champs de formulaire ────────────────────────────────────────────────── */
+.field { margin-bottom: var(--s3); }
+.field-label {
+  display: block; font-size: var(--fs-xs); font-weight: 700;
+  color: var(--ink-55); margin-bottom: var(--s2);
+}
+.field-error { font-size: var(--fs-xs); color: var(--error); margin-top: var(--s1); }
+
+/* ── Toast/Alert ─────────────────────────────────────────────────────────── */
+.alert {
+  display: flex; align-items: flex-start; gap: var(--s3);
+  padding: var(--s3) var(--s4); border-radius: var(--r-md);
+  font-size: var(--fs-sm); font-weight: 500;
+}
+.alert-error { background: var(--error-bg); color: var(--error); }
+.alert-success { background: var(--success-bg); color: var(--success); }
+.alert-warning { background: var(--warning-bg); color: var(--warning); }
+
+/* ── Spinner ─────────────────────────────────────────────────────────────── */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--gray-mid);
+  border-top-color: var(--steel);
+  animation: spin .6s linear infinite;
+}
