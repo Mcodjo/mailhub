@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Auth variante C : minimise pleine page</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+body{background:#fff}
+.page{min-height:100vh;max-width:400px;margin:0 auto;padding:var(--space-8) var(--space-5);display:flex;flex-direction:column}
+.brand{margin-bottom:var(--space-8)}
+h1{font-size:var(--fs-h1);margin-bottom:var(--space-2)}
+.lead{color:var(--color-text-muted);font-size:var(--fs-body-s);margin:0 0 var(--space-7)}
+/* Champs "ligne" : minimalistes, focus visible conserve */
+
+.field-line{border:0;border-bottom:1.5px solid var(--pr-ink-12);border-radius:0;padding:12px 2px;font:var(--fs-body) var(--font-sans);width:100%;box-sizing:border-box;background:transparent;color:var(--pr-ink)}
+.field-line:focus-visible{outline:none;border-bottom-color:var(--pr-steel);box-shadow:0 1.5px 0 var(--pr-steel)}
+.wrapf{margin-bottom:var(--space-6)}
+.errline{color:var(--color-error);font-size:var(--fs-body-s);border-left:3px solid var(--color-error);padding-left:10px;margin-top:var(--space-2)}
+.actions{display:flex;flex-direction:column;gap:var(--space-3);margin-top:var(--space-6)}
+.bottom{margin-top:auto;padding-top:var(--space-7);display:flex;gap:var(--space-4);justify-content:space-between;font-size:var(--fs-body-s);color:var(--color-text-muted)}
+.linkmode{font-weight:600}
+.back{position:fixed;top:var(--space-5);right:var(--space-5)}
+@media(max-width:480px){.page{padding:var(--space-6) var(--space-4)}}
+</style></head><body>
+<a href="landing-c.html" class="back small muted">Retour au site</a>
+<div class="page">
+  <div class="brand"><img src="assets/logo/domial-horizontal.svg" alt="Domial" height="28"></div>
+  <main>
+    <!-- Mode connexion ; les modes inscription / reset sont visibles plus bas -->
+    <h1>Connexion</h1>
+    <p class="lead">Espace de gestion des domaines et des boites Domial.</p>
+    <form>
+      <div class="wrapf">
+        <label class="field-label" for="em">Adresse e-mail <span class="req">*</span></label>
+        <input id="em" class="field-line" type="email" value="chef@lumen-agence.fr">
+      </div>
+      <div class="wrapf">
+        <label class="field-label" for="pw">Mot de passe <span class="req">*</span></label>
+        <input id="pw" class="field-line" type="password" value="motdepasse-force">
+        <p class="errline">Mot de passe incorrect. Il reste 3 tentatives avant blocage temporaire de 15 minutes.</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary btn-block" type="submit">Se connecter</button>
+        <button class="btn btn-ghost" type="button">Envoyer un lien de connexion</button>
+      </div>
+    </form>
+  </main>
+  <!-- Etats alternatifs, reproductibles en dev (meme page, modes distincts) -->
+  <aside class="bottom" style="display:block">
+    <b class="linkmode" style="color:var(--pr-ink)">Autres modes de cette disposition minimale</b>
+    <p style="margin:6px 0 0"><b>Inscription</b> : champ email + nom de domaine à utiliser + mot de passe, puis etape 2 vers le wizard (pas d'etape de plus). <a href="wizard-c.html">Aller directement au wizard</a>.</p>
+    <p style="margin:6px 0 0"><b>Reinitialisation</b> : champ email seul, bouton « Envoyer le lien », bande d'info systematique « Verifiez votre boite si rien ne survient : consultez vos courriers indesirables ».</p>
+  </aside>
+</div>
+</body></html>

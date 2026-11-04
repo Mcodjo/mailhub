@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Auth variante A : carte centrée à onglets</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+body{background:var(--pr-gray)}
+.page{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:var(--space-7) var(--space-5)}
+.top{width:100%;display:flex;justify-content:space-between;align-items:center;max-width:900px;margin-bottom:var(--space-7)}
+.shell{width:100%;max-width:460px}
+h1{font-size:var(--fs-h1);text-align:center}
+.sub{text-align:center;color:var(--color-text-muted);margin-bottom:var(--space-5)}
+.tabs{display:flex;background:var(--pr-white);border:1px solid var(--pr-gray-mid);border-radius:var(--radius-sm);padding:4px;margin-bottom:var(--space-5)}
+.tabs button{flex:1;border:0;background:transparent;font:600 var(--fs-body-s) var(--font-sans);padding:10px;border-radius:var(--radius-sm);cursor:pointer;color:var(--color-text-muted);min-height:44px}
+.tabs button[aria-selected="true"]{background:var(--pr-ink);color:#fff}
+.panel{padding:var(--space-2)}
+.row2{display:flex;gap:var(--space-3);justify-content:space-between;align-items:center;margin-bottom:var(--space-4)}
+.foot{text-align:center;font-size:var(--fs-body-s);color:var(--color-text-muted);margin-top:var(--space-5)}
+.below{margin-top:var(--space-7);max-width:460px;width:100%}
+.statecard{border:1px dashed var(--pr-gray-mid);border-radius:var(--radius-md);padding:var(--space-4);font-size:var(--fs-body-s);background:var(--pr-white)}
+.statecard b{display:block;margin-bottom:6px;color:var(--pr-ink)}
+@media(max-width:520px){.page{padding:var(--space-5) var(--space-4)}}
+</style></head><body>
+<div class="page">
+  <div class="top">
+    <img src="assets/logo/domial-horizontal.svg" alt="Domial" height="30">
+    <a href="landing-a.html" class="small muted">Retour au site</a>
+  </div>
+  <div class="shell">
+    <h1>Espace Domial</h1>
+    <p class="sub">Connectez-vous pour gerer vos domaines et vos boites.</p>
+    <div class="tabs" role="tablist" aria-label="Choix de mode">
+      <button role="tab" aria-selected="true" id="t-log">Connexion</button>
+      <button role="tab" aria-selected="false">Inscription</button>
+      <button role="tab" aria-selected="false">Mot de passe</button>
+    </div>
+    <!-- Panneau connexion avec erreur demontree -->
+    <form class="panel" aria-labelledby="t-log">
+      <div class="alert alert-error" style="margin-bottom:var(--space-4)" role="alert">
+        <svg class="ic ic-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+        <span>Identifiants incorrects. Verifiez votre adresse e-mail ou <a href="#">reinitialisez votre mot de passe</a>.</span>
+      </div>
+      <label class="field-label" for="em">Adresse e-mail <span class="req">*</span></label>
+      <input id="em" class="input input-error" type="email" value="chef@lumen-agence.fr" aria-invalid="true" aria-describedby="emerr">
+      <p id="emerr" class="field-error"><svg class="ic ic-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>Cette adresse n'est pas reconnue. Vérifiez la saisie ou créez votre espace.</p>
+      <label class="field-label" for="pw" style="margin-top:var(--space-4)">Mot de passe <span class="req">*</span></label>
+      <input id="pw" class="input" type="password" value="motdepasse">
+      <div class="row2">
+        <label class="small"><input type="checkbox"> Rester connecte</label>
+        <a href="#" class="small">Oublié ?</a>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">Se connecter</button>
+    </form>
+    <p class="foot">Pas encore de boite pro ? <a href="wizard-a.html">Installez-la en 10 minutes</a></p>
+  </div>
+  <!-- Demos d'etats (reference pour dev) -->
+  <div class="below" aria-hidden="true">
+    <div class="statecard"><span class="badge badge-success">Etat succes (post-reinit)</span>
+      <p style="margin:6px 0 0">"Email envoy. Verifiez votre messagerie et cliquez le lien de reinitialisation dans les 30 minutes."</p></div>
+    <div class="statecard" style="margin-top:10px"><span class="badge badge-warning">Etat chargement</span>
+      <div style="display:flex;gap:10px;align-items:center;margin-top:6px"><span class="spinner"></span> Vérification en cours…</div></div>
+  </div>
+</div>
+</body></html>

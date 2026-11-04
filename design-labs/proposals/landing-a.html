@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Landing variante A : hero produit sobre</title>
+<style>
+.site{display:flex;flex-direction:column;min-height:100vh}
+.top{background:var(--pr-white);border-bottom:1px solid var(--pr-gray-mid);position:sticky;top:0;z-index:5}
+.nav{margin-left:auto;display:flex;align-items:center;gap:var(--space-5)}
+.nav a{font-size:var(--fs-body-s);font-weight:500;color:var(--pr-ink)}
+.hero{max-width:1080px;margin:0 auto;padding:var(--space-8) var(--space-5) var(--space-6);text-align:left;max-width:720px}
+.hero h1{font-size:var(--fs-display);margin:var(--space-4) 0}
+.hero .lead{font-size:18px;color:var(--color-text-muted);max-width:56ch;margin-bottom:var(--space-5)}
+.ctas{display:flex;gap:var(--space-3);flex-wrap:wrap}
+.trust{display:flex;gap:var(--space-5);align-items:center;margin-top:var(--space-6);color:var(--color-text-muted);font-size:var(--fs-label);flex-wrap:wrap}
+.trust b{color:var(--pr-ink)}
+.features{background:var(--pr-white);border-top:1px solid var(--pr-gray-mid)}
+.fgrid{max-width:1080px;margin:0 auto;padding:var(--space-7) var(--space-5);display:grid;gap:var(--space-5);grid-template-columns:repeat(3,1fr)}
+.fcard{padding:var(--space-5);border-radius:var(--radius-md);border:1px solid var(--pr-gray-mid)}
+.fcard .icbox{width:44px;height:44px;border-radius:var(--radius-sm);background:var(--color-surface-tint);color:var(--pr-ink);display:grid;place-items:center;margin-bottom:var(--space-4)}
+footer{margin-top:auto;background:var(--pr-ink);color:var(--pr-light-soft);padding:var(--space-6) var(--space-5);font-size:var(--fs-body-s)}
+.finner{max-width:1080px;margin:0 auto;display:flex;gap:var(--space-6);flex-wrap:wrap;align-items:center}
+footer a{color:var(--pr-light-soft)}
+@media(max-width:860px){.fgrid{grid-template-columns:1fr}.nav .hide-m{display:none}}
+@media(max-width:560px){.nav a:not(.btn){display:none}}
+</style></head><body>
+<div class="site">
+<header class="top">
+  <div class="topbar" style="max-width:1080px;margin:0 auto;width:100%;box-sizing:border-box">
+    <!-- Logo : fichier du kit, jamais retapé -->
+    <a href="landing-a.html" class="logo-zone" aria-label="Domial — accueil"><img src="assets/logo/domial-horizontal.svg" alt="Domial" height="30"></a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="#" class="hide-m">Fonctionnalites</a>
+      <a href="#" class="hide-m">Tarifs</a>
+      <a href="#" class="hide-m">Aide</a>
+      <a href="auth-a.html" class="btn btn-secondary">Connexion</a>
+      <a href="wizard-a.html" class="btn btn-primary">Installer ma boîte</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <p class="overline">Messagerie professionnelle</p>
+    <h1>Votre adresse pro,<br>sur votre nom de domaine</h1>
+    <p class="lead">Domial connecte vos domaines à votre messagerie Gmail existante. Envoyez et recevez avec une adresse crédible, sans changer vos habitudes.</p>
+    <div class="ctas">
+      <a href="wizard-a.html" class="btn btn-primary btn-lg">Installer ma boite</a>
+      <a href="auth-a.html" class="btn btn-secondary btn-lg">Connexion</a>
+    </div>
+    <p class="trust"><b>Pas de serveur à gérer</b> <span aria-hidden="true">·</span> Compatible Gmail <span aria-hidden="true">·</span> Délivrabilité vérifiée à chaque étape</p>
+  </section>
+  <section class="features" aria-label="Points principaux">
+    <div class="fgrid">
+      <article class="fcard"><div class="icbox"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
+        <h3 class="fs-h2" style="font-size:18px">Adresses professionnelles</h3><p class="small muted">Creer autant d'alias que besoin : contact@, prenom@, devis@ — tous reliés à votre Gmail.</p></article>
+      <article class="fcard"><div class="icbox"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <h3 style="font-size:18px">Configuration guidée</h3><p class="small muted">Un wizard pas à pas avec verification live des DNS. Aucune competence technique requise.</p></article>
+      <article class="fcard"><div class="icbox"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3 style="font-size:18px">Delivrabilite soignee</h3><p class="small muted">SPF, DKIM et DMARC configures automatiquement pour eviter les dossiers spam.</p></article>
+    </div>
+  </section>
+</main>
+<footer><div class="finner">
+  <img src="assets/logo/domial-horizontal-reversed.svg" alt="Domial" height="26">
+  <span>© 2026 Domial</span><a href="#">Mentions legales</a><a href="#">Support</a><a href="#">Statut</a>
+</div></footer>
+</div>
+</body></html>

@@ -47,6 +47,13 @@ notifications temps reel, snippets d'integration, multi-alias.
 Hors perimetre : F12 a F17 (pieces jointes, full-text, SMTP alternatif, registrar API,
 multi-utilisateurs) — V2.
 
+## marque produit : Domial
+- Nom UI : **Domial** (jamais "MailPro Hub" dans l'interface ; ce nom reste dans la doc technique).
+- Logo : kit `domial-logo-kit/` — utiliser les fichiers du kit, jamais retaper le wordmark en police.
+- Palette marque : encre `#16233B`, bleu acier `#5B84C4` (pas de texte courant sur blanc),
+  bleu clair `#8FB0E8` sur fond sombre, gris tres clair `#F5F6F8`. Voir `domial-logo-kit/Domial-guide-logo.md`
+  (interdits : recolorage, deforme, degradé, ombre sur le logo ; zone de protection 1*X).
+
 ## Stack technique
 - Backend : Laravel (PHP 8.4) API REST, auth sessions, queues, Laravel Reverb (WebSocket).
 - Base de donnees : MySQL (MariaDB 11.8 en local).

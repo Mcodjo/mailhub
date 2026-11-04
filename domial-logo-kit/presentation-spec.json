@@ -1,0 +1,42 @@
+{
+  "brand": "Domial",
+  "tagline": "Votre adresse pro, sans serveur à configurer",
+  "brief": "Webmail SaaS minimaliste : toute personne avec un nom de domaine crée une adresse pro (contact@mondomaine.com) et gère ses échanges dans l'outil, sans Gmail ni serveur mail. Cible : freelances, petites équipes, entrepreneurs.",
+  "adjectives": ["propre", "moderne", "sobre", "fiable"],
+  "criteria": "Réussite : sobre et rassurant, lisible à 16 px, fonctionne en une couleur, se reconnaît comme un outil de mail du quotidien.",
+  "industry": "saas",
+  "nav": ["Fonctionnalités", "Tarifs", "Se connecter"],
+  "brand_color": "#16233B",
+  "tile_color": "#16233B",
+  "greyscale": false,
+  "final": true,
+  "round": 2,
+  "designer": "HODD Global",
+  "concepts": [
+    {
+      "name": "Globe-enveloppe",
+      "symbol": "svg/domial-symbol.svg",
+      "lockup": "svg/domial-horizontal.svg",
+      "stacked": "svg/domial-stacked.svg",
+      "avatar": "svg/domial-app-icon.svg",
+      "symbol_on_tile": "svg/domial-symbol-reversed.svg",
+      "lockup_on_tile": "svg/domial-horizontal-reversed.svg",
+      "stacked_on_tile": "svg/domial-stacked-reversed.svg",
+      "symbol_on_dark": "svg/domial-symbol-reversed.svg",
+      "lockup_on_dark": "svg/domial-horizontal-reversed.svg",
+      "stacked_on_dark": "svg/domial-stacked-reversed.svg",
+      "idea": "Un globe (le domaine) refermé par un rabat d'enveloppe (le mail).",
+      "rationale": [
+        "Dit le domaine et le mail en une seule forme simple",
+        "Deux teintes sobres, encre et bleu acier, sans couleur criarde",
+        "Lisible à 16 px grâce à une coupe petite taille dédiée"
+      ]
+    }
+  ],
+  "recommendation": "Globe-enveloppe : un symbole simple et mémorable, associé à un wordmark géométrique calme, qui se décline de l'onglet de navigateur à l'icône d'application.",
+  "next_steps": [
+    "Valider la direction et la palette",
+    "Recherche d'antériorité sur le nom et le symbole",
+    "Intégrer le favicon et les icônes web au produit"
+  ]
+}

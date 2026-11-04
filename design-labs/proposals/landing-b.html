@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Landing variante B : hero benefice + capture UI</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+.top{background:var(--pr-ink)}
+.top .topbar{color:var(--pr-light-soft)}
+.top nav{margin-left:auto;display:flex;gap:var(--space-4);align-items:center}
+.top nav a{color:var(--pr-light-soft);font-size:var(--fs-body-s);font-weight:500}
+.topnavlinks{display:flex;gap:var(--space-4)}
+.hero{background:var(--pr-ink);color:var(--pr-white);padding:var(--space-7) var(--space-5)}
+.wrap{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:var(--space-7);align-items:center}
+.hero h1{font-size:var(--fs-display);color:#fff;margin:var(--space-3) 0}
+.hero .lead{color:var(--pr-light-soft);font-size:18px;max-width:44ch}
+.benefits{list-style:none;padding:0;margin:var(--space-5) 0;display:grid;gap:var(--space-3)}
+.benefits li{display:flex;gap:10px;align-items:flex-start;font-size:var(--fs-body-s);color:var(--pr-light-soft)}
+.benefits svg{color:var(--pr-light);margin-top:1px}
+.social{display:flex;gap:var(--space-4);margin-top:var(--space-5);font-size:var(--fs-label);color:var(--pr-light-soft);align-items:center;flex-wrap:wrap}
+/* Capture UI : mock de boîte 3 colonnes, pur CSS */
+.shot{background:#F7F8FA;border-radius:var(--radius-lg);box-shadow:var(--shadow-3);overflow:hidden;border:1px solid rgba(255,255,255,.2)}
+.shotbar{height:34px;background:var(--pr-white);border-bottom:1px solid var(--pr-gray-mid);display:flex;gap:6px;align-items:center;padding:0 12px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--pr-gray-mid)}
+.shotbody{display:grid;grid-template-columns:76px 1fr 1.4fr;min-height:300px}
+.rail{background:var(--pr-white);border-right:1px solid var(--pr-gray-mid);padding:10px 8px;display:grid;gap:8px;align-content:start}
+.rail i{display:block;height:12px;border-radius:6px;background:var(--pr-gray-mid)}
+.rail i.on{background:var(--pr-steel)}
+.list{background:var(--pr-gray);border-right:1px solid var(--pr-gray-mid);padding:10px}
+.mail{background:#fff;border:1px solid var(--pr-gray-mid);border-radius:8px;padding:10px;margin-bottom:8px}
+.mail b{display:block;font-size:12px;color:var(--pr-ink)}
+.mail span{display:block;height:8px;border-radius:4px;background:var(--pr-gray-mid);margin-top:6px}
+.mail .w40{width:40%}
+.read{background:#fff;padding:14px}
+.read h4{margin:0 0 8px;font-size:14px;color:var(--pr-ink)}
+.read p{height:8px;border-radius:4px;background:var(--pr-gray-mid);margin:8px 0}
+.flow{background:var(--pr-white);border-top:1px solid var(--pr-gray-mid)}
+.fgrid{max-width:1120px;margin:0 auto;padding:var(--space-7) var(--space-5);display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-5)}
+.stat b{display:block;font-size:30px;color:var(--pr-ink);letter-spacing:-.02em}
+.stat span{font-size:var(--fs-body-s);color:var(--color-text-muted)}
+.band{background:var(--pr-gray);padding:var(--space-6) var(--space-5)}
+.bwrap{max-width:1120px;margin:0 auto;display:flex;gap:var(--space-7);flex-wrap:wrap;justify-content:space-between;align-items:center}
+footer{background:var(--color-surface-dark);color:var(--pr-light-soft);padding:var(--space-5);font-size:var(--fs-body-s);text-align:center}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr}.topnavlinks{display:none}.shotbody{min-height:220px}}
+</style></head><body>
+<header class="top"><div class="topbar" style="max-width:1120px;margin:0 auto;width:100%;box-sizing:border-box">
+  <img src="assets/logo/domial-horizontal-reversed.svg" alt="Domial" height="28">
+  <nav aria-label="Navigation principale"><div class="topnavlinks"><a href="#">Fonctionnalites</a><a href="#">Tarifs</a><a href="#">Aide</a></div>
+    <a href="auth-b.html" class="btn btn-secondary">Connexion</a></nav>
+</div></header>
+<main>
+<section class="hero"><div class="wrap">
+  <div>
+    <p class="badge badge-on-dark">Boite professionnelle</p>
+    <h1>Recevez plus de reponses avec une vraie adresse pro</h1>
+    <p class="lead">Un client a 77 % plus de chances de repondre a un message envoye depuis votre domaine que depuis une adresse@gmail.com.</p>
+    <ul class="benefits">
+      <li><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span><b style="color:#fff">Credibilite immediate</b> — votre domaine, vos adresses : contact@votre-agence.fr</span></li>
+      <li><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span><b style="color:#fff">Zero migration</b> — vous envoyez depuis Gmail, comme toujours</span></li>
+      <li><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span><b style="color:#fff">Installation en 10 minutes</b> — wizard guidee, DNS verifie en direct</span></li>
+    </ul>
+    <a href="auth-b.html" class="btn btn-lg" style="background:#fff;color:var(--pr-ink)">Créer mon adresse pro</a>
+    <p class="social">Essai 14 jours · Sans engagement · Deja utilise par <b style="color:#fff">340 agences et independents</b></p>
+  </div>
+  <!-- Capture UI (CSS pur, donnees de maquette) -->
+  <div class="shot" role="img" aria-label="Apercu de l'application Domial : boîte de reception trois colonnes avec un canal par adresse professionnelle">
+    <div class="shotbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="font-size:11px;color:var(--color-text-muted);margin-left:8px">app.domial.fr — reception</span></div>
+    <div class="shotbody">
+      <div class="rail"><i style="background:var(--pr-ink);width:20px;height:20px;border-radius:6px"></i><i class="on"></i><i></i><i></i><i></i><i style="opacity:.6"></i></div>
+      <div class="list">
+        <div class="mail"><b>Mairie de Blois</b><span class="w40"></span><span></span></div>
+        <div class="mail" style="border-left:3px solid var(--pr-steel)"><b>Studio Lumen</b><span class="w40"></span><span></span></div>
+        <div class="mail"><b>Nina Fabre</b><span class="w40"></span><span></span></div>
+      </div>
+      <div class="read"><h4>Devis printemps — relance — relance</h4>
+        <p></p><p></p><p style="width:70%"></p>
+        <span class="badge badge-tag" style="margin-top:10px">devis@lumen-agence.fr</span>
+      </div>
+    </div>
+  </div>
+</div></section>
+<section class="band"><div class="bwrap">
+  <div class="stat"><b>10 min</b><span>de votre domaine a la premiere adresse fonctionnelle</span></div>
+  <div class="stat"><b>100 %</b><span>des enregistrements SPF, DKIM, DMARC poses par le wizard</span></div>
+  <div class="stat"><b>5 boîtes</b><span>par domaine : contact, equipe, devis, presse, adresse libre</span></div>
+  <a href="wizard-b.html" class="btn btn-primary">Commencer</a>
+</div></section>
+<section class="flow"><div class="fgrid">
+  <div><h3 style="font-size:18px">Vos alias, votre Gmail</h3><p class="small muted">Chaque adresse pro arrive dans votre boîte Gmail habituelle. Repondre envoie automatiquement depuis la bonne adresse.</p></div>
+  <div><h3 style="font-size:18px">Canal par boîte</h3><p class="small muted">Dans l'application Domial, chaque adresse dispose de sa propre file. Rien ne se melange.</p></div>
+  <div><h3 style="font-size:18px">Delivrabilite verifiee</h3><p class="small muted">Configuration SPF/DKIM/DMARC testee en direct pendant l'installation, pas apres coup.</p></div>
+</div></section>
+</main>
+<footer>Domial — la boîte professionnelle de votre domaine, dans Gmail. <a href="#" style="color:var(--pr-light)">Mentions legales</a></footer>
+</body></html>

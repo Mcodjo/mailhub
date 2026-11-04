@@ -1,0 +1,169 @@
+/* ==========================================================================
+   Domial — design system (design-labs/proposals)
+   Base partagée par les 18 maquettes. Override par variante via <style> local.
+   Tokens : primitives → sémantiques → composants (format W3C).
+   Palette imposée par domial-logo-kit/Domial-guide-logo.md :
+     Encre #16233B · Bleu acier #5B84C4 · Bleu clair #8FB0E8 · Blanc · #F5F6F8
+   Typo : Inter (fallback système). Aucun emoji ; icônes SVG stroke inline.
+   ========================================================================== */
+
+:root {
+  /* ---- Primitives (brutes, sans intention) ---- */
+  --pr-ink:        #16233B;
+  --pr-ink-deep:   #0F1930;   /* nuance de l'encre pour hover CTA plein */
+  --pr-steel:      #5B84C4;   /* graphisme uniquement */
+  --pr-light:      #8FB0E8;   /* uniquement sur fond encre */
+  --pr-light-soft: #BFD1F0;   /* nuance du bleu clair, fond sombre */
+  --pr-white:      #FFFFFF;
+  --pr-gray:       #F5F6F8;
+  --pr-gray-mid:   #E4E7EC;   /* nuance du gris pour bordures discrètes */
+  --pr-ink-60:     rgba(22, 35, 59, .60);
+  --pr-ink-12:     rgba(22, 35, 59, .12);
+
+  /* Jaune/vert/rouge désaturés, accordés à l'encre (états système) */
+  --pr-green:      #2E6B52;
+  --pr-red:        #A6423A;
+  --pr-amber:      #8A6414;
+
+  /* ---- Sémantiques ---- */
+  --color-bg:            var(--pr-gray);
+  --color-surface:       var(--pr-white);
+  --color-surface-sunk:  var(--pr-gray);
+  --color-surface-tint:  #EEF3FB;   /* nuance gris + acier, fond de zones */
+  --color-surface-dark:  var(--pr-ink);
+  --color-text:          var(--pr-ink);
+  --color-text-muted:    var(--pr-ink-60);
+  --color-text-inverse:  var(--pr-white);
+  --color-text-on-dark:  var(--pr-light);
+  --color-primary:       var(--pr-ink);        /* déc. 1 : CTA plein = encre */
+  --color-primary-hover: var(--pr-ink-deep);
+  --color-accent-graphic: var(--pr-steel);     /* graphisme, jamais texte courant */
+  --color-link:          #2C5AA8;              /* acier foncé pour lisibilité AA */
+  --color-interactive-on-dark: var(--pr-light);
+  --color-outline:       var(--pr-ink-12);
+  --color-focus:         var(--pr-steel);
+  --color-success:       var(--pr-green);
+  --color-success-bg:    #E8F3EE;
+  --color-error:         var(--pr-red);
+  --color-error-bg:      #F8ECEB;
+  --color-warning:       var(--pr-amber);
+  --color-warning-bg:    #F7F1E2;
+
+  /* ---- Layout ---- */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px;
+  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px;
+  --shadow-1: 0 1px 2px rgba(22,35,59,.10);
+  --shadow-2: 0 2px 10px rgba(22,35,59,.14);
+  --shadow-3: 0 8px 30px rgba(22,35,59,.18);
+
+  /* ---- Typographie ---- */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --fs-display: clamp(30px, 5vw, 52px);
+  --fs-h1: 26px; --fs-h2: 21px; --fs-h3: 17px;
+  --fs-body: 16px; --fs-body-s: 14px; --fs-label: 12px;
+  --lh-body: 1.5; --lh-tight: 1.2;
+}
+
+/* ---- Rôle typographique ---- */
+body { font-family: var(--font-sans); color: var(--color-text); background: var(--color-bg); line-height: var(--lh-body); font-size: var(--fs-body); margin: 0; }
+h1,h2,h3 { line-height: var(--lh-tight); letter-spacing: -.01em; margin: 0 0 var(--space-3); }
+.overline { font-size: var(--fs-label); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-muted); }
+.muted { color: var(--color-text-muted); }
+.small { font-size: var(--fs-body-s); }
+a { color: var(--color-link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---- Composant : boutons ---- */
+.btn {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  font: 600 var(--fs-body-s) var(--font-sans); border-radius: var(--radius-sm);
+  padding: 12px 20px; min-height: 44px; cursor: pointer; border: 1px solid transparent;
+  transition: background-color .15s ease-out, border-color .15s ease-out, color .15s ease-out;
+}
+.btn-primary { background: var(--color-primary); color: var(--color-text-inverse); }
+.btn-primary:hover { background: var(--color-primary-hover); }
+.btn-secondary { background: var(--pr-white); color: var(--color-text); border-color: rgba(22,35,59,.28); }
+.btn-secondary:hover { border-color: var(--pr-ink); }
+.btn-ghost { background: transparent; color: var(--color-link); }
+.btn-ghost:hover { background: var(--color-surface-tint); }
+.btn-lg { padding: 14px 24px; min-height: 52px; font-size: var(--fs-body); }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
+.btn-block { width: 100%; justify-content: center; }
+
+/* ---- Composant : champs ---- */
+.field { display: block; margin-bottom: var(--space-4); }
+.field-label { display: block; font-size: var(--fs-body-s); font-weight: 600; margin-bottom: var(--space-2); }
+.field-label .req { color: var(--color-text-muted); font-weight: 500; }
+.input, .select {
+  width: 100%; box-sizing: border-box; font: var(--fs-body) var(--font-sans);
+  color: var(--color-text); background: var(--pr-white);
+  border: 1px solid rgba(22,35,59,.28); border-radius: var(--radius-sm);
+  padding: 12px 14px; min-height: 46px;
+}
+.input:focus-visible, .select:focus-visible, .btn:focus-visible, a:focus-visible,
+[tabindex]:focus-visible, button:focus-visible {
+  outline: 2px solid var(--color-focus); outline-offset: 2px;
+}
+.input-error { border-color: var(--color-error); background: var(--color-error-bg); }
+.field-error { display: flex; gap: 6px; align-items: flex-start; font-size: var(--fs-body-s); color: var(--color-error); margin-top: var(--space-2); }
+.field-hint { font-size: var(--fs-body-s); color: var(--color-text-muted); margin-top: var(--space-2); }
+
+/* ---- Composant : badges / puces ---- */
+.badge { display: inline-flex; align-items: center; gap: 5px; font-size: var(--fs-label); font-weight: 600; border-radius: 99px; padding: 3px 10px; }
+.badge-neutral  { background: var(--pr-gray-mid); color: var(--pr-ink); }
+.badge-success  { background: var(--color-success-bg); color: var(--color-success); }
+.badge-error    { background: var(--color-error-bg); color: var(--color-error); }
+.badge-warning  { background: var(--color-warning-bg); color: var(--color-warning); }
+.badge-tag      { background: var(--color-surface-tint); color: var(--pr-ink); }
+.badge-on-dark  { background: rgba(143,176,232,.18); color: var(--pr-light-soft); }
+.badge-unread   { background: var(--color-primary); color: var(--pr-white); min-width: 20px; justify-content: center; padding: 3px 7px; }
+
+/* ---- Composant : carte ---- */
+.card { background: var(--color-surface); border: 1px solid var(--pr-gray-mid); border-radius: var(--radius-md); box-shadow: var(--shadow-1); }
+.card-pad { padding: var(--space-5); }
+
+/* ---- Composant : alertes ---- */
+.alert { display: flex; gap: 10px; align-items: flex-start; border-radius: var(--radius-sm); padding: 12px 14px; font-size: var(--fs-body-s); }
+.alert-error   { background: var(--color-error-bg);   color: var(--color-error); }
+.alert-success { background: var(--color-success-bg); color: var(--color-success); }
+.alert-info    { background: var(--color-surface-tint); color: var(--pr-ink); }
+.alert svg { flex: none; margin-top: 1px; }
+
+/* ---- Composant : barre d'app ---- */
+.topbar { display: flex; align-items: center; gap: var(--space-4); padding: 0 var(--space-5); height: 60px; }
+.topbar img { display: block; }
+.logo-lockup { display: inline-flex; align-items: center; gap: var(--space-3); padding: var(--space-1) 0; }
+
+/* ---- Zone de protection logo : 1×X (X = demi-diamètre du symbole ≈ rayon) ---- */
+.logo-zone { padding: calc(12px * 1); }   /* pour un logo ~24px de haut => zone ≈ rayon/2 du display */
+
+/* ---- Skeleton (chargement) ---- */
+.skeleton { background: linear-gradient(90deg, var(--pr-gray-mid) 25%, #F1F3F7 50%, var(--pr-gray-mid) 75%); background-size: 400% 100%; animation: sk 1.5s linear infinite; border-radius: var(--radius-sm); color: transparent; user-select: none; }
+@keyframes sk { from { background-position: 100% 0; } to { background-position: 0 0; } }
+
+/* ---- Spinner ---- */
+.spinner { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--pr-gray-mid); border-top-color: var(--pr-steel); animation: spin 1s linear infinite; flex: none; }
+.spinner.on-dark { border-color: rgba(255,255,255,.25); border-top-color: var(--pr-light); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---- Pulses (polling live) ---- */
+.pulse { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.pulse-ok  { background: var(--color-success); }
+.pulse-wait { background: var(--pr-steel); animation: pul 1.4s ease-in-out infinite; }
+@keyframes pul { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
+
+/* ---- Icônes SVG stroke (style Lucide) ---- */
+.ic { width: 18px; height: 18px; flex: none; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ic-sm { width: 15px; height: 15px; }
+.ic-lg { width: 22px; height: 22px; }
+
+/* ---- Responsive transverse ---- */
+@media (max-width: 767px) {
+  :root { --fs-h1: 24px; --fs-h2: 19px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .skeleton { animation: none; }
+  .spinner, .pulse-wait { animation: none; }
+}

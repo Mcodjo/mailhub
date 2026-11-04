@@ -7,6 +7,8 @@ Fondations validees par L8 le 2026-11-04 : stack Laravel + MySQL, perimetre F01-
 | ID | Item | Owner | Statut | Notes |
 |---|---|---|---|---|
 | FOND-01 | git init + copilot-instructions canonique | DRX | OK 2026-11-04 | Validation L8 du socle en attente |
+| BRAND-01 | Intégration marque Domial in frontend (favicon, manifest, titre, desc) | DRX | OK 2026-11-04 | build Vite OK ; antériorité de marque à vérifier avant usage commercial (note guide) |
+| DESIGN-02 | Benchmark sectoriel + 3 propositions de maquette par interface | drx-mockup | EN COURS | 18 maquettes design-labs/proposals/ + benchmark.md ; revue L8 ensuite |
 | FOND-02 | Squelette Laravel backend | DRX | OK 2026-11-04 | Laravel 13.40, commit 4da01c6 |
 | FOND-03 | Squelette React frontend | DRX | OK 2026-11-04 | Vite + React + Tailwind 4 |
 | FOND-04 | Squelette Cloudflare Worker | DRX | OK 2026-11-04 | TypeScript, type-check OK |
