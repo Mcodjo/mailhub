@@ -11,11 +11,11 @@ body { background: var(--white); }
 /* ---- Nav ---- */
 .nav {
   position: sticky; top: 0; z-index: 10;
-  background: rgba(255,255,255,.92); backdrop-filter: blur(12px);
+  background: rgba(255,255,255,.95); backdrop-filter: blur(12px);
   border-bottom: var(--border);
 }
 .nav-inner {
-  max-width: 1080px; margin: 0 auto;
+  max-width: 1100px; margin: 0 auto;
   display: flex; align-items: center; gap: var(--s4);
   padding: 0 var(--s6); height: 60px;
 }
@@ -28,250 +28,278 @@ body { background: var(--white); }
 }
 .nav-links a:hover { color: var(--ink); text-decoration: none; }
 
-/* ---- Hero — transformation typographique ---- */
+/* ---- Hero ---- */
 .hero {
-  max-width: 640px; margin: 0 auto;
   padding: var(--s8) var(--s6) var(--s7);
   text-align: center;
+  max-width: 760px; margin: 0 auto;
 }
 
-.hero-eyebrow {
-  display: inline-flex; align-items: center; gap: var(--s2);
+.hero h1 {
+  font-size: clamp(32px, 5.5vw, 60px);
+  font-weight: 700; letter-spacing: -.04em;
+  line-height: 1.08; margin-bottom: var(--s4);
+  text-wrap: balance;
+}
+.hero h1 .accent { color: var(--steel); }
+
+.hero-sub {
+  font-size: clamp(15px, 2vw, 18px); color: var(--ink-55);
+  line-height: 1.65; max-width: 46ch;
+  margin: 0 auto var(--s6);
+}
+
+.hero-ctas {
+  display: flex; align-items: center; justify-content: center;
+  gap: var(--s3); flex-wrap: wrap;
+  margin-bottom: var(--s5);
+}
+
+/* Preuve sociale sous CTA */
+.hero-proof {
+  display: flex; align-items: center; justify-content: center;
+  gap: var(--s5); flex-wrap: wrap;
+}
+.proof-item {
+  display: flex; align-items: center; gap: var(--s2);
+  font-size: var(--fs-xs); font-weight: 600; color: var(--ink-30);
+}
+.proof-item svg { color: var(--steel); flex: none; }
+
+/* ---- Transformation visuelle ---- */
+.transform-section {
+  background: var(--gray);
+  border-top: var(--border); border-bottom: var(--border);
+  padding: var(--s7) var(--s6);
+}
+.transform-inner {
+  max-width: 640px; margin: 0 auto; text-align: center;
+}
+.transform-label {
   font-size: var(--fs-xs); font-weight: 700;
-  letter-spacing: .08em; text-transform: uppercase;
-  color: var(--ink-30); margin-bottom: var(--s7);
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--ink-30); margin-bottom: var(--s5);
 }
-
-/* Les deux adresses email — la promesse visuelle */
-.hero-transform {
-  display: flex; flex-direction: column; align-items: center;
-  gap: var(--s3); margin-bottom: var(--s6);
+.transform-stack {
+  display: flex; flex-direction: column;
+  align-items: center; gap: var(--s3);
 }
-
 .email-chip {
   display: inline-flex; align-items: center; gap: var(--s3);
-  padding: 14px 24px; border-radius: var(--r-xl);
-  font-size: clamp(14px, 2.4vw, 20px); font-weight: 600;
+  padding: 14px 28px; border-radius: var(--r-xl);
+  font-size: clamp(14px, 2.2vw, 19px); font-weight: 600;
   letter-spacing: -.01em; white-space: nowrap;
 }
-.email-chip-before {
-  background: var(--gray); border: var(--border);
+.chip-before {
+  background: var(--white); border: var(--border);
   color: var(--ink-30);
   text-decoration: line-through; text-decoration-color: var(--ink-30);
 }
-.email-chip-after {
+.chip-after {
   background: var(--white); border: 2px solid var(--steel-mid);
   box-shadow: var(--sh-2); color: var(--ink);
 }
-.email-chip-after .part-local { color: var(--ink); }
-.email-chip-after .part-domain { color: var(--steel); }
+.chip-after .local { color: var(--ink); }
+.chip-after .at    { color: var(--ink-30); }
+.chip-after .domain { color: var(--steel); }
+.transform-arrow { color: var(--ink-30); line-height: 1; }
 
-.transform-arrow {
-  font-size: 20px; color: var(--gray-mid); line-height: 1;
-  display: flex; align-items: center; justify-content: center;
+/* ---- Chiffres clés ---- */
+.stats-band {
+  max-width: 1100px; margin: 0 auto;
+  padding: var(--s7) var(--s6);
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: var(--s5);
 }
-.transform-arrow svg { color: var(--ink-30); }
-
-.hero h1 {
-  font-size: clamp(22px, 3.6vw, 34px); font-weight: 700;
-  letter-spacing: -.035em; line-height: 1.2;
-  margin-bottom: var(--s3); text-wrap: balance;
+.stat {
+  text-align: center; padding: var(--s5);
+  border-right: var(--border);
 }
-.hero-lead {
-  font-size: var(--fs-base); color: var(--ink-55);
-  line-height: 1.7; max-width: 44ch; margin: 0 auto var(--s6);
+.stat:last-child { border-right: none; }
+.stat-num {
+  font-size: 44px; font-weight: 700; letter-spacing: -.04em;
+  line-height: 1; color: var(--ink); margin-bottom: var(--s2);
 }
-.hero-ctas { display: flex; align-items: center; justify-content: center; gap: var(--s3); }
-.hero-note {
-  margin-top: var(--s4); font-size: var(--fs-xs); color: var(--ink-30);
-}
-
-/* ---- Séparateur ---- */
-.sep {
-  height: 1px; background: var(--gray-mid);
-  max-width: 1080px; margin: 0 auto; opacity: .5;
+.stat-label {
+  font-size: var(--fs-xs); font-weight: 600;
+  letter-spacing: .07em; text-transform: uppercase;
+  color: var(--ink-30);
 }
 
-/* ---- Faits clés ---- */
-.facts {
+/* ---- Fonctionnalités grille ---- */
+.features-section {
   background: var(--gray);
-  border-top: var(--border); border-bottom: var(--border);
-  padding: var(--s5) var(--s6);
-}
-.facts-inner {
-  max-width: 1080px; margin: 0 auto;
-  display: flex; align-items: center; justify-content: center;
-  gap: var(--s7); flex-wrap: wrap;
-}
-.fact {
-  display: flex; align-items: center; gap: var(--s2);
-  font-size: var(--fs-xs); font-weight: 600; color: var(--ink-55);
-}
-.fact svg { color: var(--steel); flex: none; }
-
-/* ---- Pour qui ---- */
-.for-who {
-  max-width: 1080px; margin: 0 auto;
+  border-top: var(--border);
   padding: var(--s8) var(--s6);
 }
-.section-eyebrow {
-  font-size: var(--fs-xs); font-weight: 700; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--steel);
-  margin-bottom: var(--s3);
+.features-inner {
+  max-width: 1100px; margin: 0 auto;
 }
-.for-who h2 {
-  font-size: clamp(22px, 3vw, 32px); font-weight: 700;
-  letter-spacing: -.03em; margin-bottom: var(--s7);
+.section-ey {
+  font-size: var(--fs-xs); font-weight: 700;
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--steel); margin-bottom: var(--s3);
+}
+.features-inner h2 {
+  font-size: clamp(22px, 3vw, 34px); font-weight: 700;
+  letter-spacing: -.035em; margin-bottom: var(--s7);
   max-width: 36ch;
 }
-.profiles-grid {
+.features-grid {
   display: grid; grid-template-columns: repeat(3, 1fr);
   gap: var(--s4);
 }
-.profile-card {
+.feat-card {
   background: var(--white); border: var(--border);
   border-radius: var(--r-xl); padding: var(--s5);
   transition: box-shadow .15s;
 }
-.profile-card:hover { box-shadow: var(--sh-2); }
-.profile-icon {
+.feat-card:hover { box-shadow: var(--sh-2); }
+.feat-icon {
   width: 44px; height: 44px; border-radius: var(--r-lg);
-  display: grid; place-items: center;
-  margin-bottom: var(--s4); flex: none;
+  display: grid; place-items: center; margin-bottom: var(--s4);
 }
-.profile-card h3 {
+.feat-card h3 {
   font-size: var(--fs-base); font-weight: 700; margin-bottom: var(--s2);
 }
-.profile-card p {
-  font-size: var(--fs-sm); color: var(--ink-55); line-height: 1.6; margin: 0;
-}
-.profile-email {
-  display: inline-block; margin-top: var(--s3);
-  font-size: var(--fs-xs); font-weight: 600;
-  color: var(--steel); background: var(--steel-soft);
-  border-radius: var(--r-sm); padding: 3px 10px;
+.feat-card p {
+  font-size: var(--fs-sm); color: var(--ink-55);
+  line-height: 1.6; margin: 0;
 }
 
-/* ---- Étapes ---- */
-.how {
-  background: var(--gray);
-  border-top: var(--border); border-bottom: var(--border);
+/* ---- Bloc alterné ---- */
+.alt-block {
+  max-width: 1100px; margin: 0 auto;
+  padding: var(--s8) var(--s6);
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--s8); align-items: center;
 }
-.how-inner {
-  max-width: 1080px; margin: 0 auto;
+.alt-block.reverse { direction: rtl; }
+.alt-block.reverse > * { direction: ltr; }
+.alt-text .section-ey { margin-bottom: var(--s3); }
+.alt-text h2 {
+  font-size: clamp(22px, 3vw, 32px); font-weight: 700;
+  letter-spacing: -.035em; margin-bottom: var(--s4);
+}
+.alt-text p {
+  font-size: var(--fs-base); color: var(--ink-55);
+  line-height: 1.7; margin: 0 0 var(--s5);
+}
+.alt-visual {
+  background: var(--gray); border: var(--border);
+  border-radius: var(--r-xl); padding: var(--s6);
+  display: flex; flex-direction: column; gap: var(--s3);
+}
+/* Faux UI DNS wizard */
+.dns-row {
+  background: var(--white); border: var(--border);
+  border-radius: var(--r-lg); padding: 10px 14px;
+  display: flex; align-items: center; gap: var(--s3);
+  font-size: var(--fs-xs);
+}
+.dns-row-ok { border-color: rgba(46,107,82,.25); background: #EAF4EF; }
+.dns-row-wait { border-color: var(--gray-mid); opacity: .6; }
+.dns-type {
+  font-weight: 700; color: var(--steel); min-width: 44px;
+  font-size: 10px; letter-spacing: .05em;
+}
+.dns-val { flex: 1; color: var(--ink-55); font-family: monospace; font-size: 11px; }
+.dns-status { flex: none; }
+.dns-status .dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot-green { background: var(--success); }
+.dot-gray  { background: var(--gray-mid); }
+/* Faux interface alias */
+.alias-list { display: flex; flex-direction: column; gap: var(--s2); }
+.alias-row {
+  background: var(--white); border: var(--border);
+  border-radius: var(--r-lg); padding: 10px 14px;
+  display: flex; align-items: center; gap: var(--s3);
+  font-size: var(--fs-xs);
+}
+.alias-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.alias-addr { flex: 1; font-weight: 600; color: var(--ink); }
+.alias-badge {
+  font-size: 10px; font-weight: 700;
+  background: var(--steel-soft); color: var(--steel);
+  border-radius: 99px; padding: 2px 8px;
+}
+
+/* ---- Témoignages ---- */
+.testi-section {
+  background: var(--ink);
   padding: var(--s8) var(--s6);
 }
-.how-inner h2 {
+.testi-inner {
+  max-width: 1100px; margin: 0 auto;
+}
+.testi-inner h2 {
   font-size: clamp(22px, 3vw, 32px); font-weight: 700;
-  letter-spacing: -.03em; margin-bottom: var(--s7);
+  letter-spacing: -.035em; color: var(--white);
+  margin-bottom: var(--s7);
 }
-.steps-row {
+.testi-grid {
   display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: var(--s5);
+  gap: var(--s4);
 }
-.step {
-  background: var(--white); border: var(--border);
+.testi-card {
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08);
   border-radius: var(--r-xl); padding: var(--s5);
 }
-.step-num {
-  width: 32px; height: 32px; border-radius: 50%;
-  background: var(--ink); color: var(--white);
+.testi-quote {
+  font-size: var(--fs-sm); line-height: 1.7;
+  color: rgba(191,209,240,.8); margin: 0 0 var(--s4);
+}
+.testi-author {
+  display: flex; align-items: center; gap: var(--s3);
+}
+.testi-av {
+  width: 36px; height: 36px; border-radius: 50%;
   display: grid; place-items: center;
-  font-size: var(--fs-xs); font-weight: 700;
-  margin-bottom: var(--s4);
+  font-size: 12px; font-weight: 700; color: var(--white); flex: none;
 }
-.step h3 { font-size: var(--fs-base); font-weight: 700; margin-bottom: var(--s2); }
-.step p { font-size: var(--fs-sm); color: var(--ink-55); line-height: 1.6; margin: 0; }
+.testi-name { font-size: var(--fs-xs); font-weight: 700; color: var(--white); }
+.testi-role { font-size: var(--fs-xs); color: rgba(191,209,240,.45); }
 
-/* ---- Prix teaser ---- */
-.price-teaser {
-  max-width: 1080px; margin: 0 auto;
-  padding: var(--s8) var(--s6);
-  display: flex; align-items: center; justify-content: space-between; gap: var(--s6);
-  flex-wrap: wrap;
-}
-.price-left {}
-.price-left .section-eyebrow { margin-bottom: var(--s3); }
-.price-left h2 {
-  font-size: clamp(22px, 3vw, 32px); font-weight: 700;
-  letter-spacing: -.03em; margin-bottom: var(--s3);
-}
-.price-left p { font-size: var(--fs-base); color: var(--ink-55); margin: 0; max-width: 48ch; }
-
-.price-card {
-  background: var(--white); border: var(--border);
-  border-radius: var(--r-xl); box-shadow: var(--sh-2);
-  padding: var(--s6); min-width: 240px; text-align: center; flex: none;
-}
-.price-amount {
-  font-size: 56px; font-weight: 700;
-  letter-spacing: -.04em; line-height: 1;
-  color: var(--ink); margin-bottom: var(--s1);
-}
-.price-amount sup { font-size: 24px; font-weight: 600; vertical-align: super; letter-spacing: 0; }
-.price-period {
-  font-size: var(--fs-xs); font-weight: 600; letter-spacing: .07em;
-  text-transform: uppercase; color: var(--ink-30);
-  margin-bottom: var(--s5);
-}
-.price-items {
-  list-style: none; padding: 0; margin: 0 0 var(--s5);
-  text-align: left; display: flex; flex-direction: column; gap: var(--s2);
-}
-.price-items li {
-  display: flex; align-items: center; gap: var(--s2);
-  font-size: var(--fs-sm); color: var(--ink-55);
-}
-.price-items li svg { color: var(--success); flex: none; }
-
-/* ---- CTA final ---- */
+/* ---- CTA bande ---- */
 .cta-band {
-  background: var(--ink); padding: var(--s8) var(--s6); text-align: center;
+  padding: var(--s8) var(--s6); text-align: center;
+  background: var(--white); border-top: var(--border);
 }
 .cta-band h2 {
-  font-size: clamp(22px, 3vw, 32px); font-weight: 700;
-  color: var(--white); letter-spacing: -.03em;
-  margin-bottom: var(--s3); text-wrap: balance;
+  font-size: clamp(24px, 3.5vw, 40px); font-weight: 700;
+  letter-spacing: -.04em; margin-bottom: var(--s3);
+  text-wrap: balance;
 }
-.cta-band p { color: rgba(191,209,240,.65); font-size: var(--fs-base); margin-bottom: var(--s6); }
+.cta-band p { font-size: var(--fs-base); color: var(--ink-55); margin-bottom: var(--s6); }
 .cta-row { display: flex; align-items: center; justify-content: center; gap: var(--s3); flex-wrap: wrap; }
-
-.btn-white {
-  background: var(--white); color: var(--ink);
-  font: 600 var(--fs-sm)/1 var(--font);
-  padding: 13px 24px; border-radius: var(--r-md); border: none;
-  display: inline-flex; align-items: center; gap: var(--s2);
-  cursor: pointer; transition: opacity .15s;
-}
-.btn-white:hover { opacity: .9; text-decoration: none; }
-.btn-outline-light {
-  background: transparent; border: 1px solid rgba(255,255,255,.18);
-  color: rgba(191,209,240,.8);
-  font: 500 var(--fs-sm)/1 var(--font);
-  padding: 13px 24px; border-radius: var(--r-md);
-  display: inline-flex; align-items: center; gap: var(--s2);
-  transition: background .15s;
-}
-.btn-outline-light:hover { background: rgba(255,255,255,.08); text-decoration: none; }
 
 /* ---- Footer ---- */
 footer {
-  border-top: var(--border);
+  background: var(--ink); border-top: var(--border);
   padding: var(--s5) var(--s6);
-  display: flex; align-items: center; justify-content: center;
-  gap: var(--s5); flex-wrap: wrap;
-  font-size: var(--fs-xs); color: var(--ink-30);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: var(--s4);
 }
-footer a { color: var(--ink-55); }
+.footer-brand { display: flex; align-items: center; gap: var(--s3); }
+.footer-brand span { font-size: var(--fs-xs); color: rgba(191,209,240,.4); }
+.footer-links {
+  display: flex; gap: var(--s5); align-items: center; flex-wrap: wrap;
+}
+.footer-links a { font-size: var(--fs-xs); color: rgba(191,209,240,.55); transition: color .15s; }
+.footer-links a:hover { color: var(--white); text-decoration: none; }
 
 /* ---- Responsive ---- */
 @media (max-width: 860px) {
-  .profiles-grid { grid-template-columns: 1fr; }
-  .steps-row { grid-template-columns: 1fr; }
-  .price-teaser { flex-direction: column; align-items: flex-start; }
-  .price-card { width: 100%; }
+  .stats-band { grid-template-columns: 1fr; }
+  .stat { border-right: none; border-bottom: var(--border); padding: var(--s4); }
+  .stat:last-child { border-bottom: none; }
+  .features-grid { grid-template-columns: 1fr; }
+  .alt-block { grid-template-columns: 1fr; }
+  .alt-block.reverse { direction: ltr; }
+  .testi-grid { grid-template-columns: 1fr; }
   .nav-links a:not(.btn) { display: none; }
-  .facts-inner { gap: var(--s5); }
+  footer { justify-content: center; text-align: center; }
+  .footer-links { justify-content: center; }
 }
 @media (max-width: 540px) {
   .hero { padding: var(--s7) var(--s5) var(--s6); }
@@ -281,13 +309,14 @@ footer a { color: var(--ink-55); }
 </head>
 <body>
 
+<!-- Nav -->
 <header class="nav">
   <div class="nav-inner">
     <a href="landing.html" aria-label="Domial">
       <img src="assets/logo/domial-horizontal.svg" alt="Domial" height="24">
     </a>
     <nav class="nav-links">
-      <a href="#comment">Comment ça marche</a>
+      <a href="#features">Fonctionnalités</a>
       <a href="pricing.html">Tarifs</a>
       <a href="auth.html">Connexion</a>
       <a href="auth.html" class="btn btn-primary">Créer mon compte</a>
@@ -297,165 +326,250 @@ footer a { color: var(--ink-55); }
 
 <main>
 
-  <!-- Hero — la transformation, sans screenshot -->
+  <!-- Hero -->
   <section class="hero">
-    <p class="hero-eyebrow">Email professionnel · Domial</p>
-
-    <div class="hero-transform" role="img" aria-label="Transformation d'une adresse Gmail générique vers une adresse sur votre domaine">
-      <div class="email-chip email-chip-before" aria-label="Avant : adresse Gmail générique">
-        thomas.agence2024@gmail.com
-      </div>
-      <div class="transform-arrow" aria-hidden="true">
-        <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
-          <path d="M8 2v14M2 11l6 7 6-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <div class="email-chip email-chip-after" aria-label="Après : adresse sur votre domaine">
-        <span class="part-local">contact</span><span style="color:var(--ink-30)">@</span><span class="part-domain">lumen-agence.fr</span>
-      </div>
-    </div>
-
-    <h1>Votre adresse pro sur votre domaine,<br>dans Gmail — en 10 minutes.</h1>
-    <p class="hero-lead">Domial configure automatiquement le DNS, le SPF, le DKIM et le DMARC. Zéro serveur, zéro technique. Votre crédibilité, enfin à la hauteur.</p>
-
+    <h1>Votre adresse mail pro,<br><span class="accent">depuis votre domaine.</span></h1>
+    <p class="hero-sub">Domial connecte votre domaine à Gmail en 10 minutes. Configuration DNS automatique, alias illimités, zéro serveur à gérer.</p>
     <div class="hero-ctas">
       <a href="wizard.html" class="btn btn-primary btn-lg">Configurer mon domaine</a>
-      <a href="#comment" class="btn btn-ghost btn-lg">Voir comment ça marche</a>
+      <a href="pricing.html" class="btn btn-ghost btn-lg">$2 / an — voir les détails</a>
     </div>
-    <p class="hero-note">Sans carte bancaire · $2 / an · Annulation libre</p>
-  </section>
-
-  <!-- Faits clés -->
-  <div class="facts" role="list">
-    <div class="facts-inner">
-      <span class="fact" role="listitem">
-        <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 3 4 7v6c0 5 8 8 8 8s8-3 8-8V7z"/></svg>
-        SPF · DKIM · DMARC automatiques
+    <div class="hero-proof">
+      <span class="proof-item">
+        <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        SPF · DKIM · DMARC inclus
       </span>
-      <span class="fact" role="listitem">
-        <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
-        Plusieurs alias par domaine
+      <span class="proof-item">
+        <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Sans carte bancaire
       </span>
-      <span class="fact" role="listitem">
-        <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>
+      <span class="proof-item">
+        <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
         Compatible tous registrars
       </span>
-      <span class="fact" role="listitem">
-        <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-        Dans votre Gmail existant
-      </span>
+    </div>
+  </section>
+
+  <!-- Transformation visuelle -->
+  <div class="transform-section">
+    <div class="transform-inner">
+      <p class="transform-label">La différence que ça fait</p>
+      <div class="transform-stack" role="img" aria-label="Transformation d'une adresse Gmail vers une adresse sur votre domaine">
+        <div class="email-chip chip-before">thomas.agence2024@gmail.com</div>
+        <div class="transform-arrow" aria-hidden="true">
+          <svg width="16" height="22" viewBox="0 0 16 22" fill="none">
+            <path d="M8 2v16M2 13l6 7 6-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="email-chip chip-after">
+          <span class="local">contact</span><span class="at">@</span><span class="domain">lumen-agence.fr</span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Pour qui -->
-  <section class="for-who">
-    <p class="section-eyebrow">Pour vous si…</p>
-    <h2>Votre email dit qui vous êtes avant même qu'on vous lise.</h2>
-    <div class="profiles-grid">
-      <div class="profile-card">
-        <div class="profile-icon" style="background:#EEF3FB">
-          <svg class="ic" stroke="#5B84C4" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/><path d="m22 7-9.17 6.5a1.56 1.56 0 0 1-1.66 0L2 7"/></svg>
+  <!-- Chiffres -->
+  <div class="stats-band" role="list">
+    <div class="stat" role="listitem">
+      <div class="stat-num">10 min</div>
+      <div class="stat-label">Configuration complète</div>
+    </div>
+    <div class="stat" role="listitem">
+      <div class="stat-num">$2</div>
+      <div class="stat-label">Par an, tout inclus</div>
+    </div>
+    <div class="stat" role="listitem">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Alias par domaine</div>
+    </div>
+  </div>
+
+  <!-- Fonctionnalités -->
+  <section class="features-section" id="features">
+    <div class="features-inner">
+      <p class="section-ey">Ce que vous obtenez</p>
+      <h2>Tout le nécessaire, rien de trop.</h2>
+      <div class="features-grid">
+        <div class="feat-card">
+          <div class="feat-icon" style="background:#EEF3FB">
+            <svg class="ic" stroke="#5B84C4" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 3 4 7v6c0 5 8 8 8 8s8-3 8-8V7z"/></svg>
+          </div>
+          <h3>Délivrabilité assurée</h3>
+          <p>SPF, DKIM et DMARC configurés automatiquement. Vos mails arrivent en boîte de réception, pas en spam.</p>
         </div>
-        <h3>Freelance & consultant</h3>
-        <p>Fini l'adresse Gmail qui fait « amateur ». Présentez-vous avec une adresse que vos clients retiennent et prennent au sérieux.</p>
-        <span class="profile-email">thomas@votrenomdedomaine.fr</span>
-      </div>
-      <div class="profile-card">
-        <div class="profile-icon" style="background:#EAF4EF">
-          <svg class="ic" stroke="#2E6B52" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+        <div class="feat-card">
+          <div class="feat-icon" style="background:#EAF4EF">
+            <svg class="ic" stroke="#2E6B52" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
+          </div>
+          <h3>Alias illimités</h3>
+          <p>contact@, devis@, prenom@ — créez autant d'adresses que vous voulez sur votre domaine.</p>
         </div>
-        <h3>Petite entreprise</h3>
-        <p>contact@, devis@, support@ — plusieurs alias organisés sur votre domaine, tous réunis dans un seul Gmail.</p>
-        <span class="profile-email">contact@monentreprise.fr</span>
-      </div>
-      <div class="profile-card">
-        <div class="profile-icon" style="background:#FBF4E3">
-          <svg class="ic" stroke="#8A6414" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <div class="feat-card">
+          <div class="feat-icon" style="background:#FBF4E3">
+            <svg class="ic" stroke="#8A6414" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <h3>Votre Gmail, inchangé</h3>
+          <p>Envoyez et recevez depuis votre Gmail habituel. Aucune migration, aucun nouvel outil à apprendre.</p>
         </div>
-        <h3>Projet & side project</h3>
-        <p>Lancez votre projet avec une image pro dès le premier email. Sans serveur mail à gérer, sans configuration technique.</p>
-        <span class="profile-email">hello@monprojet.io</span>
+        <div class="feat-card">
+          <div class="feat-icon" style="background:var(--steel-soft)">
+            <svg class="ic" stroke="#5B84C4" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>
+          </div>
+          <h3>Tous registrars</h3>
+          <p>OVH, Namecheap, Gandi, Cloudflare… Domial détecte votre registrar et guide l'ajout des enregistrements.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon" style="background:#EAF4EF">
+            <svg class="ic" stroke="#2E6B52" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3>Vérification en direct</h3>
+          <p>Domial surveille la propagation DNS et vous confirme que chaque enregistrement est actif avant d'activer vos boîtes.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon" style="background:var(--gray)">
+            <svg class="ic" stroke="var(--ink)" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          </div>
+          <h3>Tableau de bord clair</h3>
+          <p>Gérez vos alias, surveillez votre délivrabilité et ajoutez des domaines depuis une interface simple et épurée.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Comment ça marche -->
-  <section class="how" id="comment">
-    <div class="how-inner">
-      <p class="section-eyebrow">En 3 étapes</p>
-      <h2>Opérationnel en dix minutes</h2>
-      <div class="steps-row">
-        <div class="step">
-          <div class="step-num">1</div>
-          <h3>Entrez votre domaine</h3>
-          <p>Domial détecte votre registrar et vérifie les DNS en temps réel. Pas de zone DNS à comprendre — Domial vous guide enregistrement par enregistrement.</p>
+  <!-- Bloc alterné 1 : wizard DNS -->
+  <section>
+    <div class="alt-block">
+      <div class="alt-text">
+        <p class="section-ey">Wizard guidé</p>
+        <h2>La technique, on s'en occupe.</h2>
+        <p>DNS, SPF, DKIM, DMARC — vous n'avez pas besoin de savoir ce que ça veut dire. Domial vérifie chaque enregistrement en temps réel et vous dit exactement quoi copier-coller chez votre registrar.</p>
+        <a href="wizard.html" class="btn btn-ghost">Voir le wizard →</a>
+      </div>
+      <div class="alt-visual">
+        <div class="dns-row dns-row-ok">
+          <span class="dns-type">MX</span>
+          <span class="dns-val">aspmx.l.google.com</span>
+          <span class="dns-status"><span class="dot dot-green"></span></span>
         </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <h3>Choisissez vos alias</h3>
-          <p>contact@, devis@, prenom@ — créez autant d'alias que vous voulez. SPF, DKIM et DMARC sont configurés automatiquement.</p>
+        <div class="dns-row dns-row-ok">
+          <span class="dns-type">TXT</span>
+          <span class="dns-val">v=spf1 include:_spf.google.com ~all</span>
+          <span class="dns-status"><span class="dot dot-green"></span></span>
         </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <h3>Liez votre Gmail</h3>
-          <p>Une autorisation Google et vos nouvelles adresses sont opérationnelles dans votre Gmail habituel. Envoi et réception vérifiés avant activation.</p>
+        <div class="dns-row dns-row-ok">
+          <span class="dns-type">CNAME</span>
+          <span class="dns-val">google._domainkey.lumen-agence.fr</span>
+          <span class="dns-status"><span class="dot dot-green"></span></span>
+        </div>
+        <div class="dns-row dns-row-wait">
+          <span class="dns-type">TXT</span>
+          <span class="dns-val">v=DMARC1; p=none; rua=mailto:…</span>
+          <span class="dns-status"><span class="dot dot-gray"></span></span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Prix teaser -->
-  <section class="price-teaser">
-    <div class="price-left">
-      <p class="section-eyebrow">Tarif</p>
-      <h2>Simple. Transparent.<br>$2 par an.</h2>
-      <p>Un tarif unique, sans surprise, sans plan « Pro » caché. Tout ce dont vous avez besoin pour être professionnel, au prix d'un café.</p>
-      <br>
-      <a href="pricing.html" class="btn btn-ghost" style="margin-top:var(--s3)">Voir ce qui est inclus →</a>
+  <!-- Bloc alterné 2 : alias -->
+  <section style="background:var(--gray); border-top:var(--border); border-bottom:var(--border);">
+    <div class="alt-block reverse">
+      <div class="alt-text">
+        <p class="section-ey">Alias illimités</p>
+        <h2>Une adresse pour chaque usage.</h2>
+        <p>Créez autant d'alias que nécessaire depuis votre tableau de bord. Chaque alias est un canal séparé dans votre Gmail — facile à identifier, facile à filtrer.</p>
+        <a href="auth.html" class="btn btn-ghost">Créer mes alias →</a>
+      </div>
+      <div class="alt-visual">
+        <div class="alias-list">
+          <div class="alias-row">
+            <span class="alias-dot" style="background:#5B84C4"></span>
+            <span class="alias-addr">contact@lumen-agence.fr</span>
+            <span class="alias-badge">Actif</span>
+          </div>
+          <div class="alias-row">
+            <span class="alias-dot" style="background:#2E6B52"></span>
+            <span class="alias-addr">devis@lumen-agence.fr</span>
+            <span class="alias-badge">Actif</span>
+          </div>
+          <div class="alias-row">
+            <span class="alias-dot" style="background:#8A6414"></span>
+            <span class="alias-addr">thomas@lumen-agence.fr</span>
+            <span class="alias-badge">Actif</span>
+          </div>
+          <div class="alias-row" style="opacity:.4; border-style:dashed;">
+            <span class="alias-dot" style="background:var(--gray-mid)"></span>
+            <span class="alias-addr" style="color:var(--ink-30)">support@lumen-agence.fr</span>
+            <a href="#" class="alias-badge" style="background:var(--gray); color:var(--ink-55); text-decoration:none;">+ Ajouter</a>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="price-card">
-      <div class="price-amount"><sup>$</sup>2</div>
-      <p class="price-period">par an · tout inclus</p>
-      <ul class="price-items">
-        <li>
-          <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          Domaine illimité
-        </li>
-        <li>
-          <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          Alias illimités
-        </li>
-        <li>
-          <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          SPF · DKIM · DMARC
-        </li>
-        <li>
-          <svg class="ic-sm" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          Gmail existant conservé
-        </li>
-      </ul>
-      <a href="auth.html" class="btn btn-primary btn-block">Commencer maintenant</a>
+  </section>
+
+  <!-- Témoignages -->
+  <section class="testi-section">
+    <div class="testi-inner">
+      <h2>Ce qu'ils en disent</h2>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <p class="testi-quote">« En 15 minutes j'avais contact@monagence.fr dans mon Gmail. J'aurais dû faire ça il y a deux ans. »</p>
+          <div class="testi-author">
+            <div class="testi-av" style="background:#5B84C4">SB</div>
+            <div>
+              <div class="testi-name">Sophie B.</div>
+              <div class="testi-role">Directrice artistique, Paris</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <p class="testi-quote">« Je ne savais pas ce qu'était un enregistrement MX. Domial m'a guidé étape par étape. Impeccable. »</p>
+          <div class="testi-author">
+            <div class="testi-av" style="background:#2E6B52">MK</div>
+            <div>
+              <div class="testi-name">Marc K.</div>
+              <div class="testi-role">Consultant indépendant, Lyon</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <p class="testi-quote">« $2 par an pour avoir l'air pro — c'est probablement le meilleur investissement que j'ai fait pour mon activité. »</p>
+          <div class="testi-author">
+            <div class="testi-av" style="background:#8A6414">AN</div>
+            <div>
+              <div class="testi-name">Amina N.</div>
+              <div class="testi-role">Photographe, Bordeaux</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA final -->
+  <section class="cta-band">
+    <h2>Votre adresse mail pro<br>vous attend.</h2>
+    <p>$2 par an. 10 minutes. Zéro serveur à gérer.</p>
+    <div class="cta-row">
+      <a href="auth.html" class="btn btn-primary btn-lg">Commencer maintenant</a>
+      <a href="pricing.html" class="btn btn-ghost btn-lg">Voir les tarifs</a>
     </div>
   </section>
 
 </main>
 
-<!-- CTA bande finale -->
-<section class="cta-band">
-  <h2>Votre prochaine adresse email<br>change tout.</h2>
-  <p>$2 par an. Configuration en 10 minutes. Sans carte requise pour commencer.</p>
-  <div class="cta-row">
-    <a href="auth.html" class="btn-white">Créer mon compte</a>
-    <a href="auth.html" class="btn-outline-light">Se connecter</a>
-  </div>
-</section>
-
+<!-- Footer -->
 <footer>
-  <span>© 2026 Domial</span>
-  <a href="pricing.html">Tarifs</a>
-  <a href="#">Mentions légales</a>
-  <a href="#">Confidentialité</a>
-  <a href="mailto:support@domial.fr">support@domial.fr</a>
+  <div class="footer-brand">
+    <img src="assets/logo/domial-horizontal-reversed.svg" alt="Domial" height="20">
+    <span>© 2026</span>
+  </div>
+  <div class="footer-links">
+    <a href="pricing.html">Tarifs</a>
+    <a href="#">Fonctionnalités</a>
+    <a href="#">Mentions légales</a>
+    <a href="#">Confidentialité</a>
+    <a href="mailto:support@domial.fr">support@domial.fr</a>
+  </div>
 </footer>
 
 </body>
