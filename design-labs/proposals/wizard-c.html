@@ -1,37 +1,114 @@
 <!DOCTYPE html>
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Domial — Wizard variante C : checklist progressive avec polling live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="design-system.css">
 <style>
-body{background:var(--pr-gray)}
-.top{background:var(--pr-white);border-bottom:1px solid var(--pr-gray-mid)}
-.top .topbar{justify-content:space-between;max-width:880px;margin:0 auto;width:100%;box-sizing:border-box}
-.wrap{max-width:880px;margin:0 auto;padding:var(--space-6) var(--space-5)}
-.head{display:flex;justify-content:space-between;gap:16px;align-items:flex-end;flex-wrap:wrap;margin-bottom:var(--space-5)}
-.ring{--p:72;width:64px;height:64px;border-radius:50%;background:conic-gradient(var(--pr-steel) calc(var(--p)*1%), var(--pr-gray-mid) 0);display:grid;place-items:center;flex:none}
-.ring b{width:48px;height:48px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:var(--fs-body-s)}
-.check{background:var(--pr-white);border:1px solid var(--pr-gray-mid);border-radius:var(--radius-md);margin-bottom:10px;overflow:hidden}
-.chead{display:flex;gap:12px;align-items:center;padding:14px 16px;min-height:56px}
-.ckbox{width:22px;height:22px;border-radius:50%;border:2px solid var(--pr-gray-mid);display:grid;place-items:center;flex:none}
-.check.done .ckbox{background:var(--color-success);border-color:var(--color-success);color:#fff}
-.check.doing .ckbox{border-color:var(--pr-steel)}
-.chead b{font-size:var(--fs-body);color:var(--pr-ink)}
-.chead .st{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.chead button.chev{width:36px;height:36px;border:0;background:transparent;cursor:pointer;color:var(--color-text-muted);display:grid;place-items:center;border-radius:8px}
-.chead button.chev:hover{background:var(--pr-gray)}
-.check.open .chev svg{transform:rotate(180deg)}
-.cbody{border-top:1px solid #EEF0F4;padding:var(--space-4) 16px;display:none;background:#FBFCFE}
-.check.open .cbody{display:block}
-.sub{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.sub li{display:flex;gap:10px;align-items:flex-start;font-size:var(--fs-body-s)}
-.sub .ok{color:var(--color-success);flex:none;margin-top:1px}
-.sub .ic-sm{margin-top:1px;flex:none}
-.subcode{background:var(--pr-ink);color:var(--pr-light-soft);border-radius:var(--radius-sm);padding:10px 12px;font:13px/1.5 ui-monospace,Menlo,monospace;overflow-x:auto;margin-top:8px}
-.pollrow{display:flex;gap:10px;align-items:center;background:var(--color-surface-tint);border-radius:var(--radius-sm);padding:10px 12px;margin-top:10px;font-size:var(--fs-body-s);flex-wrap:wrap}
-.pollrow .dots{display:grid;gap:6px;flex:1}
-.pollrow .poll{display:flex;gap:8px;align-items:center}
-.failed{border-left:3px solid var(--color-error)}
-@media(max-width:600px){.ring{--p:72}.head{flex-direction:column;align-items:flex-start}}
+body { background: var(--pr-gray); font-family: 'Inter', system-ui, sans-serif; }
+
+/* ---- Topbar ---- */
+.top { background: var(--pr-white); border-bottom: 1px solid var(--pr-gray-mid); }
+.top .topbar { justify-content: space-between; max-width: 880px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+
+/* ---- Page ---- */
+.wrap { max-width: 880px; margin: 0 auto; padding: var(--space-7) var(--space-5) var(--space-8); }
+
+/* ---- En-tête ---- */
+.head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; flex-wrap: wrap; margin-bottom: var(--space-6); }
+.head-title h1 { font-size: var(--fs-h1); font-weight: 700; letter-spacing: -.02em; margin-bottom: 4px; }
+.head-title p { font-size: var(--fs-body-s); color: var(--color-text-muted); margin: 0; }
+
+/* Anneau de progression */
+.ring {
+  --p: 72;
+  width: 72px; height: 72px; border-radius: 50%;
+  background: conic-gradient(var(--pr-steel) calc(var(--p)*1%), var(--pr-gray-mid) 0);
+  display: grid; place-items: center; flex: none;
+  box-shadow: 0 0 0 4px rgba(91,132,196,.1);
+}
+.ring-inner {
+  width: 54px; height: 54px; border-radius: 50%;
+  background: var(--pr-white);
+  display: grid; place-items: center;
+  font-size: var(--fs-body-s); font-weight: 700; color: var(--pr-ink);
+}
+
+/* ---- Items checklist ---- */
+.check {
+  background: var(--pr-white);
+  border: 1px solid var(--pr-gray-mid);
+  border-radius: var(--radius-md);
+  margin-bottom: 8px; overflow: hidden;
+  transition: box-shadow .15s;
+}
+.check:hover { box-shadow: var(--shadow-1); }
+.check.done { border-color: rgba(46,107,82,.2); }
+.check.doing { border-color: rgba(91,132,196,.35); box-shadow: 0 0 0 2px rgba(91,132,196,.1); }
+.check.failed { border-left: 3px solid var(--color-error); }
+
+.chead { display: flex; gap: 12px; align-items: center; padding: 14px 18px; min-height: 56px; }
+
+.ckbox {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 2px solid var(--pr-gray-mid);
+  display: grid; place-items: center; flex: none;
+  transition: background .2s, border-color .2s;
+}
+.check.done .ckbox { background: var(--color-success); border-color: var(--color-success); color: #fff; }
+.check.doing .ckbox { border-color: var(--pr-steel); border-width: 2px; }
+
+.chead b { font-size: var(--fs-body); font-weight: 600; color: var(--pr-ink); flex: 1; }
+.chead .st { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.chead .chev {
+  width: 34px; height: 34px; border: 0;
+  background: transparent; cursor: pointer;
+  color: var(--color-text-muted);
+  display: grid; place-items: center; border-radius: 7px;
+  transition: background .1s;
+}
+.chead .chev:hover { background: var(--pr-gray); }
+.check.open .chev svg { transform: rotate(180deg); }
+
+/* Corps étendu */
+.cbody {
+  border-top: 1px solid #EEF0F4;
+  padding: var(--space-4) 18px var(--space-5);
+  display: none; background: #FAFBFD;
+}
+.check.open .cbody { display: block; }
+
+/* Sous-items */
+.sub { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.sub li { display: flex; gap: 10px; align-items: flex-start; font-size: var(--fs-body-s); line-height: 1.5; }
+.sub li svg { flex: none; margin-top: 1px; }
+
+/* Bloc code DNS */
+.subcode {
+  background: var(--pr-ink); color: var(--pr-light-soft);
+  border-radius: var(--radius-md); padding: 12px 16px;
+  font: 13px/1.6 ui-monospace, 'SF Mono', Menlo, monospace;
+  overflow-x: auto; margin-top: 10px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* Bande de polling live */
+.pollrow {
+  display: flex; gap: 10px; align-items: center;
+  background: var(--color-surface-tint);
+  border: 1px solid rgba(91,132,196,.15);
+  border-radius: var(--radius-md); padding: 12px 14px;
+  margin-top: 12px; font-size: var(--fs-body-s); flex-wrap: wrap;
+}
+.pollrow .dots { display: grid; gap: 6px; flex: 1; }
+.pollrow .poll { display: flex; gap: 8px; align-items: center; }
+
+/* Code confirmation */
+.confirm-row { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.confirm-row .input { max-width: 220px; font-variant-numeric: tabular-nums; letter-spacing: .08em; }
+
+@media (max-width: 600px) { .head { flex-direction: column; align-items: flex-start; } }
 </style></head><body>
 <header class="top"><div class="topbar">
   <a href="dashboard-a.html" aria-label="Domial"><img src="assets/logo/domial-horizontal.svg" alt="Domial" height="26"></a>
@@ -39,11 +116,13 @@ body{background:var(--pr-gray)}
 </div></header>
 <main class="wrap">
   <div class="head">
-    <div>
-      <h1 style="font-size:var(--fs-h1);margin-bottom:4px">Configuration : contact@lumen-agence.fr</h1>
-      <p class="small muted">Checklist complète. Domial vérifie en continu — les points se cochent tout seuls quand c'est prêt.</p>
+    <div class="head-title">
+      <h1>Configuration : contact@lumen-agence.fr</h1>
+      <p>Checklist complète — Domial vérifie en continu, les points se cochent tout seuls.</p>
     </div>
-    <div class="ring" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" aria-label="Progression : 72%"><b>72%</b></div>
+    <div class="ring" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" aria-label="Progression : 72%">
+      <span class="ring-inner">72&nbsp;%</span>
+    </div>
   </div>
 
   <section aria-label="Checklist d'installation">
@@ -77,8 +156,8 @@ body{background:var(--pr-gray)}
           </div>
           <button class="btn btn-secondary" style="min-height:40px;padding:8px 14px">Vérifier maintenant</button>
         </div>
-        <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
-          <input class="input" style="max-width:240px" placeholder="Code de confirmation Gmail" aria-label="Code de confirmation">
+        <div class="confirm-row">
+          <input class="input" placeholder="Code de confirmation Gmail" aria-label="Code de confirmation">
           <button class="btn btn-primary">Valider l'alias</button>
         </div>
       </div>

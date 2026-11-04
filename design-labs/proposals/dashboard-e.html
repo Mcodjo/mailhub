@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Tableau de bord</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="design-system.css">
+<style>
+/* ============================================================
+   dashboard-e — professionnel, épuré, grille 8pt
+   Encre #16233B · Acier #5B84C4 · Blanc · Gris #F5F6F8
+   ============================================================ */
+html { scroll-padding-top: 64px; }
+body { background: #F2F4F7; font-family: 'Inter', system-ui, sans-serif; }
+
+/* ---- Topbar ---- */
+.nav {
+  position: sticky; top: 0; z-index: 20;
+  background: var(--pr-ink);
+  height: 64px; border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.nav-inner {
+  max-width: 1240px; margin: 0 auto;
+  padding: 0 var(--space-6); height: 100%;
+  display: flex; align-items: center; gap: var(--space-4);
+}
+.nav-brand { display: flex; align-items: center; flex: none; }
+.nav-brand img { display: block; }
+.nav-org {
+  display: flex; align-items: center; gap: 7px;
+  font-size: var(--fs-body-s); font-weight: 500;
+  color: rgba(191,209,240,.8);
+  padding: 5px 11px;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.nav-org svg { color: var(--pr-light); opacity: .7; }
+.nav-sep { flex: 1; }
+.nav-user { display: flex; align-items: center; gap: var(--space-3); }
+.nav-user .label { font-size: var(--fs-body-s); color: rgba(191,209,240,.65); }
+.av {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--pr-steel); color: var(--pr-white);
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 700; flex: none;
+  border: 2px solid rgba(255,255,255,.15);
+}
+.nav .btn-primary {
+  background: rgba(255,255,255,.1); color: #fff;
+  border: 1px solid rgba(255,255,255,.18);
+  transition: background .15s;
+}
+.nav .btn-primary:hover { background: rgba(255,255,255,.18); }
+
+/* ---- Page layout ---- */
+.page {
+  max-width: 1240px; margin: 0 auto;
+  padding: var(--space-7) var(--space-6) var(--space-8);
+}
+
+/* ---- Page header ---- */
+.page-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: var(--space-5); flex-wrap: wrap;
+  margin-bottom: var(--space-6);
+}
+.page-header h1 {
+  font-size: var(--fs-h1); font-weight: 800;
+  color: var(--pr-ink); margin: 0 0 3px;
+  letter-spacing: -.025em;
+}
+.page-header .sub { font-size: var(--fs-body-s); color: var(--color-text-muted); margin: 0; }
+
+/* ---- KPI grid ---- */
+.kpi-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4); margin-bottom: var(--space-7);
+}
+.kpi-card {
+  background: var(--pr-white);
+  border: 1px solid var(--pr-gray-mid);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  display: flex; flex-direction: column; gap: var(--space-3);
+  position: relative; overflow: hidden;
+  transition: box-shadow .18s;
+}
+.kpi-card:hover { box-shadow: var(--shadow-2); }
+.kpi-card::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--pr-steel);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+.kpi-card.g::after { background: var(--color-success); }
+
+.kpi-top { display: flex; align-items: flex-start; justify-content: space-between; }
+.kpi-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.kpi-icon {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: var(--color-surface-tint);
+  display: grid; place-items: center;
+  color: var(--pr-steel); flex: none;
+}
+.kpi-card.g .kpi-icon { background: var(--color-success-bg); color: var(--color-success); }
+.kpi-value {
+  font-size: 38px; font-weight: 800; line-height: 1;
+  color: var(--pr-ink); font-variant-numeric: tabular-nums;
+  letter-spacing: -.03em;
+}
+.kpi-card.g .kpi-value { color: var(--color-success); font-size: 28px; }
+.kpi-foot { font-size: var(--fs-label); color: var(--color-text-muted); display: flex; align-items: center; gap: 5px; }
+.kpi-foot .ok { color: var(--color-success); font-weight: 600; }
+.kpi-foot .warn { color: var(--color-warning); font-weight: 600; }
+
+/* ---- Sections ---- */
+.section { margin-bottom: var(--space-6); }
+.section-head {
+  display: flex; align-items: center; gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.section-head h2 { font-size: var(--fs-h3); font-weight: 700; color: var(--pr-ink); margin: 0; letter-spacing: -.01em; }
+.pill {
+  font-size: 11px; font-weight: 600;
+  background: var(--pr-gray); color: var(--color-text-muted);
+  border-radius: 99px; padding: 2px 10px; border: 1px solid var(--pr-gray-mid);
+}
+.link-action {
+  margin-left: auto; font-size: var(--fs-body-s); font-weight: 600;
+  color: var(--pr-steel); text-decoration: none;
+  display: flex; align-items: center; gap: 4px;
+  transition: color .12s;
+}
+.link-action:hover { color: var(--pr-ink); text-decoration: none; }
+
+/* ---- Table domaines ---- */
+.table-wrap {
+  background: var(--pr-white);
+  border: 1px solid var(--pr-gray-mid);
+  border-radius: var(--radius-md); overflow: hidden;
+}
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--color-text-muted);
+  padding: 11px var(--space-5);
+  background: #F7F8FA; border-bottom: 1px solid var(--pr-gray-mid);
+  text-align: left;
+}
+thead th.r { text-align: right; }
+tbody td {
+  padding: 15px var(--space-5);
+  border-bottom: 1px solid var(--pr-gray-mid);
+  vertical-align: middle; font-size: var(--fs-body-s); color: var(--pr-ink);
+}
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover td { background: #FAFBFD; }
+td.r { text-align: right; font-variant-numeric: tabular-nums; }
+.dom-name { font-weight: 700; font-size: var(--fs-body); color: var(--pr-ink); }
+.dom-aliases { font-size: var(--fs-label); color: var(--color-text-muted); margin-top: 2px; }
+.dns-ok { display: flex; align-items: center; gap: 5px; font-weight: 600; color: var(--color-success); }
+.dns-wait { display: flex; align-items: center; gap: 5px; font-weight: 600; color: var(--color-warning); }
+.td-action { display: flex; gap: 6px; justify-content: flex-end; }
+.btn-sm {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: var(--fs-label); font-weight: 600;
+  padding: 5px 11px; min-height: 30px;
+  border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--pr-gray-mid);
+  background: var(--pr-white); color: var(--pr-ink);
+  text-decoration: none; transition: border-color .12s, background .12s;
+}
+.btn-sm:hover { border-color: rgba(22,35,59,.4); background: var(--pr-gray); text-decoration: none; }
+
+/* ---- Activité ---- */
+.activity-card {
+  background: var(--pr-white);
+  border: 1px solid var(--pr-gray-mid);
+  border-radius: var(--radius-md); overflow: hidden;
+}
+.activity-item {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: 14px var(--space-5);
+  border-bottom: 1px solid var(--pr-gray-mid);
+  transition: background .1s;
+}
+.activity-item:last-child { border-bottom: 0; }
+.activity-item:hover { background: #FAFBFD; }
+.act-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--color-surface-tint);
+  border: 1.5px solid rgba(91,132,196,.2);
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 700; color: var(--pr-steel); flex: none;
+}
+.act-body { flex: 1; min-width: 0; }
+.act-who { font-weight: 700; font-size: var(--fs-body-s); color: var(--pr-ink); }
+.act-subj { font-size: var(--fs-label); color: var(--color-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.act-alias {
+  font-size: 11px; font-weight: 700;
+  background: var(--color-surface-tint); color: var(--pr-steel);
+  border: 1px solid rgba(91,132,196,.18);
+  border-radius: 99px; padding: 3px 10px; white-space: nowrap; flex: none;
+}
+.act-time { font-size: 11px; color: var(--color-text-muted); white-space: nowrap; flex: none; min-width: 40px; text-align: right; }
+
+/* ---- Footer ---- */
+.page-foot {
+  margin-top: var(--space-6); padding-top: var(--space-5);
+  border-top: 1px solid var(--pr-gray-mid);
+  font-size: var(--fs-label); color: var(--color-text-muted);
+  display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap;
+}
+.page-foot span { display: flex; align-items: center; gap: 5px; }
+
+/* ---- Responsive ---- */
+@media (max-width: 1023px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } .nav-org { display: none; } }
+@media (max-width: 767px) {
+  .page { padding: var(--space-5) var(--space-4) var(--space-7); }
+  .nav-inner { padding: 0 var(--space-4); }
+  .kpi-grid { grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+  .kpi-value { font-size: 28px; }
+  .page-header { flex-direction: column; gap: var(--space-3); }
+  .table-wrap { overflow-x: auto; } table { min-width: 580px; }
+  .nav-user .label { display: none; }
+}
+</style></head><body>
+
+<!-- ======= NAVBAR ======= -->
+<header class="nav" role="banner">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand" aria-label="Domial — accueil">
+      <img src="assets/logo/domial-horizontal.svg" alt="Domial" height="24">
+    </a>
+    <span class="nav-org" aria-label="Organisation active">
+      <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
+      lumen-agence.fr
+    </span>
+    <span class="nav-sep" aria-hidden="true"></span>
+    <a href="#" class="btn btn-primary" style="min-height:40px;padding:10px 18px;font-size:var(--fs-body-s)">
+      <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+      Ajouter un domaine
+    </a>
+    <div class="nav-user">
+      <span class="label">chef@lumen-agence.fr</span>
+      <span class="av" aria-label="Profil utilisateur">CL</span>
+    </div>
+  </div>
+</header>
+
+<!-- ======= CONTENU PRINCIPAL ======= -->
+<main class="page" id="main">
+
+  <!-- En-tête de page -->
+  <div class="page-header">
+    <div>
+      <h1>Tableau de bord</h1>
+      <p class="sub">Vue d'ensemble · domaines, alias et activité email</p>
+    </div>
+    <time datetime="2026-11-04" style="font-size:var(--fs-body-s);color:var(--color-text-muted);align-self:center">
+      4 novembre 2026
+    </time>
+  </div>
+
+  <!-- KPI -->
+  <div class="kpi-grid" role="region" aria-label="Indicateurs clés">
+
+    <article class="kpi-card" aria-labelledby="kpi1">
+      <div class="kpi-top">
+        <span class="kpi-label" id="kpi1">Mails non lus</span>
+        <span class="kpi-icon" aria-hidden="true">
+          <svg class="ic" viewBox="0 0 24 24"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
+        </span>
+      </div>
+      <div class="kpi-value" aria-label="17 mails non lus">17</div>
+      <div class="kpi-foot">
+        <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        7 conversations ouvertes
+      </div>
+    </article>
+
+    <article class="kpi-card accent-green" aria-labelledby="kpi2">
+      <div class="kpi-top">
+        <span class="kpi-label" id="kpi2">Domaines</span>
+        <span class="kpi-icon green" aria-hidden="true">
+          <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>
+        </span>
+      </div>
+      <div class="kpi-value" aria-label="3 domaines actifs">3</div>
+      <div class="kpi-foot">
+        <span class="ok">3 actifs</span> · <span class="warn">1 en attente</span>
+      </div>
+    </article>
+
+    <article class="kpi-card" aria-labelledby="kpi3">
+      <div class="kpi-top">
+        <span class="kpi-label" id="kpi3">Alias configurés</span>
+        <span class="kpi-icon" aria-hidden="true">
+          <svg class="ic" viewBox="0 0 24 24"><path d="M16 4h4v4M4 20 20 4M20 16v4h-4M4 4l6 6"/></svg>
+        </span>
+      </div>
+      <div class="kpi-value" aria-label="12 alias configurés">12</div>
+      <div class="kpi-foot">
+        <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16V8l-9-4-9 4v8l9 4z"/><path d="m3.3 7 8.7 4 8.7-4M12 11v9"/></svg>
+        4 boîtes de réception dédiées
+      </div>
+    </article>
+
+    <article class="kpi-card accent-green" aria-labelledby="kpi4">
+      <div class="kpi-top">
+        <span class="kpi-label" id="kpi4">Délivrabilité</span>
+        <span class="kpi-icon green" aria-hidden="true">
+          <svg class="ic" viewBox="0 0 24 24"><path d="M12 3 4 7v6c0 5 8 8 8 8s8-3 8-8V7z"/></svg>
+        </span>
+      </div>
+      <div class="kpi-value" style="font-size:28px;color:var(--color-success)" aria-label="Délivrabilité 98 pour cent">98 %</div>
+      <div class="kpi-foot">
+        <span class="ok">Gmail connecté</span> · SPF · DKIM · DMARC
+      </div>
+    </article>
+
+  </div>
+
+  <!-- Domaines -->
+  <section class="section" aria-labelledby="sec-dom">
+    <div class="section-head">
+      <h2 id="sec-dom">Domaines configurés</h2>
+      <span class="pill">4 entrées</span>
+      <a href="#" class="link-action">
+        Tout gérer
+        <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <caption style="position:absolute;left:-9999px">Liste des domaines configurés</caption>
+        <thead>
+          <tr>
+            <th scope="col">Domaine</th>
+            <th scope="col" class="r">Alias</th>
+            <th scope="col" class="r">Non lus</th>
+            <th scope="col">Enregistrements DNS</th>
+            <th scope="col">Statut</th>
+            <th scope="col"><span style="position:absolute;left:-9999px">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="dom-name">lumen-agence.fr</div>
+              <div class="dom-aliases">contact@ · devis@ · presse@ · travaux-honoraires@</div>
+            </td>
+            <td class="r">4</td>
+            <td class="r">9</td>
+            <td>
+              <div class="dns-row dns-ok">
+                <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>
+                SPF · DKIM · DMARC
+              </div>
+            </td>
+            <td><span class="badge badge-success">Actif</span></td>
+            <td><div class="td-action">
+              <a href="#" class="btn-sm">
+                <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
+                Réception
+              </a>
+              <a href="#" class="btn-sm">Gérer</a>
+            </div></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="dom-name">atelier-remy.fr</div>
+              <div class="dom-aliases">bonjour@ · commande@ · facture@</div>
+            </td>
+            <td class="r">3</td>
+            <td class="r">5</td>
+            <td>
+              <div class="dns-row dns-ok">
+                <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>
+                SPF · DKIM · DMARC
+              </div>
+            </td>
+            <td><span class="badge badge-success">Actif</span></td>
+            <td><div class="td-action">
+              <a href="#" class="btn-sm">
+                <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
+                Réception
+              </a>
+              <a href="#" class="btn-sm">Gérer</a>
+            </div></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="dom-name">librairie-ancrage.fr</div>
+              <div class="dom-aliases">info@ · evenements@ · ateliers@</div>
+            </td>
+            <td class="r">3</td>
+            <td class="r">3</td>
+            <td>
+              <div class="dns-row dns-ok">
+                <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>
+                SPF · DKIM validés
+              </div>
+            </td>
+            <td><span class="badge badge-success">Actif</span></td>
+            <td><div class="td-action">
+              <a href="#" class="btn-sm">
+                <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
+                Réception
+              </a>
+              <a href="#" class="btn-sm">Gérer</a>
+            </div></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="dom-name">studio-broch.fr</div>
+              <div class="dom-aliases">studio@ · admin@</div>
+            </td>
+            <td class="r">2</td>
+            <td class="r">0</td>
+            <td>
+              <div class="dns-row dns-wait">
+                <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                DMARC en propagation
+              </div>
+            </td>
+            <td><span class="badge badge-warning">En attente</span></td>
+            <td><div class="td-action">
+              <a href="#" class="btn-sm">Voir config.</a>
+            </div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Activité récente -->
+  <section class="section" aria-labelledby="sec-act">
+    <div class="section-head">
+      <h2 id="sec-act">Activité récente</h2>
+      <span class="pill">24 dernières heures</span>
+      <a href="#" class="link-action">
+        Tout voir
+        <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="activity-card">
+
+      <article class="activity-item">
+        <span class="act-avatar" aria-hidden="true">MB</span>
+        <div class="act-body">
+          <div class="act-who">Mairie de Blois</div>
+          <div class="act-subj">Demande de devis — signalétique quartier Foch</div>
+        </div>
+        <span class="act-alias">contact@</span>
+        <span class="act-time">09:24</span>
+      </article>
+
+      <article class="activity-item">
+        <span class="act-avatar" aria-hidden="true">NF</span>
+        <div class="act-body">
+          <div class="act-who">Nina Fabre</div>
+          <div class="act-subj">Affiches festival — validation des visuels finaux</div>
+        </div>
+        <span class="act-alias">contact@</span>
+        <span class="act-time">08:12</span>
+      </article>
+
+      <article class="activity-item">
+        <span class="act-avatar" aria-hidden="true">LP</span>
+        <div class="act-body">
+          <div class="act-who">Logistique Plus SARL</div>
+          <div class="act-subj">Confirmation de commande n°2451</div>
+        </div>
+        <span class="act-alias">commande@</span>
+        <span class="act-time">hier</span>
+      </article>
+
+      <article class="activity-item">
+        <span class="act-avatar" aria-hidden="true">QR</span>
+        <div class="act-body">
+          <div class="act-who">Quotidien Régional</div>
+          <div class="act-subj">Interview — inauguration de la librairie</div>
+        </div>
+        <span class="act-alias">presse@</span>
+        <span class="act-time">hier</span>
+      </article>
+
+      <article class="activity-item">
+        <span class="act-avatar" aria-hidden="true">CA</span>
+        <div class="act-body">
+          <div class="act-who">Comité des ateliers</div>
+          <div class="act-subj">Programme des ateliers de décembre</div>
+        </div>
+        <span class="act-alias">ateliers@</span>
+        <span class="act-time">hier</span>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- Pied de page -->
+  <footer class="page-foot" role="contentinfo">
+    <span>
+      <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>
+      3 domaines actifs
+    </span>
+    <span>
+      <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 4h4v4M4 20 20 4M20 16v4h-4M4 4l6 6"/></svg>
+      12 alias configurés
+    </span>
+    <span>
+      <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
+      4 boîtes de réception
+    </span>
+    <span>
+      <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7v6c0 5 8 8 8 8s8-3 8-8V7z"/></svg>
+      Gmail connecté · délivrabilité 98 %
+    </span>
+  </footer>
+
+</main>
+</body></html>
