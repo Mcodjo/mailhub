@@ -79,8 +79,9 @@ body { background: var(--white); }
   color: var(--ink-30); margin-bottom: var(--s5);
 }
 .transform-stack {
-  display: flex; flex-direction: column;
-  align-items: center; gap: var(--s3);
+  display: flex; flex-direction: row;
+  align-items: center; justify-content: center; gap: var(--s4);
+  flex-wrap: wrap;
 }
 .email-chip {
   display: inline-flex; align-items: center; gap: var(--s3);
@@ -351,8 +352,8 @@ footer {
       <div class="transform-stack" role="img" aria-label="Transformation d'une adresse Gmail vers une adresse sur votre domaine">
         <div class="email-chip chip-before">thomas.agence2024@gmail.com</div>
         <div class="transform-arrow" aria-hidden="true">
-          <svg width="16" height="22" viewBox="0 0 16 22" fill="none">
-            <path d="M8 2v16M2 13l6 7 6-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
+            <path d="M2 8h16M13 2l7 6-7 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
         <div class="email-chip chip-after">
