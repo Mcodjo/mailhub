@@ -7,10 +7,11 @@ Fondations validees par L8 le 2026-11-04 : stack Laravel + MySQL, perimetre F01-
 | ID | Item | Owner | Statut | Notes |
 |---|---|---|---|---|
 | FOND-01 | git init + copilot-instructions canonique | DRX | OK 2026-11-04 | Validation L8 du socle en attente |
-| FOND-02 | Squelette Laravel backend | DRX | INSTALL | composer create-project |
-| FOND-03 | Squelette React frontend | DRX | TODO | apres FOND-02 |
-| FOND-04 | Squelette Cloudflare Worker | DRX | TODO | TypeScript + wrangler |
-| FOND-05 | doc/API.md + doc/DATA.md + doc/SECURITY.md | DRX | TODO | contrats avant implementation |
+| FOND-02 | Squelette Laravel backend | DRX | OK 2026-11-04 | Laravel 13.40, commit 4da01c6 |
+| FOND-03 | Squelette React frontend | DRX | OK 2026-11-04 | Vite + React + Tailwind 4 |
+| FOND-04 | Squelette Cloudflare Worker | DRX | OK 2026-11-04 | TypeScript, type-check OK |
+| FOND-05 | doc/API.md + doc/DATA.md + doc/SECURITY.md | DRX | OK 2026-11-04 | contrats avant implementation |
+| DESIGN-01 | Maquettes design-labs (9 ecrans + design system) | drx-mockup | OK 2026-11-04 | revue L8 demandee avant implémentation frontend |
 
 ## Phase 1 — Fondations produit (CDC section 9)
 | ID | Item | Priorite | Statut |
