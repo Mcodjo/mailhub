@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Bienvenue</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+body {
+  background: var(--gray);
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: var(--s6) var(--s4);
+}
+
+.ob-card {
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-2);
+  padding: var(--s6) var(--s7);
+  width: 100%;
+  max-width: 520px;
+}
+
+/* Logo + accroche */
+.ob-head { text-align: center; margin-bottom: var(--s6); }
+.ob-head img { height: 32px; margin: 0 auto var(--s5); }
+.ob-head h1 {
+  font-size: var(--fs-xl); font-weight: 700;
+  letter-spacing: -.03em; margin-bottom: var(--s2);
+}
+.ob-head p { font-size: var(--fs-sm); color: var(--ink-55); margin: 0; line-height: 1.65; }
+
+/* Barre de progression */
+.ob-progress {
+  height: 4px; background: var(--gray-mid);
+  border-radius: 99px; margin-bottom: var(--s6);
+  overflow: hidden;
+}
+.ob-bar {
+  height: 100%; width: 33%;
+  background: var(--steel);
+  border-radius: 99px;
+  transition: width .4s ease;
+}
+
+/* Étapes checklist */
+.ob-steps { display: flex; flex-direction: column; gap: var(--s3); margin-bottom: var(--s6); }
+
+.ob-step {
+  display: flex; align-items: center; gap: var(--s4);
+  padding: var(--s4) var(--s4);
+  border: 1.5px solid var(--gray-mid);
+  border-radius: var(--r-lg);
+  cursor: pointer;
+  transition: border-color .15s, box-shadow .12s;
+}
+.ob-step:hover { border-color: var(--steel-mid); box-shadow: var(--sh-1); }
+.ob-step.active { border-color: var(--steel); background: #F6F9FF; }
+.ob-step.done { border-color: var(--success-bg); background: var(--success-bg); }
+
+.ob-step-icon {
+  width: 40px; height: 40px; border-radius: 50%; flex: none;
+  display: grid; place-items: center;
+}
+.ob-step-icon.idle { background: var(--gray); color: var(--ink-30); }
+.ob-step-icon.active-ic { background: var(--steel-soft); color: var(--steel); }
+.ob-step-icon.done-ic { background: rgba(46,107,82,.15); color: var(--success); }
+
+.ob-step-text { flex: 1; }
+.ob-step-text h3 { font-size: var(--fs-sm); font-weight: 700; margin-bottom: 2px; }
+.ob-step-text p { font-size: var(--fs-xs); color: var(--ink-55); margin: 0; }
+
+.ob-step-action { flex: none; }
+
+/* CTA */
+.ob-foot { text-align: center; }
+.ob-foot .skip {
+  display: block; margin-top: var(--s4);
+  font-size: var(--fs-xs); color: var(--ink-30);
+  transition: color .15s;
+}
+.ob-foot .skip:hover { color: var(--ink-55); text-decoration: none; }
+
+/* Page footer */
+.page-foot {
+  margin-top: var(--s5); font-size: var(--fs-xs);
+  color: var(--ink-30); text-align: center;
+}
+.page-foot a { color: var(--ink-55); }
+
+@media (max-width: 540px) {
+  .ob-card { padding: var(--s5) var(--s5); }
+}
+</style>
+</head>
+<body>
+
+<div>
+  <div class="ob-card">
+
+    <div class="ob-head">
+      <img src="assets/logo/domial-horizontal.svg" alt="Domial">
+      <h1>Bienvenue, Thomas</h1>
+      <p>Trois étapes pour activer votre première boîte professionnelle. Ça prend dix minutes.</p>
+    </div>
+
+    <!-- Progression -->
+    <div class="ob-progress" aria-label="Progression : étape 1 sur 3">
+      <div class="ob-bar" style="width:33%"></div>
+    </div>
+
+    <!-- Étapes -->
+    <div class="ob-steps" role="list">
+
+      <div class="ob-step active" role="listitem">
+        <span class="ob-step-icon active-ic" aria-hidden="true">
+          <svg class="ic" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>
+        </span>
+        <div class="ob-step-text">
+          <h3>Ajoutez votre domaine</h3>
+          <p>Entrez votre nom de domaine et vérifiez qu'il vous appartient.</p>
+        </div>
+        <div class="ob-step-action">
+          <a href="wizard.html" class="btn btn-primary btn-sm">Démarrer</a>
+        </div>
+      </div>
+
+      <div class="ob-step" role="listitem">
+        <span class="ob-step-icon idle" aria-hidden="true">
+          <svg class="ic" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
+        </span>
+        <div class="ob-step-text">
+          <h3>Créez vos boîtes e-mail</h3>
+          <p>Choisissez vos alias — contact@, devis@, prenom@…</p>
+        </div>
+        <div class="ob-step-action">
+          <span class="badge badge-neutral" style="color:var(--ink-30)">Étape 2</span>
+        </div>
+      </div>
+
+      <div class="ob-step" role="listitem">
+        <span class="ob-step-icon idle" aria-hidden="true">
+          <svg class="ic" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </span>
+        <div class="ob-step-text">
+          <h3>Liez votre Gmail</h3>
+          <p>Autorisez l'accès Google pour envoyer et recevoir depuis vos alias.</p>
+        </div>
+        <div class="ob-step-action">
+          <span class="badge badge-neutral" style="color:var(--ink-30)">Étape 3</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="ob-foot">
+      <a href="dashboard.html" class="btn btn-primary btn-block">Commencer la configuration</a>
+      <a href="dashboard.html" class="skip">Passer pour l'instant, je le ferai plus tard</a>
+    </div>
+
+  </div>
+
+  <p class="page-foot">
+    <a href="#">Aide</a> · <a href="#">Mentions légales</a>
+  </p>
+</div>
+
+</body>
+</html>

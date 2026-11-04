@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Page introuvable</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+body {
+  background: var(--gray);
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: var(--s6) var(--s4);
+}
+
+.err-card {
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-2);
+  padding: var(--s7) var(--s6);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.err-logo { margin-bottom: var(--s6); }
+.err-logo img { height: 32px; margin: 0 auto; }
+
+/* Grand "404" discret */
+.err-code {
+  font-size: 80px; font-weight: 700;
+  letter-spacing: -.06em; line-height: 1;
+  color: var(--gray-mid);
+  margin-bottom: var(--s4);
+  user-select: none;
+}
+
+.err-card h1 {
+  font-size: var(--fs-lg); font-weight: 700;
+  letter-spacing: -.03em; margin-bottom: var(--s2);
+}
+
+.err-card p {
+  font-size: var(--fs-sm); color: var(--ink-55);
+  line-height: 1.65; margin-bottom: var(--s6);
+  max-width: 30ch; margin-left: auto; margin-right: auto;
+}
+
+.err-actions { display: flex; flex-direction: column; gap: var(--s3); }
+
+.err-links {
+  margin-top: var(--s5);
+  display: flex; align-items: center; justify-content: center; gap: var(--s4);
+  font-size: var(--fs-xs); color: var(--ink-30);
+}
+.err-links a { color: var(--ink-55); }
+
+.page-foot {
+  margin-top: var(--s5);
+  font-size: var(--fs-xs); color: var(--ink-30); text-align: center;
+}
+.page-foot a { color: var(--ink-55); }
+</style>
+</head>
+<body>
+
+<div>
+  <div class="err-card">
+
+    <div class="err-logo">
+      <img src="assets/logo/domial-horizontal.svg" alt="Domial">
+    </div>
+
+    <div class="err-code" aria-hidden="true">404</div>
+
+    <h1>Page introuvable</h1>
+    <p>Cette page n'existe pas ou a été déplacée. Revenez à l'accueil pour continuer.</p>
+
+    <div class="err-actions">
+      <a href="dashboard.html" class="btn btn-primary btn-block">Retour au tableau de bord</a>
+      <a href="landing.html" class="btn btn-ghost btn-block">Retour à l'accueil</a>
+    </div>
+
+    <div class="err-links">
+      <a href="#">Aide</a>
+      <a href="mailto:support@domial.fr">Contacter le support</a>
+    </div>
+
+  </div>
+
+  <p class="page-foot">
+    <a href="#">Mentions légales</a> · <a href="#">Confidentialité</a>
+  </p>
+</div>
+
+</body>
+</html>

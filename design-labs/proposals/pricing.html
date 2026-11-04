@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Tarifs</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+body { background: var(--white); }
+
+/* ---- Navbar ---- */
+.nav {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(255,255,255,.92); backdrop-filter: blur(12px);
+  border-bottom: var(--border);
+}
+.nav-inner {
+  max-width: 1080px; margin: 0 auto;
+  display: flex; align-items: center; gap: var(--s4);
+  padding: 0 var(--s6); height: 60px;
+}
+.nav-links { display: flex; gap: var(--s5); margin-left: auto; align-items: center; }
+.nav-links a {
+  font-size: var(--fs-sm); font-weight: 500; color: var(--ink-55);
+  transition: color .15s;
+}
+.nav-links a:hover { color: var(--ink); text-decoration: none; }
+
+/* ---- Hero ---- */
+.hero {
+  padding: var(--s8) var(--s6) var(--s7);
+  text-align: center; max-width: 640px; margin: 0 auto;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: var(--s2);
+  background: var(--steel-soft); border: 1px solid var(--steel-mid);
+  border-radius: 99px; padding: 4px 14px; margin-bottom: var(--s5);
+  font-size: var(--fs-xs); font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--steel);
+}
+.hero h1 {
+  font-size: clamp(28px, 4vw, 44px); font-weight: 700;
+  letter-spacing: -.035em; line-height: 1.1; margin-bottom: var(--s4);
+}
+.hero p { font-size: var(--fs-base); color: var(--ink-55); line-height: 1.65; margin: 0; }
+
+/* Toggle mensuel / annuel */
+.billing-toggle {
+  display: flex; align-items: center; justify-content: center; gap: var(--s3);
+  margin: var(--s6) auto 0; font-size: var(--fs-sm); font-weight: 500; color: var(--ink-55);
+}
+.toggle-track {
+  width: 44px; height: 24px; border-radius: 12px; border: none;
+  background: var(--steel); cursor: pointer; position: relative;
+  transition: background .15s;
+}
+.toggle-thumb {
+  position: absolute; top: 3px; left: 3px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--white); transition: transform .15s;
+}
+.billing-toggle .annual { color: var(--ink); font-weight: 700; }
+.save-pill {
+  background: var(--success-bg); color: var(--success);
+  border-radius: 99px; padding: 2px 10px;
+  font-size: var(--fs-xs); font-weight: 700;
+}
+
+/* ---- Grille de plans ---- */
+.plans-wrap {
+  max-width: 920px; margin: var(--s7) auto;
+  padding: 0 var(--s6);
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: var(--s5); align-items: start;
+}
+
+.plan-card {
+  background: var(--white); border: 1.5px solid var(--gray-mid);
+  border-radius: var(--r-xl); padding: var(--s6);
+  transition: box-shadow .18s, border-color .18s;
+}
+.plan-card:hover { box-shadow: var(--sh-2); border-color: var(--steel-mid); }
+.plan-card.featured {
+  background: var(--ink); border-color: var(--ink);
+  box-shadow: var(--sh-3);
+}
+
+/* Badge populaire */
+.plan-badge {
+  display: inline-block; margin-bottom: var(--s4);
+  font-size: var(--fs-xs); font-weight: 700;
+  padding: 3px 12px; border-radius: 99px;
+  background: rgba(91,132,196,.2); color: rgba(191,209,240,.9);
+}
+
+.plan-name {
+  font-size: var(--fs-sm); font-weight: 700; margin-bottom: var(--s3);
+  color: var(--ink);
+}
+.plan-card.featured .plan-name { color: rgba(255,255,255,.65); }
+
+.plan-price {
+  display: flex; align-items: baseline; gap: 4px;
+  margin-bottom: var(--s2);
+}
+.plan-price .amount {
+  font-size: 42px; font-weight: 700; letter-spacing: -.04em; line-height: 1;
+  color: var(--ink);
+}
+.plan-card.featured .plan-price .amount { color: var(--white); }
+.plan-price .currency {
+  font-size: var(--fs-base); font-weight: 700; color: var(--ink-55);
+  align-self: flex-start; margin-top: 8px;
+}
+.plan-card.featured .plan-price .currency { color: rgba(255,255,255,.55); }
+.plan-price .period {
+  font-size: var(--fs-xs); color: var(--ink-55); margin-left: 2px;
+}
+.plan-card.featured .plan-price .period { color: rgba(255,255,255,.45); }
+
+.plan-desc {
+  font-size: var(--fs-xs); color: var(--ink-55); line-height: 1.6;
+  margin-bottom: var(--s5); min-height: 36px;
+}
+.plan-card.featured .plan-desc { color: rgba(191,209,240,.55); }
+
+.plan-cta { width: 100%; margin-bottom: var(--s5); }
+.plan-cta-light {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; min-height: 44px; padding: 11px 20px;
+  font: 600 var(--fs-sm)/1 var(--font); color: var(--white);
+  background: rgba(255,255,255,.12); border: 1.5px solid rgba(255,255,255,.18);
+  border-radius: var(--r-md); cursor: pointer;
+  transition: background .15s;
+  text-decoration: none;
+}
+.plan-cta-light:hover { background: rgba(255,255,255,.2); text-decoration: none; }
+
+/* Liste de fonctionnalités */
+.plan-feats { display: flex; flex-direction: column; gap: var(--s3); }
+.plan-feat {
+  display: flex; align-items: flex-start; gap: var(--s3);
+  font-size: var(--fs-xs); color: var(--ink-80); line-height: 1.4;
+}
+.plan-card.featured .plan-feat { color: rgba(191,209,240,.7); }
+.feat-check {
+  width: 16px; height: 16px; border-radius: 50%; flex: none; margin-top: 1px;
+  display: grid; place-items: center;
+  background: var(--success-bg); color: var(--success);
+}
+.plan-card.featured .feat-check { background: rgba(46,107,82,.25); color: rgba(130,210,165,.9); }
+.feat-dash {
+  width: 16px; height: 16px; flex: none; margin-top: 1px;
+  display: grid; place-items: center; color: var(--ink-30);
+}
+.plan-card.featured .feat-dash { color: rgba(255,255,255,.2); }
+
+/* Séparateur plan */
+.plan-sep { margin: var(--s4) 0; height: 1px; background: var(--gray-mid); }
+.plan-card.featured .plan-sep { background: rgba(255,255,255,.1); }
+
+/* ---- FAQ ---- */
+.faq-wrap {
+  max-width: 640px; margin: var(--s8) auto;
+  padding: 0 var(--s6) var(--s8);
+}
+.faq-wrap h2 {
+  font-size: var(--fs-xl); font-weight: 700; letter-spacing: -.03em;
+  text-align: center; margin-bottom: var(--s6);
+}
+.faq-item {
+  border-bottom: var(--border); padding: var(--s4) 0;
+}
+.faq-item:first-of-type { border-top: var(--border); }
+.faq-q {
+  font-size: var(--fs-sm); font-weight: 700; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center; gap: var(--s4);
+  user-select: none;
+}
+.faq-q svg { flex: none; color: var(--ink-30); transition: transform .18s; }
+.faq-item.open .faq-q svg { transform: rotate(180deg); }
+.faq-a {
+  font-size: var(--fs-sm); color: var(--ink-55); line-height: 1.7;
+  margin-top: var(--s3); display: none;
+}
+.faq-item.open .faq-a { display: block; }
+
+/* ---- Footer ---- */
+footer {
+  border-top: var(--border);
+  padding: var(--s5) var(--s6);
+  display: flex; align-items: center; justify-content: center; gap: var(--s5);
+  font-size: var(--fs-xs); color: var(--ink-30);
+}
+footer a { color: var(--ink-55); }
+
+/* ---- Responsive ---- */
+@media (max-width: 860px) {
+  .plans-wrap { grid-template-columns: 1fr; max-width: 400px; }
+  .nav-links a:not(.btn) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="landing.html"><img src="assets/logo/domial-horizontal.svg" alt="Domial" height="24"></a>
+    <nav class="nav-links">
+      <a href="landing.html">Accueil</a>
+      <a href="#">Fonctionnalités</a>
+      <a href="auth.html">Connexion</a>
+      <a href="register.html" class="btn btn-primary">Commencer</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <div class="hero">
+    <span class="hero-eyebrow">Tarifs simples</span>
+    <h1>Un prix clair,<br>zéro surprise.</h1>
+    <p>Choisissez le plan qui correspond à votre activité. Changez ou annulez à tout moment.</p>
+    <div class="billing-toggle">
+      <span>Mensuel</span>
+      <button class="toggle-track" aria-label="Basculer en facturation annuelle">
+        <div class="toggle-thumb" style="transform:translateX(20px)"></div>
+      </button>
+      <span class="annual">Annuel <span class="save-pill">−20%</span></span>
+    </div>
+  </div>
+
+  <!-- Plans -->
+  <div class="plans-wrap">
+
+    <!-- Gratuit -->
+    <div class="plan-card">
+      <div class="plan-name">Gratuit</div>
+      <div class="plan-price">
+        <span class="currency">€</span>
+        <span class="amount">0</span>
+        <span class="period">/ mois</span>
+      </div>
+      <p class="plan-desc">Pour tester Domial sur un seul domaine.</p>
+      <a href="register.html" class="btn btn-ghost btn-block plan-cta">Commencer gratuitement</a>
+      <div class="plan-feats">
+        <div class="plan-feat">
+          <span class="feat-check"><svg width="9" height="9" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
+          1 domaine
+        </div>
+        <div class="plan-feat">
+          <span class="feat-check"><svg width="9" height="9" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
+          2 boîtes e-mail
+        </div>
+        <div class="plan-feat">
+          <span class="feat-check"><svg width="9" height="9" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
+          SPF · DKIM · DMARC
+        </div>
+        <div class="plan-feat">
+          <span class="feat-dash">—</span>
+          Boîte de réception unifiée
+        </div>
+        <div class="plan-feat">
+          <span class="feat-dash">—</span>
+          Support prioritaire
+        </div>
+      </div>
+    </div>
+
+    <!-- Pro — featured -->
+    <div class="plan-card featured">
+      <div class="plan-badge">Le plus populaire</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">
+        <span class="currency">€</span>
+        <span class="amount">7</span>
+        <span class="period">/ mois</span>
+      </div>
+      <p class="plan-desc">Pour les indépendants et petites équipes qui veulent paraître grands.</p>
+      <a href="register.html" class="plan-cta-light plan-cta">Commencer — 14 j gratuits</a>
+      <div class="plan-feats">
+        <div class="plan-feat">
+          <span class="feat-check"><svg width="9" height="9" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
+          3 domaines
+        </div>
+        <div class="plan-feat">
+          <span class="feat-check"><svg width="9" height="9" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
+          5 boîtes par domaine
+        </div>
+        <div class="plan-feat">
+          <span class="feat-check"><svg width="9" height="9" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
+          SPF · DKIM · DMARC
+        </div>
+        <div class="plan-feat">
+          <span class="feat-check"><svg width="9" height="9" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
+          Boîte de réception unifiée
+        </div>
+        <div class="plan-feat">
+          <span class="feat-check"><svg width="9" height="9" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
+          Support par e-mail sous 24 h
+        </div>
+      </div>
+    </div>
+
+    <!-- Agence -->
+    <div class="plan-card">
+      <div class="plan-name">Agence</div>
+      <div class="plan-price">
+        <span class="currency">€</span>
+        <span class="amount">19</span>
+        <span class="period">/ mois</span>
+      </div>
+      <p class="plan-desc">Pour gérer plusieurs clients et marques sous un seul compte.</p>
+      <a href="register.html" class="btn btn-primary btn-block plan-cta">Essayer 14 jours</a>
+      <div class="plan-feats">
+        <div class="plan-feat">
+          <span class="feat-check"><svg width="9" height="9" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
+          Domaines illimités
+        </div>
+        <div class="plan-feat">
+          <span class="feat-check"><svg width="9" height="9" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
+          10 boîtes par domaine
+        </div>
+        <div class="plan-feat">
+          <span class="feat-check"><svg width="9" height="9" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
+          SPF · DKIM · DMARC
+        </div>
+        <div class="plan-feat">
+          <span class="feat-check"><svg width="9" height="9" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
+          Boîte de réception unifiée
+        </div>
+        <div class="plan-feat">
+          <span class="feat-check"><svg width="9" height="9" stroke="currentColor" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>
+          Support prioritaire + onboarding
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-wrap">
+    <h2>Questions fréquentes</h2>
+
+    <div class="faq-item open">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Ai-je besoin d'un compte Google pour utiliser Domial ?
+        <svg class="ic ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <p class="faq-a">Oui, Domial utilise votre Gmail existant comme moteur d'envoi et de réception. Vous n'avez pas besoin de créer un nouveau compte — c'est précisément l'un de nos avantages.</p>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Que se passe-t-il si j'annule mon abonnement ?
+        <svg class="ic ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <p class="faq-a">Votre domaine reste à vous. Les enregistrements DNS que Domial a créés continuent de fonctionner. Seules les fonctionnalités de gestion et la boîte de réception unifiée deviennent inaccessibles.</p>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Puis-je changer de plan à tout moment ?
+        <svg class="ic ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <p class="faq-a">Oui, à la hausse comme à la baisse. Le changement prend effet immédiatement et la facturation est ajustée au prorata.</p>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <span>© 2026 Domial</span>
+  <a href="#">Mentions légales</a>
+  <a href="#">Confidentialité</a>
+  <a href="mailto:support@domial.fr">support@domial.fr</a>
+</footer>
+
+</body>
+</html>
