@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "id": "business-validation",
+  "version": "1.0.0",
+  "title": "Validation business DRX",
+  "description": "Valide la viabilite economique d'une idee avant depense : conseil, concurrents, panel simule, prix, offre, chiffres, go-to-market, operations, lancement et plan au verdict calcule.",
+  "owner": "drx-business",
+  "modes": [
+    "guided",
+    "headless"
+  ],
+  "upstream": [
+    {
+      "project": "founder-skill",
+      "version": "1.0.0",
+      "assets": [
+        "founder-board",
+        "founder-competitors",
+        "founder-consumer",
+        "founder-pricing",
+        "founder-offer",
+        "founder-cfo",
+        "founder-marketing",
+        "founder-brand",
+        "founder-ops",
+        "founder-launch",
+        "founder-plan"
+      ]
+    }
+  ],
+  "artifacts": [
+    "idea.md",
+    "board.md",
+    "competitors.md",
+    "panel/results.md",
+    "pricing.md",
+    "offer.md",
+    "cfo.md",
+    "marketing.md",
+    "brand.md",
+    "ops.md",
+    "launch.md",
+    "business-plan.md"
+  ],
+  "steps": [
+    {
+      "id": "board",
+      "title": "Conseil a trois lentilles",
+      "agents": [
+        "drx-business"
+      ],
+      "instruction": "Ecrire business/idea.md puis convoquer le conseil (3 instances membre lancees par drx) ; produire business/board.md avec vote et conditions.",
+      "outputs": [
+        "board.md"
+      ],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": false
+      }
+    },
+    {
+      "id": "competitors",
+      "title": "Concurrents et vide",
+      "agents": [
+        "drx-business",
+        "drx-product",
+        "drx-referencement"
+      ],
+      "instruction": "Cartographier concurrents directs, indirects et substituts, sources publiques liees, plaintes clients et vide a occuper.",
+      "outputs": [
+        "competitors.md"
+      ],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": false
+      }
+    },
+    {
+      "id": "consumer",
+      "title": "Panel d'acheteurs simules",
+      "agents": [
+        "drx-business"
+      ],
+      "instruction": "Preparer client, pitch et briefs ; drx annonce le cout puis lance les acheteurs par vagues (20 en --quick, 100 sinon) ; compter avec panel.py tally. Taux d'achat = borne haute.",
+      "outputs": [
+        "panel/results.md"
+      ],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": false
+      }
+    },
+    {
+      "id": "pricing",
+      "title": "Prix",
+      "agents": [
+        "drx-business"
+      ],
+      "instruction": "Calculer la fourchette Van Westendorp, la comparer aux concurrents et a la marge, recommander prix, echelle et offre d'ouverture.",
+      "outputs": [
+        "pricing.md"
+      ],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": false
+      }
+    },
+    {
+      "id": "offer",
+      "title": "Offre",
+      "agents": [
+        "drx-business",
+        "drx-copy"
+      ],
+      "instruction": "Contrat business puis redaction de l'offre (bonus, garantie financable, urgence vraie, nom) ; re-test du panel avec la meme graine.",
+      "outputs": [
+        "offer.md"
+      ],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": false
+      }
+    },
+    {
+      "id": "cfo",
+      "title": "Unit economics",
+      "agents": [
+        "drx-business"
+      ],
+      "instruction": "Renseigner numbers.json avec sources, lancer unit_economics.py, ecrire la note du CFO ; aucun chiffre sans entree nommable.",
+      "outputs": [
+        "cfo.md",
+        "numbers.json"
+      ],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": false
+      }
+    },
+    {
+      "id": "marketing",
+      "title": "Marketing",
+      "agents": [
+        "drx-business",
+        "drx-referencement",
+        "drx-copy"
+      ],
+      "instruction": "Positionnement, canaux de la premiere audience, campagne de 30 jours, plafond de cout d'acquisition et chiffres a suivre, sous contrat business.",
+      "outputs": [
+        "marketing.md"
+      ],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": false
+      }
+    },
+    {
+      "id": "brand",
+      "title": "Marque",
+      "agents": [
+        "drx-business",
+        "drx-copy",
+        "drx-design"
+      ],
+      "instruction": "Nom (avec verifications marque, domaine, pseudos a finir par l'utilisateur), promesse, voix, brief d'identite visuelle coherents avec le positionnement.",
+      "outputs": [
+        "brand.md"
+      ],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": false
+      }
+    },
+    {
+      "id": "ops",
+      "title": "Operations",
+      "agents": [
+        "drx-business",
+        "drx-infra",
+        "drx-sec"
+      ],
+      "instruction": "Cycle quotidien, fournisseurs, equipe, procedures, outils, autorisations a confirmer et registre des risques ; remonter les couts reels au CFO.",
+      "outputs": [
+        "ops.md"
+      ],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": false
+      }
+    },
+    {
+      "id": "launch",
+      "title": "Test reel et lancement",
+      "agents": [
+        "drx-business",
+        "drx-deploy",
+        "drx-test"
+      ],
+      "instruction": "Test reel peu couteux avec seuil de succes ecrit avant, compte a rebours date, feuille du jour J et revue a 30 jours.",
+      "outputs": [
+        "launch.md"
+      ],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": false
+      }
+    },
+    {
+      "id": "plan",
+      "title": "Plan d'affaires et verdict",
+      "agents": [
+        "drx-business",
+        "drx-doc"
+      ],
+      "instruction": "Lancer compile.py --check puis compile.py ; le verdict est calcule, jamais saisi. Ecrire synthese et page unique.",
+      "outputs": [
+        "business-plan.md"
+      ],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": true
+      }
+    }
+  ]
+}

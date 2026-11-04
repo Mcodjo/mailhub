@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "id": "security-assurance",
+  "version": "1.0.0",
+  "title": "Assurance securite DRX",
+  "description": "Combine controles deterministes, analyse contextuelle et gates de livraison.",
+  "owner": "drx-sec",
+  "modes": ["guided", "headless"],
+  "upstream": [
+    {"project":"ecc","version":"2.2.2","assets":["agents/security-reviewer.md","skills/security-review","skills/security-scan","hooks/hooks.json"]}
+  ],
+  "artifacts": ["security-inventory.json", "threat-model.md", "security-findings.json", "security-verdict.md"],
+  "steps": [
+    {"id":"scope","title":"Cadrage et classification","agents":["drx-sec"],"instruction":"Identifier actifs, donnees, frontieres de confiance, surface exposee et niveau de risque.","outputs":["security-inventory.json"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"agentic-scan","title":"Scan du harnais agentique","agents":["drx-sec","drx-infra"],"instruction":"Verifier prompts, permissions, hooks, MCP, commandes, secrets, dependances et provenance. Les constats du scanner restent distincts du jugement.","outputs":["agentic-security-scan.json"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"threat-model","title":"Modelisation des menaces","agents":["drx-sec","drx-arch"],"instruction":"Modeliser acteurs, flux, abus, frontieres de confiance et mitigations avec une methode adaptee au contexte.","outputs":["threat-model.md"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"product-scan","title":"Scan produit et supply chain","agents":["drx-sec","drx-code"],"instruction":"Executer les outils autorises pour secrets, SAST, dependances, configuration, SBOM et surfaces applicatives.","outputs":["security-findings.json"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"remediation","title":"Correction et revalidation","agents":["drx-code","drx-sec","drx-test"],"instruction":"Corriger par severite, ajouter les regressions necessaires et relancer les controles deterministes.","outputs":["security-remediation.md"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"verdict","title":"Verdict de securite","agents":["drx-sec","drx-test"],"instruction":"Emettre PASS, PASS_WITH_CONDITIONS, BLOCK ou NOT_ASSESSABLE a partir des preuves.","outputs":["security-verdict.md"],"gate":{"requires_evidence":true,"requires_l8":true}}
+  ]
+}

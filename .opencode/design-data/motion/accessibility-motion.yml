@@ -1,0 +1,31 @@
+version: 1
+principes:
+  - Toute information transmise par le mouvement doit exister dans le contenu statique.
+  - Les animations d'interface doivent prévoir prefers-reduced-motion.
+  - Aucun flash plein écran ne doit être utilisé.
+  - Les captions et la transcription sont obligatoires pour les vidéos parlées.
+
+reduced_motion:
+  interface:
+    comportement: remplacer-ou-reduire
+    desactiver:
+      - parallaxe-non-essentielle
+      - boucles-infinies
+      - transitions-rapides
+      - mouvement-decoratif
+    conserver:
+      - changement-detat
+      - focus-visible
+      - feedback-essentiel
+  video:
+    comportement: version-statique-ou-version-simplifiee
+    livrables_minimum:
+      - affiche-ou-frame-cle
+      - transcription
+      - captions
+
+validation:
+  responsable_conception: drx-design
+  responsable_texte: drx-copy
+  responsable_implementation: drx-code
+  responsable_verification: drx-test

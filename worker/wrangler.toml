@@ -1,0 +1,13 @@
+name = "mailprohub-worker"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+
+# Email Routing: ce Worker est abonne a l'evenement email du domaine configure.
+# La configuration par domaine est effectuee automatiquement par le backend
+# via l'API Cloudflare (voir backend app/Services/Cloudflare).
+
+[vars]
+API_BASE_URL = "https://api.mailprohub.example"
+
+# Secrets (a definir via `wrangler secret put`):
+#   WEBHOOK_SECRET : secret partage HMAC-SHA256 avec le backend

@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "drx_generation": "4.0",
+  "maintenance": {
+    "policy": "pinned-upstream-with-drx-overlays",
+    "review_authority": "L8",
+    "upgrade_rule": "Never replace DRX contracts directly; compare upstream, transform, evaluate, then promote."
+  },
+  "upstreams": {
+    "ecc": {
+      "name": "Everything Claude Code",
+      "repository": "https://github.com/affaan-m/ECC",
+      "pinned_version": "2.2.2",
+      "license": "MIT",
+      "strategy": "selective-native-port"
+    },
+    "bmad": {
+      "name": "BMAD Method",
+      "repository": "https://github.com/bmad-code-org/BMAD-METHOD",
+      "pinned_version": "6.13.0-next",
+      "snapshot": "BMAD-METHOD-main",
+      "commit": "unverified",
+      "license": "MIT",
+      "strategy": "selective-method-port"
+    },
+    "unlazy": {
+      "name": "unlazy",
+      "repository": "https://github.com/Leonxlnx/unlazy",
+      "pinned_version": "2.1.0",
+      "snapshot": "unlazy-main",
+      "commit": "unverified",
+      "license": "MIT",
+      "strategy": "selective-method-port"
+    },
+    "founder-skill": {
+      "name": "founder-skill",
+      "repository": "https://github.com/Jakeschincariol/founder-skill",
+      "pinned_version": "1.0.0",
+      "snapshot": "founder-skill-main",
+      "commit": "unverified",
+      "license": "MIT",
+      "strategy": "selective-method-port"
+    }
+  },
+  "workflows": [
+    {
+      "id": "security-assurance",
+      "title": "Assurance securite DRX",
+      "owner": "drx-sec",
+      "manifest": "security-assurance.json",
+      "source": "ECC security-review, security-scan and hook guardrails"
+    },
+    {
+      "id": "design-delivery",
+      "title": "Conception et livraison design DRX",
+      "owner": "drx-design",
+      "manifest": "design-delivery.json",
+      "source": "ECC design workflows and BMAD UX two-spine contract"
+    },
+    {
+      "id": "bmad-product-cycle",
+      "title": "Cycle produit DRX derive de BMAD",
+      "owner": "drx-product",
+      "manifest": "bmad-product-cycle.json",
+      "source": "Selective DRX-native port of BMAD Method product mechanisms"
+    },
+    {
+      "id": "depth-tree-delivery",
+      "title": "Livraison par arbre de profondeur DRX",
+      "owner": "drx",
+      "manifest": "depth-tree-delivery.json",
+      "source": "Selective DRX-native port of the unlazy Depth Tree, acceptance ledger and reverification mechanisms"
+    },
+    {
+      "id": "business-validation",
+      "title": "Validation business DRX",
+      "owner": "drx-business",
+      "manifest": "business-validation.json",
+      "source": "Selective DRX-native port of the founder-skill pack (11 modes, 4 stdlib tools, computed verdict)"
+    }
+  ]
+}

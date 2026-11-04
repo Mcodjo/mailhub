@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0",
+  "id": "depth-tree-delivery",
+  "version": "1.0.0",
+  "title": "Livraison par arbre de profondeur DRX",
+  "description": "Decompose une demande substantielle en feuilles et branches, fige le contrat des exigences avant la delegation, prouve chaque livrable par des checks rejoues a l'integration puis audite la livraison finale contre la demande d'origine.",
+  "owner": "drx",
+  "modes": ["guided", "headless"],
+  "tree": {
+    "contract_required": true
+  },
+  "upstream": [
+    {
+      "project": "unlazy",
+      "version": "2.1.0",
+      "assets": [
+        "SKILL.md",
+        "references/method.md",
+        "references/orchestration.md",
+        "references/gates.md"
+      ]
+    }
+  ],
+  "artifacts": [
+    "contract-inventory.md",
+    "tree-plan.md",
+    "leaf-report.md",
+    "qa-report.md",
+    "integration-report.md",
+    "delivery-audit.md"
+  ],
+  "steps": [
+    {
+      "id": "contract",
+      "kind": "leaf",
+      "title": "Contrat des exigences",
+      "agents": ["drx"],
+      "instruction": "Relire la demande d'origine et ses amendements, puis inventorier chaque exigence independamment omissible ou contrainte qui change l'acceptation. Enregistrer chacune avec --workflow-contract RUN_ID --contract-add TEXTE --owner ETAPE --observer manual|ETAPE/CHECK une fois les etapes decomposees. Ne copier ni secret ni contenu prive.",
+      "outputs": ["contract-inventory.md"],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": false
+      }
+    },
+    {
+      "id": "decomposition",
+      "kind": "leaf",
+      "needs": ["contract"],
+      "title": "Decomposition en arbre",
+      "agents": ["drx-arch", "drx-product"],
+      "instruction": "Choisir la plus petite profondeur honnete : une feuille par livrable coherent, une branche par vraie frontiere d'integration. Fixer avant toute delegation les interfaces, formats, conventions d'erreur, proprietaires de fichiers et dependances. Ecrire pour chaque feuille ses checks avec --check-add (commande + motif de succes decisif), jamais un oracle qui ne peut pas echouer.",
+      "outputs": ["tree-plan.md"],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": false
+      }
+    },
+    {
+      "id": "build",
+      "kind": "leaf",
+      "needs": ["decomposition"],
+      "title": "Realisation des feuilles",
+      "agents": ["drx-code"],
+      "instruction": "Implementer chaque feuille complete, sans placeholder ni reste differe. Relire en expert, chasser les defauts de correction, d'integration, de portabilite et de performance, corriger, puis recommencer jusqu'a une passe sans defaut. Declarer toute impossibilite avec --workflow-abandon plutot que de la taire.",
+      "outputs": ["leaf-report.md"],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": false
+      }
+    },
+    {
+      "id": "qa",
+      "kind": "leaf",
+      "needs": ["build"],
+      "title": "Verification des feuilles",
+      "agents": ["drx-test", "drx-sec"],
+      "instruction": "Verifier chaque feuille avec ses checks et les tests de non-regression. Les checks sont relus par L8 puis lances avec --workflow-verify RUN_ID --approve-checks ; une preuve ne remplace jamais une commande rejouee.",
+      "outputs": ["qa-report.md"],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": false
+      }
+    },
+    {
+      "id": "integrate",
+      "kind": "branch",
+      "integrates": ["build", "qa"],
+      "needs": ["qa"],
+      "title": "Integration des branches",
+      "agents": ["drx-test", "drx-arch"],
+      "instruction": "Rejouer les checks des feuilles enfants (automatique a la verification de cette branche) puis tester les interfaces, le comportement de bout en bout et les regressions sur l'ensemble joint. Une integration locale ne vaut pas integration globale.",
+      "outputs": ["integration-report.md"],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": false
+      }
+    },
+    {
+      "id": "delivery-audit",
+      "kind": "branch",
+      "integrates": ["integrate"],
+      "needs": ["integrate"],
+      "title": "Audit final de la livraison",
+      "agents": ["drx"],
+      "instruction": "Relire la demande courante, reconcilier chaque ligne du contrat (drx --workflow-contract RUN_ID), remesurer chaque chiffre et chaque affirmation de completion juste avant le rapport, puis presenter exigences satisfaites, retirees (REMOVED_BY_USER) et abandonnees. Aucun rapport de livraison tant qu'une exigence est non satisfaite, abandonnee, differee ou en attente d'une decision de L8.",
+      "outputs": ["delivery-audit.md"],
+      "gate": {
+        "requires_evidence": true,
+        "requires_l8": true
+      }
+    }
+  ]
+}

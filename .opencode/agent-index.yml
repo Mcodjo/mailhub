@@ -1,0 +1,171 @@
+version: 1
+description: "Catalogue court de routage DRX ; charger le prompt complet uniquement après sélection."
+regles:
+  max-agents: 3
+  recherche: "Comparer demande, tags, declencheurs et exclusions avant toute lecture détaillée."
+  activation: "toujours | demande | fichier | manuel"
+agents:
+  - nom: drx
+    description: "Orchestrateur global DRX : analyse le besoin, route vers au plus trois agents spécialisés, contrôle les contrats, arbitre les conflits, conserve les décisions validées et vérifie la livraison."
+    tags: ["orchestration", "gouvernance", "tracabilite", "handoff", "etat", "architecture", "securite", "tests", "performance", "arbre-de-profondeur", "contrat-exigences", "gates"]
+    declencheurs: ["tache complexe", "projet", "orchestration", "plan global", "revue complete", "delegation", "arbitrage", "coordination", "arbre de profondeur", "livraison multi-livrables", "ne pas s'arreter avant la fin"]
+    exclusions: []
+    activation: toujours
+    priorite: haute
+  - nom: drx-api
+    description: "Conçoit les contrats API versionnés pour REST, GraphQL, gRPC, événements et webhooks, puis prescrit leur implémentation et leur validation."
+    tags: ["api", "rest", "graphql", "grpc", "openapi", "asyncapi", "protobuf", "contrats-api", "problem-details", "compatibilite", "breaking-changes", "idempotence", "webhooks", "tests-contrat", "observabilite"]
+    declencheurs: ["api", "endpoint", "rest", "graphql", "grpc", "openapi", "asyncapi", "webhook", "contrat-api", "breaking-change", "idempotence"]
+    exclusions: ["implementation", "ui", "mobile"]
+    activation: demande
+    priorite: haute
+  - nom: drx-arch
+    description: "Conçoit une architecture contextuelle, formalise les ADR, choisit les vues C4 et guide une modularité évolutive ; drx-code implémente."
+    tags: ["architecture", "architecture-contextuelle", "adr", "c4", "refactorisation", "motifs-conception", "monolithe-modulaire", "back-end", "front-end", "mobile", "scalabilite", "evolutivite", "handoff"]
+    declencheurs: ["architecture", "adr", "c4", "refactoring", "structure", "module", "monolithe", "microservices", "scalabilite", "decoupage", "decision-technique"]
+    exclusions: ["redaction-commerciale", "seo"]
+    activation: demande
+    priorite: haute
+  - nom: drx-business
+    description: "Valide la viabilité économique : conseil à trois lentilles, concurrents, panel d'acheteurs simulés, prix, offre, unit economics, marketing, marque, opérations, lancement et plan d'affaires au verdict calculé ; gouverne les étapes business confiées aux spécialistes."
+    tags: ["business", "viabilite", "idee-business", "plan-affaires", "unit-economics", "marge", "seuil-de-rentabilite", "tresorerie", "prix", "van-westendorp", "offre", "concurrents", "panel-acheteurs", "marche", "positionnement", "go-to-market", "lancement", "operations", "fournisseurs", "pre-vente", "verdict"]
+    declencheurs: ["idee de business", "est-ce rentable", "plan d'affaires", "business plan", "marge", "seuil de rentabilite", "unit economics", "quel prix", "analyse concurrents", "panel", "valider la demande", "offre", "plan de lancement", "pre-vente", "tresorerie", "startup", "business model"]
+    exclusions: ["implementation-code", "architecture-technique", "securite-offensive", "direction-artistique-detaillee", "redaction-finale-des-textes", "conseil-juridique", "conseil-fiscal"]
+    activation: demande
+    priorite: haute
+  - nom: drx-code
+    description: "Intègre les recommandations SEO/AEO/GEO, implémente les compositions motion Remotion finales et produit un code simple, actuel, testable et maintenable."
+    tags: ["code", "implementation", "refactorisation", "front-end", "back-end", "technologies", "remotion", "motion", "seo", "aeo", "geo", "accessibilite", "integration-technique", "actualite-technique", "versioning", "dependances", "revue-de-code", "securite", "asvs", "ssdf"]
+    declencheurs: ["coder", "implementer", "modifier le code", "fonction", "composant", "remotion", "composition", "motion", "seo", "aeo", "geo", "referencement", "accessibilite", "integration"]
+    exclusions: ["strategie-referencement", "maquette"]
+    activation: demande
+    priorite: haute
+  - nom: drx-copy
+    description: "Rédige le copywriting, l’UX writing, le storytelling et les textes destinés aux interfaces, campagnes et supports motion."
+    tags: ["redaction-commerciale", "redaction-ux", "seo", "narration", "marketing", "conformite", "script", "voix-off", "captions"]
+    declencheurs: ["texte", "emailing", "storytelling", "argumentaire", "pitch", "script-video", "voix-off", "sous-titres", "captions", "texte-a-lecran"]
+    exclusions: ["architecture", "infrastructure", "direction-artistique", "layout", "animation", "composition-remotion"]
+    activation: demande
+    priorite: normale
+  - nom: drx-data
+    description: "Prescrit des flux data contextualisés : contrats, qualité, lineage, reprise, évolution de schéma et gouvernance ; drx-code implémente."
+    tags: ["donnees", "etl", "elt", "pipelines", "data-contract", "qualite-donnees", "lineage", "schema", "schema-evolution", "idempotence", "replay", "streaming", "freshness", "cdc", "dlq", "partitionnement", "gouvernance"]
+    declencheurs: ["pipeline", "etl", "elt", "donnees", "qualite des donnees", "data engineering", "data contract", "lineage", "schema", "replay", "streaming", "cdc"]
+    exclusions: ["ui", "redaction-commerciale", "implementation-code"]
+    activation: demande
+    priorite: normale
+  - nom: drx-deploy
+    description: "Prescrit une livraison contextuelle et vérifiable : CI/CD, artefacts immuables, promotion, releases, déploiement progressif et rollback ; les agents spécialisés implémentent et valident."
+    tags: ["deploiement", "ci-cd", "conteneurs", "livraison", "pipeline", "release", "promotion", "rollback", "deploiement-progressif", "canary", "blue-green", "gitops", "provenance", "sbom", "attestation", "digest", "oidc", "environnement-protege", "kubernetes", "migration", "smoke-test", "supply-chain"]
+    declencheurs: ["deployer", "ci/cd", "pipeline de livraison", "docker", "conteneur", "release", "promotion", "rollback", "canary", "blue-green", "gitops", "sbom", "attestation", "provenance"]
+    exclusions: ["ui", "redaction-commerciale", "implementation-code", "provisioning-infrastructure"]
+    activation: demande
+    priorite: haute
+  - nom: drx-design
+    description: "Conçoit l’UI/UX, la direction artistique, l’accessibilité et les prototypes ; gouverne drx-motion."
+    tags: ["design", "ui", "ux", "accessibilite", "typographie", "direction-motion", "prototype"]
+    declencheurs: ["design", "interface", "frontend", "landing page", "microcopy", "ux", "ui", "accessibilite", "direction artistique", "validation motion", "prototype"]
+    exclusions: ["back-end", "infrastructure", "code-produit", "logique-metier", "rendu-deploiement"]
+    activation: demande
+    priorite: haute
+  - nom: drx-motion
+    description: "Conçoit tout le mouvement (animations d’interface, vidéo, motion graphics), choisit le moteur (CSS, GSAP, Framer, WebGL, Remotion, HyperFrames, Manim), écrit storyboards et handoffs et orchestre les workers drx-code par frame ; gouverné par drx-design."
+    tags: ["motion", "animation", "video", "storyboard", "remotion", "hyperframes", "manim", "gsap", "framer-motion", "transitions", "timing", "reduced-motion", "captions", "audio"]
+    declencheurs: ["motion", "animation", "video", "film de lancement", "storyboard", "transition", "remotion", "hyperframes", "manim", "gsap", "framer motion", "lottie", "micro-interaction", "reduced motion", "voix off", "sous-titres", "motion graphics"]
+    exclusions: ["back-end", "infrastructure", "code-produit", "logique-metier", "redaction-commerciale", "direction-artistique-statique"]
+    activation: demande
+    priorite: haute
+  - nom: drx-design-doc
+    description: "Audite et documente en lecture seule le design system existant : tokens, composants, accessibilité, responsive et preuves ; drx-design décide, drx-code implémente."
+    tags: ["design-system", "design-tokens", "dtcg", "documentation", "composants", "wcag", "accessibilite", "storybook", "responsive", "flutter-ui", "react-native-ui", "etats-ui", "reduced-motion", "audit-design"]
+    declencheurs: ["design system", "design.md", "auditer composants", "documenter interface", "tokens", "palette", "typographie", "accessibilite design", "storybook"]
+    exclusions: ["referencement", "infrastructure", "decision-design", "implementation-code"]
+    activation: demande
+    priorite: normale
+  - nom: drx-doc
+    description: "Produit une documentation technique vérifiable par audience : docs-as-code, Diátaxis, ADR, API, data dictionary, runbooks et traçabilité ; les diagrammes sont délégués."
+    tags: ["documentation", "docs-as-code", "diataxis", "architecture", "api", "data-dictionary", "guide-exploitation", "runbook", "adr", "glossaire", "fraicheur-documentaire", "test-documentation", "tracabilite"]
+    declencheurs: ["documenter", "documentation", "runbook", "guide", "reference", "tutoriel", "how-to", "glossaire", "adr", "data dictionary"]
+    exclusions: ["implementation", "performance", "diagramme-direct"]
+    activation: demande
+    priorite: normale
+  - nom: drx-drawio-merise
+    description: "Produit des modèles de données (MCD, MLD, MPD) et de processus (MCT, MOT) Draw.io importables, normalisés et sans chevauchement ; drx-data implémente les flux."
+    tags: ["merise", "diagrammes", "drawio", "mcd", "mld", "mpd", "mct", "mot", "modele-donnees", "cardinalite", "normalisation", "dependance-fonctionnelle", "cle-primaire", "cle-etrangere", "schema", "reverse-engineering"]
+    declencheurs: ["merise", "mcd", "mld", "mpd", "mct", "mot", "modele de donnees", "cardinalite", "normalisation", "dependance fonctionnelle"]
+    exclusions: ["uml", "ui"]
+    activation: demande
+    priorite: normale
+  - nom: drx-drawio-uml
+    description: "Produit des diagrammes UML et C4 Draw.io importables, sémantiquement vérifiés et sans chevauchement ; sépare validation et rendu XML."
+    tags: ["uml", "c4", "diagramme-contexte", "conteneur", "composant", "classe", "sequence", "activite", "etat", "cas-usage", "deploiement", "relation", "multiplicite", "drawio", "architecture"]
+    declencheurs: ["uml", "c4", "diagramme de classes", "sequence", "activite", "composant", "deploiement", "architecture drawio", "cas d’usage", "etat"]
+    exclusions: ["merise", "redaction-commerciale"]
+    activation: demande
+    priorite: normale
+  - nom: drx-infra
+    description: "Prescrit une infrastructure cloud et IaC versionnée, contrôlée par policy-as-code, résiliente et gouvernée par FinOps ; drx-deploy et drx-code implémentent."
+    tags: ["infrastructure", "iac", "terraform", "opentofu", "cloud", "multi-cloud", "reseau", "iam", "securite-cloud", "drift", "policy-as-code", "well-architected", "fiabilite", "resilience", "finops", "couts", "rto", "rpo", "handoff"]
+    declencheurs: ["cloud", "infrastructure", "iac", "terraform", "opentofu", "drift", "policy-as-code", "reseau", "iam", "aws", "gcp", "azure", "finops", "rto", "rpo"]
+    exclusions: ["ui", "redaction-commerciale"]
+    activation: demande
+    priorite: haute
+  - nom: drx-mobile
+    description: "Prescrit une architecture mobile contextualisée (Flutter prioritaire, React Native, Expo, offline-first) pour implémentation actuelle et testable par drx-code."
+    tags: ["mobile", "flutter", "react-native", "expo", "ios", "android", "hors-ligne", "architecture-mobile", "acceptation-technique", "riverpod", "async-notifier", "new-architecture", "expo-doctor", "versioning-technique", "tests-mobiles"]
+    declencheurs: ["mobile", "flutter", "react native", "expo", "ios", "android", "offline-first", "architecture mobile", "application mobile"]
+    exclusions: ["referencement", "merise", "code-produit-direct"]
+    activation: demande
+    priorite: haute
+  - nom: drx-mockup
+    description: "Produit des wireframes, maquettes haute fidélité, prototypes, aperçus motion et supports print."
+    tags: ["maquette", "fil-de-fer", "ui", "prototype", "impression", "affiche", "motion", "storyboard", "remotion"]
+    declencheurs: ["maquette", "wireframe", "prototype", "affiche", "haute fidelite", "storyboard", "prototype-motion", "aperçu-video", "remotion"]
+    exclusions: ["back-end", "securite", "code-produit", "composition-remotion-finale"]
+    activation: demande
+    priorite: normale
+  - nom: drx-monitor
+    description: "Prescrit une observabilité contextualisée : logs, métriques, traces, SLI/SLO, alertes, incidents et runbooks."
+    tags: ["observabilite", "journaux", "metriques", "traces", "alertes", "sli", "slo", "budget-erreur", "burn-rate", "opentelemetry", "prometheus", "cardinalite", "redaction", "runbook", "incident", "postmortem", "retention", "sampling"]
+    declencheurs: ["logs", "metrics", "traces", "alerting", "observabilite", "sli", "slo", "incident", "runbook", "latence", "disponibilite"]
+    exclusions: ["ui", "redaction-commerciale", "implementation-code", "profiling-principal"]
+    activation: demande
+    priorite: normale
+  - nom: drx-perf
+    description: "Prescrit des améliorations de performance fondées sur baseline, profiling, budgets, Lighthouse, validation et rollback ; drx-code implémente."
+    tags: ["performance", "profilage", "optimisation", "baseline", "benchmark", "goulot", "latence", "debit", "saturation", "percentile", "p50", "p95", "p99", "budget-performance", "regression-performance", "lighthouse", "lighthouse-ci", "core-web-vitals", "lcp", "inp", "cls", "charge", "dataset", "reproductibilite", "variance", "rollback-performance", "cout-performance", "back-end", "front-end", "mobile", "base-donnees", "reseau"]
+    declencheurs: ["lent", "performance", "profiling", "profilage", "latence", "p95", "p99", "optimisation", "benchmark", "baseline", "lighthouse", "core web vitals", "lcp", "inp", "cls", "regression performance", "budget performance"]
+    exclusions: ["redaction-commerciale", "systeme-design", "implementation-code"]
+    activation: demande
+    priorite: haute
+  - nom: drx-product
+    description: "Transforme une intention en contrat produit vérifiable, maintient les capacités et décisions, structure initiatives, epics et tickets, puis prescrit les handoffs aux spécialistes DRX."
+    tags: ["gouvernance", "tracabilite", "handoff", "contrat", "documentation", "integration", "tests", "architecture", "design"]
+    declencheurs: ["nouveau produit", "idee produit", "brief produit", "prd", "specification", "spec", "initiative", "epic", "story", "ticket", "decoupage fonctionnel", "correction de trajectoire", "retrospective produit"]
+    exclusions: ["implementation", "code", "securite", "deploiement"]
+    activation: demande
+    priorite: haute
+  - nom: drx-referencement
+    description: "Analyse le référencement SEO/AEO/GEO avec des preuves mesurées, la découvrabilité dans les moteurs à réponse et les améliorations à transmettre à drx-code."
+    tags: ["referencement", "seo", "aeo", "geo", "moteurs-a-reponse", "moteurs-generatifs", "donnees-structurees", "contenu-utile", "entites", "citabilite", "accessibilite", "performance-mesuree", "webmcp-experimental"]
+    declencheurs: ["referencement", "seo", "aeo", "answer engine", "geo", "google", "chatgpt", "perplexity", "gemini", "bing", "schema.org", "sitemap", "meta", "citation", "ai overview"]
+    exclusions: ["infrastructure", "mobile-natif", "implementation-code"]
+    activation: demande
+    priorite: normale
+  - nom: drx-sec
+    description: "Audite la sécurité applicative et la supply chain, produit des findings prouvés et prescrit les corrections à drx-code et les validations à drx-test."
+    tags: ["securite", "vulnerabilites", "authentification", "autorisation", "secrets", "rotation-secrets", "injection", "conformite", "asvs", "ssdf", "cwe", "kev", "supply-chain", "sbom", "provenance", "slsa", "scorecard", "secret-scanning", "dependances", "modelisation-menaces", "stride", "pasta", "gestion-exceptions", "handoff-securite"]
+    declencheurs: ["securite", "faille", "owasp", "asvs", "ssdf", "auth", "secret", "injection", "dependance vulnerable", "sbom", "supply chain", "threat modeling", "stride", "pasta", "incident"]
+    exclusions: ["copywriting", "maquette"]
+    activation: demande
+    priorite: haute
+  - nom: drx-test
+    description: "Conçoit la stratégie de tests, la couverture et la non-régression, y compris les contrats motion Remotion, l’accessibilité WCAG et le versioning des outils."
+    tags: ["tests", "couverture", "unitaire", "integration", "regression", "contrat", "performance", "motion", "remotion", "accessibilite", "wcag", "captions", "playwright", "axe-core", "mouvement-reduit", "acceptation-technique", "versioning-outils", "revue-manuelle"]
+    declencheurs: ["test", "couverture", "regression", "pytest", "unitaires", "integration", "motion", "remotion", "composition", "storyboard", "copy-timing", "captions", "accessibilite", "wcag", "axe", "playwright", "prefers-reduced-motion", "fallback statique", "critere d’acceptation", "non-regression"]
+    exclusions: ["maquette", "copywriting"]
+    activation: demande
+    priorite: haute
+vocabulaire:
+  tags: ["acceptation-technique", "accessibilite", "activite", "actualite-technique", "adr", "aeo", "affiche", "alertes", "android", "api", "arbre-de-profondeur", "architecture", "architecture-contextuelle", "architecture-mobile", "asvs", "async-notifier", "asyncapi", "attestation", "audit-design", "authentification", "autorisation", "axe-core", "back-end", "base-donnees", "baseline", "benchmark", "blue-green", "breaking-changes", "budget-erreur", "budget-performance", "burn-rate", "business", "c4", "canary", "captions", "cardinalite", "cas-usage", "cdc", "charge", "ci-cd", "citabilite", "classe", "cle-etrangere", "cle-primaire", "cloud", "cls", "code", "compatibilite", "composant", "composants", "concurrents", "conformite", "conteneur", "conteneurs", "contenu-utile", "contrat", "contrat-exigences", "contrats-api", "core-web-vitals", "cout-performance", "couts", "couverture", "cwe", "data-contract", "data-dictionary", "dataset", "debit", "dependance-fonctionnelle", "dependances", "deploiement", "deploiement-progressif", "design", "design-system", "design-tokens", "diagramme-contexte", "diagrammes", "diataxis", "digest", "dlq", "docs-as-code", "documentation", "donnees", "donnees-structurees", "drawio", "drift", "dtcg", "elt", "entites", "environnement-protege", "etat", "etats-ui", "etl", "evolutivite", "expo", "expo-doctor", "fiabilite", "fil-de-fer", "finops", "flutter", "flutter-ui", "fournisseurs", "fraicheur-documentaire", "freshness", "front-end", "gates", "geo", "gestion-exceptions", "gitops", "glossaire", "go-to-market", "goulot", "gouvernance", "graphql", "grpc", "guide-exploitation", "handoff", "handoff-securite", "hors-ligne", "iac", "iam", "idee-business", "idempotence", "implementation", "impression", "incident", "infrastructure", "injection", "inp", "integration", "integration-technique", "ios", "journaux", "kev", "kubernetes", "lancement", "latence", "lcp", "lighthouse", "lighthouse-ci", "lineage", "livraison", "maquette", "marche", "marge", "marketing", "mcd", "mct", "merise", "metriques", "migration", "mld", "mobile", "modele-donnees", "modelisation-menaces", "monolithe-modulaire", "mot", "moteurs-a-reponse", "moteurs-generatifs", "motifs-conception", "motion", "motion-design", "mouvement-reduit", "mpd", "multi-cloud", "multiplicite", "narration", "new-architecture", "normalisation", "observabilite", "offre", "oidc", "openapi", "opentelemetry", "opentofu", "operations", "optimisation", "orchestration", "p50", "p95", "p99", "panel-acheteurs", "partitionnement", "pasta", "percentile", "performance", "performance-mesuree", "pipeline", "pipelines", "plan-affaires", "playwright", "policy-as-code", "positionnement", "postmortem", "pre-vente", "prix", "problem-details", "profilage", "prometheus", "promotion", "protobuf", "prototype", "provenance", "qualite-donnees", "react-native", "react-native-ui", "redaction", "redaction-commerciale", "redaction-ux", "reduced-motion", "refactorisation", "referencement", "regression", "regression-performance", "relation", "release", "remotion", "replay", "reproductibilite", "reseau", "resilience", "responsive", "rest", "retention", "reverse-engineering", "revue-de-code", "revue-manuelle", "riverpod", "rollback", "rollback-performance", "rotation-secrets", "rpo", "rto", "runbook", "sampling", "saturation", "sbom", "scalabilite", "schema", "schema-evolution", "scorecard", "script", "secret-scanning", "secrets", "securite", "securite-cloud", "seo", "sequence", "seuil-de-rentabilite", "sli", "slo", "slsa", "smoke-test", "ssdf", "storyboard", "storybook", "streaming", "stride", "supply-chain", "technologies", "terraform", "test-documentation", "tests", "tests-contrat", "tests-mobiles", "tracabilite", "traces", "tresorerie", "typographie", "ui", "uml", "unit-economics", "unitaire", "ux", "van-westendorp", "variance", "verdict", "versioning", "versioning-outils", "versioning-technique", "viabilite", "voix-off", "vulnerabilites", "wcag", "webhooks", "webmcp-experimental", "well-architected"]
+  convention: "Identifiants français minuscules, sans accents, séparés par des tirets ; acronymes et noms propres techniques conservés."

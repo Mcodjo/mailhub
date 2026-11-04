@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://drx.local/schemas/copy-timing.schema.json",
+  "title": "DRX Motion Copy Timing",
+  "type": "object",
+  "required": ["projet", "langue", "scenes", "contraintes"],
+  "properties": {
+    "projet": { "type": "string", "minLength": 1 },
+    "langue": { "type": "string", "pattern": "^[a-z]{2,3}(-[A-Z]{2})?$" },
+    "voix_de_marque": { "type": "string" },
+    "scenes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "texte_ecran", "duree_cible_ms"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+          "texte_ecran": { "type": "string" },
+          "voix_off": { "type": "string" },
+          "caption": { "type": "string" },
+          "debut_ms": { "type": "integer", "minimum": 0 },
+          "fin_ms": { "type": "integer", "minimum": 1 },
+          "duree_cible_ms": { "type": "integer", "minimum": 1 },
+          "limite_caracteres_ecran": { "type": "integer", "minimum": 1 },
+          "rythme": { "enum": ["tres-rapide", "rapide", "normal", "lent"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "contraintes": {
+      "type": "object",
+      "required": ["version_sans_audio"],
+      "properties": {
+        "ton": { "type": "string" },
+        "version_sans_audio": { "enum": ["obligatoire", "recommandee", "non-requise"] },
+        "cta_unique": { "type": "boolean" },
+        "texte_ecran_max_caracteres": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "validation_editoriale": { "const": "drx-copy" },
+    "integration_motion": { "const": "drx-design" },
+    "integration_code": { "const": "drx-code" }
+  },
+  "additionalProperties": false
+}

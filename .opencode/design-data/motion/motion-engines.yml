@@ -1,0 +1,80 @@
+version: 1
+description: "Moteurs motion autorisés par DRX, critères de choix, contraintes et repli. Les versions sont épinglées par le projet, jamais flottantes."
+
+regles_communes:
+  - Version du moteur épinglée dans le projet ; aucune mise à jour automatique des outils de rendu.
+  - Aucune télémétrie, aucune publication, aucun téléversement sans demande explicite de L8.
+  - Aucune police ni aucun script chargé depuis le réseau dans une composition.
+  - Chaque moteur déclare un repli et une version sans mouvement.
+  - drx-motion prescrit le moteur ; drx-code implémente et rend.
+
+moteurs:
+  css:
+    famille: interface
+    usage: "Micro-interactions, transitions de composants, animations liées au scroll sans JavaScript."
+    choisir_si: "L'animation est simple ou liée au scroll, sans logique d'état."
+    eviter_si: "Séquences multi-étapes complexes ou compatibilité navigateur critique."
+    repli: "Etat final sans animation."
+  gsap:
+    famille: interface
+    usage: "Séquences complexes, ScrollTrigger, SplitText, DrawSVG, MorphSVG."
+    choisir_si: "Chorégraphie multi-étapes ou compatibilité critique."
+    repli: "CSS natif ou état final."
+  framer-motion:
+    famille: interface
+    usage: "Animations d'état et de layout dans un projet React (variants, layoutId, springs)."
+    choisir_si: "Le projet est déjà en React."
+    repli: "Transition CSS."
+  view-transitions:
+    famille: interface
+    usage: "Transitions entre pages ou états discrets avec éléments partagés."
+    exigence: "Repli CSS obligatoire pour les navigateurs sans support."
+  webgl:
+    famille: interface
+    usage: "Expérience immersive : 3D, shader, particules (Three.js)."
+    exigence: "Repli CSS ou SVG obligatoire ; FPS cible et stratégie de dégradation déclarés."
+  remotion:
+    famille: video
+    langage: "React / TypeScript"
+    usage: "Vidéos rendables pilotées par des props sérialisables ; scènes en Sequence ; captions et cues audio."
+    choisir_si: "Le projet est déjà en React/TypeScript ou partage des composants avec l'application."
+    rendu: "Rendu local en ligne de commande."
+    verifier_avant_rendu: "Version de Remotion, signatures des API utilisées, options dépréciées."
+    repli: "Poster statique et transcription."
+  hyperframes:
+    famille: video
+    langage: "HTML + CSS + GSAP (sans React)"
+    usage: "Compositions vidéo déterministes : durée et timing déclarés par attributs data-*, une timeline GSAP en pause par composition, rendu par navigateur sans interface et FFmpeg."
+    choisir_si: "Pas de React ; composition légère et reproductible ; génération rapide par agent."
+    contraintes:
+      - "La composition racine déclare identifiant, dimensions, début et durée ; la durée de rendu vient de l'attribut de durée, pas de la longueur de la timeline."
+      - "Une seule timeline GSAP en pause par composition, construite de façon synchrone au chargement."
+      - "Ne jamais animer une même propriété à la fois en CSS et en GSAP."
+      - "Séquence de contrôle avant rendu : lint, validation, inspection, aperçu, puis rendu."
+      - "Appeler uniquement l'outil en ligne de commande local à la version épinglée."
+    repli: "Poster statique et transcription."
+  manim:
+    famille: video
+    langage: "Python"
+    usage: "Explications, schémas, maths, données animées ; rendu local sans navigateur."
+    choisir_si: "L'usage est explicatif ou scientifique, ou le projet exclut tout rendu par navigateur."
+    eviter_si: "Interfaces produit, habillage de marque très stylé, compositions pilotées par des composants web."
+    repli: "Images clés exportées et transcription."
+  ffmpeg:
+    famille: assemblage
+    usage: "Assemblage, mixage audio, titrage simple, conversion de formats, extraction d'images pour planches de contrôle."
+    note: "Outil commun d'assemblage, requis par les moteurs vidéo."
+  lottie:
+    famille: actif
+    usage: "Format d'actif vectoriel animé (icônes, micro-animations) intégré à une interface ou à une vidéo ; ce n'est pas un moteur de film."
+
+arbre_de_decision:
+  - question: "Support interface ?"
+    oui: "Choisir selon le runtime du produit : css, gsap, framer-motion, view-transitions, webgl."
+  - question: "Support vidéo explicative sans navigateur ?"
+    oui: "manim"
+  - question: "Projet React/TypeScript ou composants partagés ?"
+    oui: "remotion"
+  - question: "Composition HTML légère sans React ?"
+    oui: "hyperframes"
+  - sinon: "Demander à drx-design/L8 et proposer deux options avec compromis."

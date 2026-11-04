@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://drx.local/schemas/storyboard.schema.json",
+  "title": "DRX Motion Storyboard",
+  "type": "object",
+  "required": ["composition", "support", "format", "duree_frames", "scenes", "integration", "validation"],
+  "properties": {
+    "composition": { "type": "string", "minLength": 1, "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "support": { "enum": ["video", "prototype", "interface"] },
+    "format": {
+      "type": "object",
+      "required": ["largeur", "hauteur", "fps"],
+      "properties": {
+        "largeur": { "type": "integer", "minimum": 1 },
+        "hauteur": { "type": "integer", "minimum": 1 },
+        "fps": { "type": "integer", "minimum": 1, "maximum": 120 }
+      },
+      "additionalProperties": false
+    },
+    "duree_frames": { "type": "integer", "minimum": 1 },
+    "scenes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "debut_frame", "duree_frames", "intention"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+          "debut_frame": { "type": "integer", "minimum": 0 },
+          "duree_frames": { "type": "integer", "minimum": 1 },
+          "intention": { "type": "string", "minLength": 1 },
+          "contenu": { "type": "string" },
+          "pattern": { "type": "string" },
+          "handoff_in": { "type": "object" },
+          "handoff_out": { "type": "object" },
+          "cues_audio": { "type": "array", "items": { "type": "string" } }
+        },
+        "additionalProperties": false
+      }
+    },
+    "transitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["entre", "type", "duree_frames"],
+        "properties": {
+          "entre": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "string" } },
+          "type": { "type": "string", "minLength": 1 },
+          "duree_frames": { "type": "integer", "minimum": 0 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "audio": { "enum": ["obligatoire", "optionnel", "interdit"] },
+    "captions": { "enum": ["obligatoires", "optionnelles", "interdites"] },
+    "reduced_motion": { "enum": ["version-statique", "version-simplifiee", "non-applicable"] },
+    "moteur": { "enum": ["css", "gsap", "framer", "view-transitions", "webgl", "remotion", "hyperframes", "manim"] },
+    "justification_moteur": { "type": "string" },
+    "versions_epinglees": { "type": "object" },
+    "prototype": { "type": "string" },
+    "integration": { "enum": ["drx-code", "design-lab"] },
+    "validation": { "type": "array", "minItems": 1, "items": { "enum": ["drx-design", "drx-motion", "drx-copy", "drx-code", "drx-test"] } }
+  },
+  "additionalProperties": false
+}

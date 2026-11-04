@@ -1,0 +1,5 @@
+@import 'tailwindcss';
+
+/* Design Labs MailPro Hub — voir design-labs/design-system.md pour la charte.
+   Les classes DSL (design-tokens) seront importees depuis design-labs/mockups/assets/design-system.css
+   fonte tokens convertis en @theme Tailwind apres validation des maquettes par L8. */

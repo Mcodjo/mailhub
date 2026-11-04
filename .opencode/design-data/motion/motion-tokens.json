@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Tokens motion DRX pour prototypes et compositions Remotion.",
+  "durationsMs": {
+    "instant": 0,
+    "micro": 120,
+    "short": 180,
+    "normal": 300,
+    "long": 500,
+    "dramatic": 800
+  },
+  "easings": {
+    "standard": "cubic-bezier(0.2, 0, 0, 1)",
+    "enter": "cubic-bezier(0, 0, 0.2, 1)",
+    "exit": "cubic-bezier(0.4, 0, 1, 1)",
+    "linear": "linear"
+  },
+  "budgets": {
+    "maxConcurrentAnimatedProperties": 3,
+    "maxFullScreenFlashesPerSecond": 0,
+    "defaultFps": 30,
+    "defaultMaxDurationSeconds": 30
+  },
+  "principles": [
+    "Chaque mouvement a une intention déclarée.",
+    "Les éléments essentiels restent compréhensibles sans mouvement.",
+    "Les animations d'interface respectent prefers-reduced-motion.",
+    "Les compositions vidéo utilisent des props sérialisables."
+  ]
+}

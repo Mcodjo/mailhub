@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "id": "design-delivery",
+  "version": "1.0.0",
+  "title": "Conception et livraison design DRX",
+  "description": "Separe direction visuelle, experience, maquette, implementation et validation observable.",
+  "owner": "drx-design",
+  "modes": ["guided", "headless"],
+  "upstream": [
+    {"project":"ecc","version":"2.2.2","assets":["skills/frontend-design-direction","skills/design-system","skills/accessibility","scripts/hooks/design-quality-check.js"]},
+    {"project":"bmad","version":"6.12.0","assets":["bmad-ux","DESIGN.md","EXPERIENCE.md"]}
+  ],
+  "artifacts": ["visual-spec.md", "experience-spec.md", "mockup", "motion-spec.md", "design-audit.md", "design-verdict.md"],
+  "steps": [
+    {"id":"discovery","title":"Decouverte produit et utilisateurs","agents":["drx-design","drx-copy"],"instruction":"Etablir audience, contexte, taches, contraintes, marque et criteres de succes sans inventer les donnees absentes.","outputs":["design-discovery.md"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"experience","title":"Architecture de l'experience","agents":["drx-design","drx-copy","drx-test"],"instruction":"Definir parcours, IA, comportements, etats, erreurs, accessibilite et criteres d'acceptation dans experience-spec.md.","outputs":["experience-spec.md"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"visual-direction","title":"Direction visuelle","agents":["drx-design"],"instruction":"Produire visual-spec.md avec tokens, grille, typographie, couleur, composants, responsive et motion decides.","outputs":["visual-spec.md"],"gate":{"requires_evidence":true,"requires_l8":true}},
+    {"id":"mockup","title":"Maquette et prototype","agents":["drx-mockup","drx-design"],"instruction":"Materialiser les flux et etats a partir des deux specifications sans prendre de nouvelle decision de direction.","outputs":["mockup"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"motion","title":"Conception motion","agents":["drx-motion","drx-design"],"instruction":"Si le perimetre inclut du mouvement ou de la video : produire le storyboard, le choix du moteur et la version reduced_motion sous la gouvernance de drx-design ; sinon fournir la preuve de non-applicabilite.","outputs":["motion-spec.md"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"implementation","title":"Implementation UI","agents":["drx-code","drx-design"],"instruction":"Implementer les composants et comportements prescrits en respectant le design system existant.","outputs":["implementation-evidence.md"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"quality-check","title":"Controle qualite visuel et accessible","agents":["drx-test","drx-design","drx-perf"],"instruction":"Verifier rendu desktop/mobile, overflow, etats, clavier, contraste, reduced motion, performance et regressions visuelles.","outputs":["design-quality-report.md"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"documentation","title":"Audit et documentation de l'existant","agents":["drx-design-doc","drx-doc"],"instruction":"Documenter uniquement le design reellement implemente et distinguer cible, observe, ecart et non verifie.","outputs":["design-audit.md"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"verdict","title":"Validation design finale","agents":["drx-design","drx-test"],"instruction":"Comparer specifications, implementation et preuves puis emettre le verdict final.","outputs":["design-verdict.md"],"gate":{"requires_evidence":true,"requires_l8":true}}
+  ]
+}

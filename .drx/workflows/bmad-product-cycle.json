@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "id": "bmad-product-cycle",
+  "version": "1.1.0",
+  "title": "Cycle produit DRX derive de BMAD",
+  "description": "Porte le contexte du probleme jusqu'a la livraison avec drx-product, sans embarquer ni usurper le runtime BMAD officiel.",
+  "owner": "drx-product",
+  "modes": ["guided", "headless"],
+  "upstream": [
+    {"project":"bmad","version":"6.13.0-next","snapshot":"BMAD-METHOD-main","commit":"unverified","assets":["adaptive-routing","spec-kernel","decision-memory","ticket-tree","correct-course","retrospective"]}
+  ],
+  "artifacts": ["brief.md", "prd.md", "SPEC.md", "experience-spec.md", "visual-spec.md", "architecture.md", "stories", "readiness.md", "delivery-verdict.md"],
+  "steps": [
+    {"id":"analysis","title":"Routage produit et exploration","agents":["drx-product","drx-arch"],"instruction":"Choisir le chemin minimal selon taille et risque, puis explorer le probleme, les utilisateurs, les hypotheses et les preuves utiles.","outputs":["brief.md","product-route.json"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"planning","title":"Contrat produit et specification","agents":["drx-product","drx-copy","drx-test"],"instruction":"Fixer why, capacites stables, contraintes, non-objectifs, signaux de succes, questions ouvertes et memoire decisionnelle.","outputs":["prd.md","SPEC.md","decision-log.jsonl"],"gate":{"requires_evidence":true,"requires_l8":true}},
+    {"id":"ux","title":"Experience et direction visuelle","agents":["drx-product","drx-design","drx-copy"],"instruction":"Produire les specifications comportementales et visuelles necessaires, puis les relier aux capacites produit.","outputs":["experience-spec.md","visual-spec.md"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"architecture","title":"Solution et architecture","agents":["drx-product","drx-arch","drx-sec"],"instruction":"Decider architecture, donnees, API, securite, infrastructure et compromis en tracant les capacites impactees.","outputs":["architecture.md"],"gate":{"requires_evidence":true,"requires_l8":true}},
+    {"id":"stories","title":"Graphe initiatives, epics et tickets","agents":["drx-product","drx-test"],"instruction":"Decomposer le contrat en unites de livraison testables, avec couverture CAP-N, dependances, risques et checkpoints.","outputs":["work-graph.json","stories"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"readiness","title":"Controle de preparation","agents":["drx-test","drx-sec","drx-arch"],"instruction":"Verifier couverture, contradictions, risques, dependances et criteres avant implementation.","outputs":["readiness.md"],"gate":{"requires_evidence":true,"requires_l8":true}},
+    {"id":"implementation","title":"Implementation par story","agents":["drx-code","drx-test"],"instruction":"Implementer chaque story avec tests, preuves et respect des contrats approuves.","outputs":["implementation-evidence.md"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"review","title":"Revue multi-lentilles et trajectoire","agents":["drx-product","drx-test","drx-sec"],"instruction":"Revoir exactitude, couverture produit, ecarts d'acceptation, securite et findings differes ; revenir au contrat ou au graphe si la cause est amont.","outputs":["review-report.md","course-correction.md"],"gate":{"requires_evidence":true,"requires_l8":false}},
+    {"id":"release","title":"Verdict de livraison et retrospective","agents":["drx-product","drx-deploy","drx-test"],"instruction":"Verifier capacites, preuves, rollback, observabilite et risques residuels, puis emettre le verdict et les apprentissages.","outputs":["delivery-verdict.md","retrospective.md"],"gate":{"requires_evidence":true,"requires_l8":true}}
+  ]
+}
