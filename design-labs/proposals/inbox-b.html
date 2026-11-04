@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Boîte variante B : lecture-first (grand volet lecture)</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+body{margin:0;background:var(--pr-white);font-size:var(--fs-body)}
+.top{background:var(--pr-white);border-bottom:1px solid var(--pr-gray-mid)}
+.top .topbar{height:56px;justify-content:space-between;gap:var(--space-3)}
+.kbdhint{display:flex;gap:6px;align-items:center;font-size:var(--fs-label);color:var(--color-text-muted)}
+.kbdhint kbd{border:1px solid var(--pr-gray-mid);border-bottom-width:2px;border-radius:5px;padding:1px 7px;font:600 var(--fs-label) var(--font-sans);background:var(--pr-gray);color:var(--pr-ink)}
+.layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,2.1fr);min-height:calc(100vh - 57px)}
+.focusnav{border-right:1px solid var(--pr-gray-mid);padding:var(--space-4)}
+.boxline{display:flex;gap:8px;align-items:center;padding:10px 12px;border-radius:var(--radius-sm);font-size:var(--fs-body-s);font-weight:600;color:var(--pr-ink)}
+.boxline .cnt{margin-left:auto;background:var(--pr-ink);color:#fff;border-radius:99px;font-size:var(--fs-label);padding:2px 8px}
+/* File minimal : typo grande, peu de metadonnees */
+.stream{padding:var(--space-4) var(--space-4) var(--space-8);display:grid;gap:2px;align-content:start}
+.shead{font-size:var(--fs-h3);padding:var(--space-3) var(--space-3) 0}
+.item{padding:14px 12px;border-radius:var(--radius-sm);cursor:pointer}
+.item:hover{background:var(--pr-gray)}
+.item[aria-current="true"]{background:var(--color-surface-tint)}
+.item .t{font-size:var(--fs-body);color:var(--pr-ink);font-weight:600;line-height:1.35;margin-bottom:2px}
+.item .p{font-size:var(--fs-body-s);color:var(--color-text-muted);line-height:1.45;margin:0 0 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.item .m{font-size:var(--fs-label);color:var(--color-text-muted);letter-spacing:.02em}
+.dayhead{font-size:var(--fs-label);font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-muted);padding:var(--space-4) var(--space-3) 6px}
+/* Lecture : volet tres large, centrage lisible */
+.read{padding:var(--space-6) var(--space-6) var(--space-8);background:var(--pr-white);border-left:1px solid #EEF0F4}
+.article{max-width:640px;margin:0 auto}
+.mh{display:flex;gap:12px;align-items:center;margin-bottom:var(--space-5)}
+.mh .av{width:44px;height:44px;border-radius:50%;background:var(--pr-ink);color:#fff;display:grid;place-items:center;font-weight:700}
+.article h1{font-size:var(--fs-h2);letter-spacing:-.01em;margin-bottom:var(--space-2)}
+.meta-on-dark{font-size:var(--fs-body-s);color:var(--color-text-muted)}
+.article .body{font-size:16.5px;line-height:1.65;color:var(--pr-ink)}
+.article .body p{margin:0 0 var(--space-4)}
+.sig{border-top:1px solid var(--pr-gray-mid);margin-top:var(--space-6);padding-top:var(--space-4);font-size:var(--fs-body-s);color:var(--color-text-muted)}
+.actions{position:sticky;bottom:0;background:linear-gradient(transparent, var(--pr-white) 30%);padding:var(--space-4) 0;display:flex;gap:var(--space-2)}
+.actions .btn{box-shadow:var(--shadow-2)}
+.actions .first{flex:none}
+/* Etat de chargement de la lecture */
+.loading{display:grid;gap:10px;max-width:640px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.focusnav{display:flex;gap:8px;overflow-x:auto;border-bottom:1px solid var(--pr-gray-mid);border-right:0;padding:10px}.stream{display:none}.kbdhint{display:none}}
+</style></head><body>
+<header class="top"><div class="topbar">
+  <a href="inbox-b.html" class="logo-zone" style="gap:10px" aria-label="Domial — boîte"><img src="assets/logo/domial-symbol.svg" alt="" height="24"><b style="font-size:var(--fs-body-s);color:var(--pr-ink)">devis@lumen-agence.fr</b><span class="badge badge-unread">3</span></a>
+  <div class="kbdhint"><kbd>N</kbd> nouveau <kbd>E</kbd> archiver <kbd>R</kbd> répondre</div>
+</div></header>
+<div class="layout">
+  <nav class="focusnav" aria-label="Boites">
+    <a href="inbox-b.html" class="boxline"><span class="dot-i" style="width:8px;height:8px;border-radius:50%;background:var(--pr-ink)"></span>devis@<span class="cnt">3</span></a>
+    <a href="inbox-b.html" class="boxline">contact@lumen<span class="cnt" style="background:var(--pr-gray-mid);color:var(--pr-ink)">4</span></a>
+    <a href="inbox-b.html" class="boxline">contact@nord<span class="cnt" style="background:var(--pr-gray-mid);color:var(--pr-ink)">7</span></a>
+    <a href="inbox-b.html" class="boxline">Toutes les boites</a>
+  </nav>
+  <div class="layout" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr)">
+    <section class="stream" aria-label="File de devis@">
+      <h2 class="shead">Aujourd'hui</h2>
+      <p class="dayhead">Matin</p>
+      <article class="item" aria-current="true" tabindex="0">
+        <p class="t">Devis printemps — relance avec PV attaché</p>
+        <p class="p">Bonjour, je reviens vers vous concernant le devis de mars. Est-ce que le budget a été voté ? Le PV joint repère nos dernières...</p>
+        <p class="m">Camille Roy — il y a 26 min</p>
+      </article>
+      <article class="item" tabindex="0">
+        <p class="t">Nouvelle demande via le formulaire du site</p>
+        <p class="p">Bonjour, je dirige une petite marque de céramique et j'aurais besoin d'une refonte de l'identité dès prochainement...</p>
+        <p class="m">Formulaire site web — 09:10</p>
+      </article>
+      <p class="dayhead">08:02</p>
+      <article class="item" tabindex="0">
+        <p class="t">Confirmation rendez-vous stand salon L'Aventure Print</p>
+        <p class="p">Nous vous confirmons l'emplacement B14. Le montage s'effectue le lundi 8 au matin...</p>
+        <p class="m">Salon Print Biarritz — 08:02</p>
+      </article>
+      <h2 class="shead" style="margin-top:var(--space-4)">Hier</h2>
+      <article class="item" tabindex="0">
+        <p class="t">Estimation identité complète — société Pivert</p>
+        <p class="m">Martin Pivert — hier 17:44</p>
+      </article>
+      <article class="item" tabindex="0">
+        <p class="t">Re: Recto-verso flyers — délai serré</p>
+        <p class="m">Laëtitia G. — hier 15:20</p>
+      </article>
+    </section>
+    <section class="read" aria-label="Message ouvert">
+      <div class="article">
+        <div class="mh"><span class="av">CR</span><div><b style="font-size:var(--fs-body-s);color:var(--pr-ink)">Camille Roy</b><p class="meta-on-dark">à devis@lumen-agence.fr · il y a 26 min · pièce jointe : PV_budget.docx</p></div></div>
+        <h1>Devis printemps — relance avec PV attaché</h1>
+        <p class="meta-on-dark" style="margin-bottom:var(--space-4)">File : devis@lumen-agence.fr — 3 messages dans la conversation</p>
+        <div class="body">
+          <p>Bonjour,&nbsp;</p>
+          <p>Je reviens vers vous concernant le devis n°D-0426 envoyé le 3 mars. Est-ce que le budget a pu être voté en commission ? Je vous remets le document pour faciliter le suivi : PV_budget.docx.</p>
+          <p>La collection printemps est prête côté atelier ; dès que vous avez un feu vert nous pouvons caler la date de départ et le blocage sérigraphie.</p>
+          <p>Bien cordialement,<br>Camille Roy — communication Ville de Blois</p>
+        </div>
+        <p class="sig">— Envoyé depuis l'adresse professionnelle devis@lumen-agence.fr (Domial)</p>
+        <div class="actions">
+          <button class="btn btn-primary first"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="m5 19 10.5-10.5L13 6 2.5 16.5 2 20z"/></svg>Répondre</button>
+          <button class="btn btn-secondary">Archiver</button>
+          <button class="btn btn-ghost">Reporter</button>
+        </div>
+      </div>
+      <!-- Etat chargement lecture (reference) -->
+      <div class="loading" aria-hidden="true" style="margin-top:var(--space-6)">
+        <span class="skeleton" style="height:22px;width:60%">skeleton</span>
+        <span class="skeleton" style="height:14px;width:90%">skeleton</span>
+        <span class="skeleton" style="height:14px;width:75%">skeleton</span>
+      </div>
+    </section>
+  </div>
+</div>
+</body></html>

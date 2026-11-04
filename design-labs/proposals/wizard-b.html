@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Wizard variante B : timeline verticale narrative</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+body{background:var(--pr-white)}
+.top{background:var(--pr-ink)}
+.top .topbar{justify-content:space-between;max-width:820px;margin:0 auto;width:100%;box-sizing:border-box}
+.wrap{max-width:820px;margin:0 auto;padding:var(--space-6) var(--space-5)}
+.intro h1{font-size:var(--fs-h1)}
+.timeline{margin-top:var(--space-6);list-style:none;padding:0;margin-bottom:0;position:relative}
+.timeline::before{content:"";position:absolute;left:15px;top:8px;bottom:8px;width:2px;background:var(--pr-gray-mid)}
+.tl{position:relative;padding:0 0 var(--space-6) 56px}
+.tl::before{content:"";position:absolute;left:6px;top:2px;width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--pr-gray-mid)}
+.tl.done::before{background:var(--color-success);border-color:var(--color-success)}
+.tl.active::before{background:var(--pr-ink);border-color:var(--pr-ink);box-shadow:0 0 0 4px var(--color-surface-tint)}
+.tl .stephead{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.tl .stephead b{font-size:var(--fs-h3);color:var(--pr-ink)}
+.tl .stepnum{font-size:var(--fs-label);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.tl.done p,.tl.active p{font-size:var(--fs-body-s);color:var(--color-text-muted);margin:6px 0 0;max-width:60ch}
+.tl.pending{opacity:.55}
+.tl.pending b{color:var(--color-text-muted)}
+/* Panneau detail de l'etape active */
+.tlbody{margin-top:var(--space-4);border:1px solid var(--pr-gray-mid);border-radius:var(--radius-md);background:var(--pr-gray);padding:var(--space-5)}
+.journal{list-style:none;margin:var(--space-4) 0 0;padding:0;display:grid;gap:8px;font-size:var(--fs-body-s)}
+.journal li{display:flex;gap:10px;align-items:flex-start}
+.journal .t{color:var(--color-text-muted);font-size:var(--fs-label);white-space:nowrap;margin-top:2px}
+.tlactions{display:flex;gap:10px;margin-top:var(--space-5);flex-wrap:wrap}
+.timeline + .after{margin-top:var(--space-4)}
+@media(max-width:600px){.tl{padding-left:44px}.tl::before{left:2px}}
+</style></head><body>
+<header class="top"><div class="topbar">
+  <img src="assets/logo/domial-horizontal-reversed.svg" alt="Domial" height="26">
+  <a href="dashboard-b.html" class="small" style="color:var(--pr-light-soft)">Sauvegarder et quitter</a>
+</div></header>
+<main class="wrap">
+  <section class="intro">
+    <p class="badge badge-tag">Installation de contact@studio-nord.fr</p>
+    <h1 style="margin-top:var(--space-3)">Le parcours de votre boîte, étape par étape</h1>
+    <p class="small muted" style="max-width:64ch">Chaque point de la timeline est un événement réel : Domial vérifie et raconte ce qui a été fait, quand et pourquoi. Vous gardez une trace complète, même si vous partez et revenez plusieurs jours plus tard.</p>
+  </section>
+  <ol class="timeline">
+    <li class="tl done">
+      <div class="stephead"><span class="stepnum">Étape 1 — 09:12</span><b>Domaine ajouté</b><span class="badge badge-success">Terminé</span></div>
+      <p>studio-nord.fr a été reconnu chez votre registrar. Aucun transfert nécessaire : Domial pilote la configuration, le domaine reste chez vous.</p>
+    </li>
+    <li class="tl done">
+      <div class="stephead"><span class="stepnum">Étape 2 — 09:14</span><b>Adresses créées</b><span class="badge badge-success">Terminé</span></div>
+      <p>Trois boîtes créées : contact@, prenom@, devis@. Vous pouvez en ajouter à tout moment après l'installation (jusqu'à 5 par domaine).</p>
+    </li>
+    <li class="tl done">
+      <div class="stephead"><span class="stepnum">Étape 3 — 09:15</span><b>Enregistrements DNS posés</b><span class="badge badge-success">Terminé</span></div>
+      <p>SPF, DKIM et DMARC publiés, MX pointés vers Google. Ces enregistrements protègent votre délivrabilité : votre courrier ne tombe pas chez les indésirables.</p>
+    </li>
+    <li class="tl active" aria-current="step">
+      <div class="stephead"><span class="stepnum">Étape 4 — en cours</span><b>Branchement à votre Gmail</b><span class="badge badge-warning">Vérification en cours</span></div>
+      <p>Deux choses attendent votre action : confirmer le code « Envoyer en tant que » dans Gmail (CDC-1) puis autoriser Domial via Google OAuth. La propagation DNS peut prendre de 15 minutes à 48 heures.</p>
+      <div class="tlbody">
+        <b style="font-size:var(--fs-body-s);color:var(--pr-ink)">Ce que vous pouvez faire maintenant</b>
+        <div style="display:flex;gap:10px;margin-top:var(--space-3);align-items:center;flex-wrap:wrap">
+          <input class="input" style="max-width:220px" placeholder="Code Gmail reçu" aria-label="Code de confirmation Gmail">
+          <button class="btn btn-primary">Vérifier l'alias</button>
+          <a href="#" class="small">Ouvrir les paramètres Gmail pour moi</a>
+        </div>
+        <ul class="journal">
+          <li><span class="pulse pulse-wait" role="img" aria-label="vérification en cours"></span><span><b>10:02</b> — Vérification périodique de la propagation (MX : OK · CNAME contact : en attente)</span></li>
+          <li><span class="pulse pulse-wait"></span><span><b>10:02</b> — Gmail : en attente de votre vérification « Envoyer en tant que »</span></li>
+          <li><svg class="ic ic-sm" style="color:var(--color-success)" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span><b>09:15</b> — DKIM signé et publié (clé k1, longueur 2048)</span></li>
+          <li><svg class="ic ic-sm" style="color:var(--color-success)" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span><b>09:14</b> — 3 alias créés : contact@ · prenom@ · devis@</span></li>
+        </ul>
+        <div class="tlactions">
+          <button class="btn btn-secondary">Relancer la vérification DNS maintenant</button>
+          <button class="btn btn-ghost">Je préfère vérifier la propagation moi-même</button>
+        </div>
+      </div>
+    </li>
+    <li class="tl pending">
+      <div class="stephead"><span class="stepnum">Étape 5</span><b>Finalisation et test</b></div>
+      <p>Un e-mail de test réel est envoyé et reçu via chaque boîte. Vous débloquez l'accès au dashboard une fois les deux sens validés.</p>
+    </li>
+  </ol>
+  <div class="after alert alert-info" role="status"><svg class="ic ic-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Vous pouvez fermer cette page : Domial continue les vérifications en arrière-plan et vous notifie à chaque franchissement d'étape. Rien n'est perdu.</span></div>
+</main>
+</body></html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Wizard variante C : checklist progressive avec polling live</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+body{background:var(--pr-gray)}
+.top{background:var(--pr-white);border-bottom:1px solid var(--pr-gray-mid)}
+.top .topbar{justify-content:space-between;max-width:880px;margin:0 auto;width:100%;box-sizing:border-box}
+.wrap{max-width:880px;margin:0 auto;padding:var(--space-6) var(--space-5)}
+.head{display:flex;justify-content:space-between;gap:16px;align-items:flex-end;flex-wrap:wrap;margin-bottom:var(--space-5)}
+.ring{--p:72;width:64px;height:64px;border-radius:50%;background:conic-gradient(var(--pr-steel) calc(var(--p)*1%), var(--pr-gray-mid) 0);display:grid;place-items:center;flex:none}
+.ring b{width:48px;height:48px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:var(--fs-body-s)}
+.check{background:var(--pr-white);border:1px solid var(--pr-gray-mid);border-radius:var(--radius-md);margin-bottom:10px;overflow:hidden}
+.chead{display:flex;gap:12px;align-items:center;padding:14px 16px;min-height:56px}
+.ckbox{width:22px;height:22px;border-radius:50%;border:2px solid var(--pr-gray-mid);display:grid;place-items:center;flex:none}
+.check.done .ckbox{background:var(--color-success);border-color:var(--color-success);color:#fff}
+.check.doing .ckbox{border-color:var(--pr-steel)}
+.chead b{font-size:var(--fs-body);color:var(--pr-ink)}
+.chead .st{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chead button.chev{width:36px;height:36px;border:0;background:transparent;cursor:pointer;color:var(--color-text-muted);display:grid;place-items:center;border-radius:8px}
+.chead button.chev:hover{background:var(--pr-gray)}
+.check.open .chev svg{transform:rotate(180deg)}
+.cbody{border-top:1px solid #EEF0F4;padding:var(--space-4) 16px;display:none;background:#FBFCFE}
+.check.open .cbody{display:block}
+.sub{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.sub li{display:flex;gap:10px;align-items:flex-start;font-size:var(--fs-body-s)}
+.sub .ok{color:var(--color-success);flex:none;margin-top:1px}
+.sub .ic-sm{margin-top:1px;flex:none}
+.subcode{background:var(--pr-ink);color:var(--pr-light-soft);border-radius:var(--radius-sm);padding:10px 12px;font:13px/1.5 ui-monospace,Menlo,monospace;overflow-x:auto;margin-top:8px}
+.pollrow{display:flex;gap:10px;align-items:center;background:var(--color-surface-tint);border-radius:var(--radius-sm);padding:10px 12px;margin-top:10px;font-size:var(--fs-body-s);flex-wrap:wrap}
+.pollrow .dots{display:grid;gap:6px;flex:1}
+.pollrow .poll{display:flex;gap:8px;align-items:center}
+.failed{border-left:3px solid var(--color-error)}
+@media(max-width:600px){.ring{--p:72}.head{flex-direction:column;align-items:flex-start}}
+</style></head><body>
+<header class="top"><div class="topbar">
+  <a href="dashboard-a.html" aria-label="Domial"><img src="assets/logo/domial-horizontal.svg" alt="Domial" height="26"></a>
+  <a href="dashboard-a.html" class="small muted">Quitter (progression sauvegardée)</a>
+</div></header>
+<main class="wrap">
+  <div class="head">
+    <div>
+      <h1 style="font-size:var(--fs-h1);margin-bottom:4px">Configuration : contact@lumen-agence.fr</h1>
+      <p class="small muted">Checklist complète. Domial vérifie en continu — les points se cochent tout seuls quand c'est prêt.</p>
+    </div>
+    <div class="ring" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" aria-label="Progression : 72%"><b>72%</b></div>
+  </div>
+
+  <section aria-label="Checklist d'installation">
+    <article class="check done" aria-label="Etape 1 : domaine">
+      <div class="chead"><span class="ckbox"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span><b>Domaine reconnu</b><span class="st"><span class="badge badge-success">Fait 09:12</span></span></div>
+    </article>
+
+    <article class="check done" aria-label="Etape 2 : alias">
+      <div class="chead"><span class="ckbox"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span><b>Boîtes créées</b><span class="st"><span class="badge badge-success">Fait 09:14</span></span></div>
+    </article>
+
+    <article class="check doing open" aria-label="Etape 3 : DNS et Gmail">
+      <div class="chead"><span class="ckbox"><span class="spinner" aria-hidden="true"></span></span><b>DNS + lien vers votre Gmail</b>
+        <span class="st"><span class="pulse pulse-wait" role="img" aria-label="Vérification continue en cours"></span><span class="badge badge-warning">Vérification continue</span>
+        <button class="chev" aria-expanded="true" aria-label="Replier le détail"><svg class="ic" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button></span></div>
+      <div class="cbody">
+        <ul class="sub">
+          <li><svg class="ic ic-sm" style="color:var(--color-success)" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span><b>SPF publié</b> — vérifié sur 8 résolveurs d'ici 09:31</span></li>
+          <li><svg class="ic ic-sm" style="color:var(--color-success)" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span><b>DKIM publié</b> — clé détectée et valide</span></li>
+          <li><svg class="ic ic-sm" style="color:var(--color-success)" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span><b>DMARC publié</b> — rapport surveillé des 7 prochains jours</span></li>
+          <li><span class="spinner" role="img" aria-label="en cours"></span><span><b>MX propagé</b> — 4/8 résolveurs l'ont déjà · <b>15 min à 48 h</b> requis</span></li>
+          <li><svg class="ic ic-sm" style="color:var(--color-warning)" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+              <span><b>Alias « Envoyer en tant que » (CDC-1)</b> — entrez le code que Gmail a envoyé à la boîte :</span></li>
+        </ul>
+        <div class="subcode">v.email.google.com/a/lumen-agence.fr/AS…code=84C-1X9 · valable 10 min</div>
+        <div class="pollrow">
+          <span class="spinner" aria-hidden="true"></span>
+          <div class="dots">
+            <span class="poll"><span class="pulse pulse-ok"></span><span>Suivi MX : OK · 09:32:10</span></span>
+            <span class="poll"><span class="pulse pulse-wait"></span><span>Suivi CNAME « contact » : en cours · prochaine vérification à 09:34</span></span>
+          </div>
+          <button class="btn btn-secondary" style="min-height:40px;padding:8px 14px">Vérifier maintenant</button>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+          <input class="input" style="max-width:240px" placeholder="Code de confirmation Gmail" aria-label="Code de confirmation">
+          <button class="btn btn-primary">Valider l'alias</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="check failed" aria-label="Tentative de vérification échouée">
+      <div class="chead"><span class="ckbox" style="border-color:var(--color-error);color:var(--color-error)"><svg class="ic ic-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg></span><b>Test d'envoi « Envoyer en tant que »</b>
+        <span class="st"><span class="badge badge-error">1 fois échoué</span><button class="chev" aria-expanded="false" aria-label="Ouvrir le détail"><svg class="ic" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button></span></div>
+    </article>
+
+    <article class="check" aria-label="Etape finale : tests reels">
+      <div class="chead"><span class="ckbox"></span><b>Test d'envoi et de réception réels</b><span class="st"><span class="badge badge-neutral">À venir après propagation</span></span></div>
+    </article>
+  </section>
+  <p class="small muted" style="text-align:center;padding-top:var(--space-4)">Vous n'avez rien à retenir : dès que chaque point passe, le suivant se débloque. Une relance manuelle est possible à tout moment si vous voulez accélérer.</p>
+</main>
+</body></html>

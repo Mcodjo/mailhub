@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Boîte variante C : canaux par boîte (type Missive)</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+body{margin:0;background:var(--pr-gray)}
+.top{background:var(--pr-ink)}
+.top .topbar{height:58px;justify-content:space-between}
+.org{color:var(--pr-light-soft);font-size:var(--fs-body-s);display:flex;align-items:center;gap:10px;margin-left:auto}
+.layout{display:grid;grid-template-columns:220px minmax(0,1fr) minmax(0,1.7fr);min-height:calc(100vh - 58px)}
+/* Rail canaux : une entrée par boite/alias */
+.rail{background:var(--pr-ink);padding:var(--space-4) var(--space-3);display:flex;flex-direction:column;gap:4px}
+.railhead{font-size:var(--fs-label);font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(143,176,232,.6);padding:8px 10px}
+.chan{display:flex;gap:10px;align-items:center;padding:9px 10px;border-radius:var(--radius-sm);color:var(--pr-light-soft);font-size:var(--fs-body-s);font-weight:500;cursor:pointer;min-height:44px}
+.chan:hover{background:rgba(255,255,255,.08)}
+.chan[aria-current="true"]{background:rgba(143,176,232,.18);color:#fff;font-weight:600}
+.chan .dotc{width:10px;height:10px;border-radius:3px;flex:none}
+.chan .c{margin-left:auto;background:var(--pr-steel);color:#fff;border-radius:99px;font-size:var(--fs-label);font-weight:700;padding:1px 7px;min-width:18px;text-align:center}
+.chan.active-on-dark .c{background:var(--pr-light)}
+/* Colonne conversations du canal */
+.conv{background:var(--pr-white);border-right:1px solid var(--pr-gray-mid);display:flex;flex-direction:column}
+.convhead{padding:var(--space-4);border-bottom:1px solid var(--pr-gray-mid);display:flex;gap:10px;align-items:center}
+.convhead h1{font-size:var(--fs-h3);margin:0}
+.convhead .cta{margin-left:auto}
+.convlist{overflow-y:auto;display:grid;gap:8px;padding:var(--space-3);max-height:calc(100vh - 58px - 70px);grid-auto-rows:min-content}
+.cv{border:1px solid var(--pr-gray-mid);border-radius:var(--radius-md);padding:12px 14px;cursor:pointer;background:#fff}
+.cv:hover{border-color:rgba(22,35,59,.3)}
+.cv[aria-current="true"]{border-color:var(--pr-ink);box-shadow:var(--shadow-1)}
+.cv .from{display:flex;justify-content:space-between;gap:8px;font-size:var(--fs-body-s)}
+.cv .from b{color:var(--pr-ink)}
+.cv .from .t{color:var(--color-text-muted);font-size:var(--fs-label);white-space:nowrap}
+.cv .sn{font-size:var(--fs-body-s);color:var(--color-text-muted);margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cv .foot{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+/* Centre conversation */
+.thread{display:flex;flex-direction:column;max-height:calc(100vh - 58px)}
+.head{background:var(--pr-white);border-bottom:1px solid var(--pr-gray-mid);padding:var(--space-3) var(--space-4);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.head h2{font-size:var(--fs-body);margin:0;font-weight:600}
+.bubblewrap{flex:1;overflow-y:auto;padding:var(--space-5);display:flex;flex-direction:column;gap:var(--space-4)}
+.bub{max-width:70%}
+.bub .bhead{display:flex;gap:8px;align-items:baseline;margin-bottom:4px;font-size:var(--fs-label)}
+.bub .txt{background:var(--pr-white);border:1px solid var(--pr-gray-mid);border-radius:14px;padding:12px 14px;font-size:var(--fs-body-s)}
+.bub.me{align-self:flex-end}
+.bub.me .txt{background:var(--pr-ink);color:#fff;border-color:var(--pr-ink)}
+.bub .alliance{color:var(--color-text-muted)}
+.mine{color:var(--pr-steel);font-weight:700}
+.composeline{background:var(--pr-white);border-top:1px solid var(--pr-gray-mid);padding:var(--space-3) var(--space-4);display:flex;gap:10px;align-items:center}
+.composeline .input{min-height:44px}
+.hintchip{font-size:var(--fs-label);color:var(--color-text-muted);background:var(--pr-gray);border-radius:8px;padding:4px 8px}
+@media(max-width:1023px){.layout{grid-template-columns:minmax(0,1fr) minmax(0,1.5fr)}.rail{display:none}}
+@media(max-width:767px){.layout{grid-template-columns:1fr}.conv{border-right:0}.thread{display:none}.convlist{max-height:none}}
+</style></head><body>
+<header class="top"><div class="topbar">
+  <img src="assets/logo/domial-horizontal-reversed.svg" alt="Domial" height="26">
+  <span class="org"><img src="assets/logo/domial-symbol-small-reversed.svg" alt="" height="16">Equipe Lumen · 2 membres</span>
+</div></header>
+<div class="layout">
+  <nav class="rail" aria-label="Canaux">
+    <p class="railhead">Canaux par boîte</p>
+    <a class="chan" aria-current="true" href="inbox-c.html"><span class="dotc" style="background:var(--pr-light)"></span>contact@<span class="c">9</span></a>
+    <a class="chan" href="inbox-c.html"><span class="dotc" style="background:var(--pr-steel)"></span>devis@<span class="c">3</span></a>
+    <a class="chan" href="inbox-c.html"><span class="dotc" style="background:#fff"></span>prenom@</a>
+    <a class="chan" href="inbox-c.html"><span class="dotc" style="background:var(--pr-light-soft)"></span>presse@</a>
+    <a class="chan" href="inbox-c.html"><span class="dotc" style="background:#EEF0F4"></span>travaux-honoraires@</a>
+  </nav>
+  <section class="conv" aria-label="Conversations du canal contact@">
+    <div class="convhead">
+      <div><h1>contact@lumen-agence.fr</h1><p class="small muted">9 conversations ouvertes · 2 affectées</p></div>
+      <a href="compose-c.html" class="btn btn-primary cta">Nouvelle</a>
+    </div>
+    <div class="convlist">
+      <article class="cv" aria-current="true" tabindex="0">
+        <div class="from"><b>Mairie de Blois</b><span class="t">09:24</span></div>
+        <p class="sn">Demande de devis — signalétique quartier Foch. Nous attendons trois propositions avant le 20 novembre…</p>
+        <div class="foot"><span class="badge badge-tag">Priorité : décision comité</span><span class="badge badge-unread">2</span></div>
+      </article>
+      <article class="cv" tabindex="0">
+        <div class="from"><b>Nina Fabre</b><span class="t">08:12</span></div>
+        <p class="sn">Re: affiches festival — j'ai besoin des visuels aujourd'hui si possible, le bureau ferme demain…</p>
+        <div class="foot"><span class="badge badge-success">Affecté à : Clara</span></div>
+      </article>
+      <article class="cv" tabindex="0">
+        <div class="from"><b>Contact site web</b><span class="t">hier</span></div>
+        <p class="sn">Bonjour, j'ai trouvé vos coordonnées via le site de la CCI. Pourrions-nous échanger téléphone : 06…</p>
+        <div class="foot"><span class="badge badge-tag">Prospect</span><span class="badge badge-unread">1</span></div>
+      </article>
+      
+      
+      
+      <article class="cv" tabindex="0">
+        <div class="from"><b>Fournisseur Pap.`);
+        </span></div>
+      </article>
+      <article class="cv" tabindex="0">
+        <div class="from"><b>Maintenance stockage</b><span class="t">hier</span></div>
+        <p class="sn">Ticket IT-4481 : votre quota de stockage de pièces jointes a atteint 82 % de sa limite…</p>
+      </article>
+    </div>
+  </section>
+  <section class="thread" aria-label="Conversation ouverte">
+    <div class="head">
+      <b>Mairie de Blois — demande de devis</b>
+      <span class="badge badge-tag">canal : contact@</span>
+      <span style="margin-left:auto" class="small muted">Partagée avec Clara</span>
+    </div>
+    <div class="bubblewrap">
+      <div class="bub">
+        <p class="bhead"><span class="alliance"><b>Mairie de Blois</b> · 09:24</span></p>
+        <div class="txt">Bonjour,<br><br>La ville souhaite refondre sa signalétique de quartier (environ 40 panneaux, format A0-A2). Pourrions-nous recevoir votre proposition avant le 20 novembre ?<br><br>Direction technique de la ville — service signalétique.</div>
+      </div>
+      <div class="bub me">
+        <p class="bhead"><span class="mine">Clara (vous) · 09:41</span></p>
+        <div class="txt">Bonjour, c'est noté ! Je rédige une proposition en trois formats, réponse d'ici demain midi. Nous démarrerons par un lot pilote de huit panneaux pour évaluer la fabrication.</div>
+      </div>
+      <div class="bub">
+        <p class="bhead"><span class="alliance"><b>Mairie de Blois</b> · 09:55</span></p>
+        <div class="txt">Parfait. Merci de joindre une estimation du délai total d'installation, le comité la demandera.</div>
+      </div>
+      <div class="bub me">
+        <p class="bhead"><span class="mine">Clara (vous) · commentaire interne</span></p>
+        <div class="txt" style="background:var(--color-surface-tint);color:var(--pr-ink);border-style:dashed">@Léa : tu peux préparer la grille de coûts d'installation pendant ma réunion de 11 h&nbsp;?</div>
+      </div>
+    </div>
+    <div class="composeline">
+      <input class="input" type="text" placeholder="Répondre en tant que contact@lumen-agence.fr…" aria-label="Réponse">
+      <button class="btn btn-primary"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="m3 9 18-6-6 18-3-9z"/></svg>Envoyer</button>
+    </div>
+  </section>
+</div>
+</body></html>

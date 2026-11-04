@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Boîte variante A : familiar dense (type Gmail)</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+body{margin:0;background:var(--pr-white)}
+.top{background:var(--pr-white);border-bottom:1px solid var(--pr-gray-mid)}
+.top .topbar{height:56px;gap:var(--space-3)}
+.search{flex:1;max-width:600px;display:flex;align-items:center;gap:8px;background:var(--pr-gray);border:1px solid transparent;border-radius:99px;padding:8px 16px}
+.search:focus-within{background:#fff;border-color:var(--pr-gray-mid)}
+.search input{border:0;background:transparent;font:var(--fs-body-s) var(--font-sans);flex:1;min-width:60px}
+.search input:focus-visible{outline:none}
+.appbarbtns{margin-left:auto;display:flex;gap:var(--space-3);align-items:center}
+.layout{display:grid;grid-template-columns:220px minmax(0,1.05fr) minmax(0,1.6fr);min-height:calc(100vh - 57px)}
+.side{background:var(--pr-gray);padding:var(--space-4) var(--space-3);border-right:1px solid var(--pr-gray-mid)}
+.compose{display:flex;align-items:center;gap:10px;background:var(--pr-ink);color:#fff;border-radius:var(--radius-md);padding:12px 16px;font-weight:600;font-size:var(--fs-body-s);box-shadow:var(--shadow-1);min-height:48px}
+.labels{list-style:none;margin:var(--space-4) 0 0;padding:0;display:grid;gap:2px}
+.labels a{display:flex;align-items:center;gap:9px;padding:8px 12px;border-radius:99px;font-size:var(--fs-body-s);font-weight:500;color:var(--pr-ink);min-height:40px}
+.labels a:hover{background:#EAECF1}
+.labels a[aria-current="true"]{background:var(--color-surface-tint);font-weight:700}
+.labels .cnt{margin-left:auto;font-size:var(--fs-label);color:var(--color-text-muted);background:var(--pr-gray-mid);border-radius:9px;padding:1px 7px;font-weight:600}
+.labels .cnthot{background:var(--pr-ink);color:#fff}
+.list{border-right:1px solid var(--pr-gray-mid);overflow-y:auto;max-height:calc(100vh - 57px)}
+.toolbar{display:flex;gap:var(--space-3);align-items:center;padding:10px 16px;border-bottom:1px solid #EEF0F4;font-size:var(--fs-body-s)}
+.mails{display:grid}
+.mail{display:grid;grid-template-columns:auto 1fr auto;gap:8px 10px;padding:10px 16px;border-bottom:1px solid #EEF0F4;cursor:pointer;align-items:baseline;min-height:44px;box-sizing:border-box}
+.mail:hover{background:var(--pr-gray)}
+.mail.open{background:var(--color-surface-tint)}
+.mail .who{font-weight:600;color:var(--pr-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:16ch;font-size:var(--fs-body-s)}
+.mail.unread{font-weight:600}.mail.unread .subj,.mail.unread .who{color:var(--pr-ink)}
+.mail .subj{color:var(--pr-ink);font-size:var(--fs-body-s);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:none}
+.mail.unread .subj{font-weight:600}
+.mail .meta{grid-column:2;grid-row:2;font-size:var(--fs-body-s);color:var(--color-text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mail .time{font-size:var(--fs-label);color:var(--color-text-muted);white-space:nowrap}
+.mail.unread .time{color:var(--color-text-muted);font-weight:700}
+.mail .dotu{width:8px;height:8px;border-radius:50%;background:var(--pr-ink);justify-self:center;grid-column:1}
+.read{overflow-y:auto;max-height:calc(100vh - 57px)}
+.rhead{padding:var(--space-4) var(--space-5);border-bottom:1px solid #EEF0F4}
+.msg{padding:var(--space-4) var(--space-5)}
+.msghead{display:flex;gap:10px;align-items:center;margin-bottom:var(--space-3)}
+.msghead .av{width:32px;height:32px;border-radius:50%;background:var(--pr-gray-mid);color:var(--pr-ink);display:grid;place-items:center;font-size:var(--fs-label);font-weight:700}
+.msg p{font-size:var(--fs-body-s);margin:0 0 var(--space-3)}
+.chip{display:inline-flex;gap:6px;align-items:center;font-size:var(--fs-label);background:var(--pr-gray);border-radius:8px;padding:4px 10px;color:var(--pr-ink)}
+.rtool{display:flex;gap:var(--space-2);padding:10px var(--space-5);border-top:1px solid #EEF0F4}
+.rtool .btn{padding:8px 16px;min-height:40px}
+/* bandeau hors ligne demontre */
+.offline{margin:0 16px}
+/* pixel skeleton dans la lecture */
+@media(max-width:1023px){.layout{grid-template-columns:1fr}.side{border-right:0}.read{display:none}}
+@media(max-width:767px){.appbarbtns .hide-m{display:none}.mail{grid-template-columns:1fr auto}.mail .dotu{display:none}}
+</style></head><body>
+<header class="top"><div class="topbar">
+  <a href="inbox-a.html" aria-label="Domial"><img src="assets/logo/domial-symbol.svg" alt="" height="24"><span style="font-weight:600;color:var(--pr-ink)">réception</span></a>
+  <div class="search" role="search">
+    <svg class="ic ic-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+    <input type="search" placeholder="Rechercher dans la boîte…" aria-label="Rechercher dans la réception">
+  </div>
+  <div class="appbarbtns"><a href="dashboard-a.html" class="small hide-m" style="color:var(--color-link)">Dashboard</a><span class="av" style="width:32px;height:32px;border-radius:50%;background:var(--pr-ink);color:#fff;display:grid;place-items:center;font-size:var(--fs-label);font-weight:700">CL</span></div>
+</div></header>
+<div class="layout">
+  <aside class="side">
+    <a href="compose-a.html" class="compose"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="m5 19 10.5-10.5L13 6 2.5 16.5 2 20z"/></svg>Rédiger</a>
+    <ul class="labels">
+      <li><a href="#" aria-current="true"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5.5 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.5"/></svg>Toutes les boîtes<span class="cnt cnthot">14</span></a></li>
+      <li><a href="inbox-c.html"><svg class="ic ic-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8"/></svg>contact@lumen…<span class="cnt cnthot">4</span></a></li>
+      <li><a href="inbox-c.html"><svg class="ic ic-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8"/></svg>devis@lumen…<span class="cnt">3</span></a></li>
+      <li><a href="inbox-c.html"><svg class="ic ic-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8"/></svg>contact@nord…<span class="cnt">7</span></a></li>
+      <li><a href="#"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M19 5C19 3.9 18.1 3 17 3H7a2 2 0 0 0-2 2v14l4-3h8a2 2 0 0 0 2-2z"/></svg>Envoyés</a></li>
+      <li><a href="#"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Brouillons<span class="cnt">1</span></a></li>
+    </ul>
+  </aside>
+  <section class="list" aria-label="Liste des messages">
+    <div class="alert alert-info offline" style="margin:10px 0 0" role="status">
+      <span>Mode hors ligne : cette liste provient de la dernière synchronisation (12 min). <a href="#">Réessayer</a>.</span>
+    </div>
+    <div class="toolbar">
+      <label class="small"><input type="checkbox" checked> Tout</label>
+      <span class="muted small">Contact@lumen-agence.fr</span>
+      <span style="margin-left:auto" class="muted small">14 non lus dans 4 boîtes</span>
+    </div>
+    <div class="mails">
+      <article class="mail unread" tabindex="0" style="cursor:pointer">
+        <span class="dotu" aria-hidden="true"></span>
+        <span style="display:flex;gap:8px;align-items:baseline;min-width:0"><span class="who">Mairie de Blois</span><span class="subj">Demande de devis — signalétique quartier Foch</span></span>
+        <span class="time">09:24</span>
+        <span class="meta">Je vous contacte au nom du service technique de la ville concernant la refonte de notre…</span>
+      </article>
+      <article class="mail unread open" tabindex="0" style="cursor:pointer">
+        <span class="dotu" aria-hidden="true"></span>
+        <span style="display:flex;gap:8px;align-items:baseline;min-width:0"><span class="who">Nina Fabre</span><span class="subj">Re: Brandbook printemps — point de contrôle</span></span>
+        <span class="time">08:57</span>
+        <span class="meta">J'ai review vos retours de la semaine dernière. La version 4 me semble presque…</span>
+      </article>
+      <article class="mail" tabindex="0" style="cursor:pointer">
+        <span style="display:flex;gap:8px;align-items:baseline;min-width:0"><span class="who">Studio Lumen</span><span class="subj">Facture FA-2026-118 payée</span></span>
+        <span class="time">hier</span>
+        <span class="meta">Bonjour, nous venons de procéder au virement. Vous trouverez l'avis en pièce…</span>
+      </article>
+      <article class="mail" tabindex="0" style="cursor:pointer">
+        <span style="display:flex;gap:8px;align-items:baseline;min-width:0"><span class="who">Mailjet</span><span class="subj">Statistiques d'envoi — taux d'ouverture à la hausse</span></span>
+        <span class="time">hier</span>
+        <span class="meta">Votre campagne du 3 novembre a enregistré un taux d'ouverture de 42,3 %…</span>
+      </article>
+      <article class="mail" tabindex="0" style="cursor:pointer">
+        <span style="display:flex;gap:8px;align-items:baseline;min-width:0"><span class="who">Domaine registrar</span><span class="subj">Renouvellement lumen-agence.fr dans 21 jours</span></span>
+        <span class="time">23 oct.</span>
+        <span class="meta">Nous vous rappelons que la période de renouvellement de lumen-agence.fr…</span>
+      </article>
+      <div style="padding:10px 16px"><span class="skeleton" style="display:block;height:18px;width:70%">ancinnes lignes invisibles</span></div>
+    </div>
+  </section>
+  <section class="read" aria-label="Message en cours de lecture">
+    <div class="rhead">
+      <h1 style="font-size:20px;margin-bottom:8px">Re: Brandbook printemps — point de contrôle</h1>
+      <div class="chip"><svg class="ic ic-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8"/></svg>devis@lumen-agence.fr<i>·</i>expéditeur : Nina Fabre</div>
+    </div>
+    <div class="rtool">
+      <button class="btn btn-primary"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="m3 9 18-6-6 18-3-9z"/></svg>Marquer comme lu</button>
+      <button class="btn btn-secondary"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="m5 19 10.5-10.5L13 6 2.5 16.5 2 20z"/></svg>Répondre</button>
+      <button class="btn btn-secondary">Transférer</button>
+    </div>
+    <article class="msg">
+      <div class="msghead"><span class="av">NF</span><b style="font-size:var(--fs-body-s)">Nina Fabre</b> <span class="muted small">à moi · hier 18:02</span></div>
+      <p>Bonjour,</p>
+      <p>J'ai passé en revue vos retours de la semaine dernière. La version 4 me semble presque alignée avec nos attentes. Deux points restants&nbsp;:</p>
+      <p>1. Le nuance de bleu principale (actuellement acier 5B84C4) manque de contraste sur le papier texturé du dépliant&nbsp;;<br>2. Une version compacte A5 ou la grille reste maintenue serait idéal.</p>
+      <p>Toute est validée, Nina enverra la version 4 corrigée directement, avec les sources SVG...</p>
+      <p>Merci d'avance&nbsp;!</p>
+      <div style="border-top:1px solid #EEF0F4;margin-top:var(--space-4);padding-top:var(--space-3)">
+        <div class="skeleton" style="display:block;height:12px;width:80%">line one lorem ipsum dolor poribus</div>
+        <div class="skeleton" style="display:block;height:12px;width:55%;margin-top:8px">line two</div>
+      </div>
+    </article>
+  </section>
+</div>
+</body></html>

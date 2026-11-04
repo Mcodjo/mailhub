@@ -1,4 +1,4 @@
-# Design Labs — MailPro Hub
+# Design Labs — Domial
 
 Laboratoire de conception UI/UX produit par drx-mockup, gouverne par drx-design.
 Les maquettes validees ici servent de contrat visuel pour l'implementation frontend.
@@ -45,3 +45,34 @@ Les maquettes validees ici servent de contrat visuel pour l'implementation front
 | `mockups/profile.html` | Termine | 2026-11-04 | Gmail OAuth (jeton, deconnexion), domaines, alias ; etats deconnecte / declinede / conflit
 | `mockups/snippets.html` | Termine | 2026-11-04 | Onglets Laravel / Node.js / WordPress + webhook ; identifiants factices uniquement
 | `design-system.md` | Termine | 2026-11-04 | Palette hex, typo, espacements, composants, regles d'etats, responsive, iconographie |
+
+## maquettes à 3 variantes (brief 2026-11-04-MOCKUP-002)
+
+3 propositions DISTINCTES par interface (structure et densité differentes, pas que la couleur),
+conformes au guide logo Domial (brand renomme, palette imposee, wordmark jamais retape).
+
+| Fichier | Statut | Date | Notes |
+|---|---|---|---|
+| `benchmark.md` | Termine | 2026-11-04 | Benchmark secteur webmail + config domaine + landings SaaS ; elements verifies web marques [vérifié web], le reste [mémoire] ; 12 enseignements sources |
+| `proposals/design-system.css` | Termine | 2026-11-04 | Tokens primitives/sémantiques/composants ; CTA encre, acier reserve au graphisme ; actions d'etats derivees de l'encre |
+| `proposals/landing-a.html` | Termine | 2026-11-04 | Hero produit sobre, 3 features, CTA double |
+| `proposals/landing-b.html` | Termine | 2026-11-04 | Hero benefice + capture UI 3 colonnes en CSS pur |
+| `proposals/landing-c.html` | Termine | 2026-11-04 | Wizard-first « boîte pro en 10 min », fond encre, mini-wizard inline |
+| `proposals/auth-a.html` | Termine | 2026-11-04 | Carte centree à onglets (connexion/inscription/reset) ; etats erreur + succes + chargement |
+| `proposals/auth-b.html` | Termine | 2026-11-04 | Split-screen encre/formulaire, Google OAuth, regles mot de passe |
+| `proposals/auth-c.html` | Termine | 2026-11-04 | Minimal pleine page, champs lignes, modes secondaires documentes |
+| `proposals/dashboard-a.html` | Termine | 2026-11-04 | Cartes domaines + synthese + badges non lus ; etat vide demontre |
+| `proposals/dashboard-b.html` | Termine | 2026-11-04 | Tableau dense + filtres ; bandeau erreur polling + ligne skeleton |
+| `proposals/dashboard-c.html` | Termine | 2026-11-04 | Liste groupee par boîte (canal), accordeons ; etat vide dans un groupe |
+| `proposals/inbox-a.html` | Termine | 2026-11-04 | Familiar dense type Gmail ; hors-ligne + skeleton demontres |
+| `proposals/inbox-b.html` | Termine | 2026-11-04 | Lecture-first type Superhuman ; hints clavier ; skeleton lecture |
+| `proposals/inbox-c.html` | Termine | 2026-11-04 | Canaux par boîte type Missive ; bulles conventions + commentaire interne |
+| `proposals/compose-a.html` | Termine | 2026-11-04 | Modal compacte; alias « Envoyer en tant que » en erreur (CDC-1) ; autosave + echec envoi |
+| `proposals/compose-b.html` | Termine | 2026-11-04 | Panneau pleine hauteur ; alias verifie ; etats succes/erreur references |
+| `proposals/compose-c.html` | Termine | 2026-11-04 | Page dediee + barre laterale de contexte thread (citations) |
+| `proposals/wizard-a.html` | Termine | 2026-11-04 | Stepper horizontal 5 etapes ; propagation DNS 15 min-48 h ; code Gmail (CDC-1) |
+| `proposals/wizard-b.html` | Termine | 2026-11-04 | Timeline verticale narrative + journal horodate |
+| `proposals/wizard-c.html` | Termine | 2026-11-04 | Checklist progressive, polling live par sous-point, relance manuelle |
+| `proposals/README.md` | Termine | 2026-11-04 | Tableau pitch des 18 variantes + recommandation drx-mockup par interface + mapping benchmark |
+
+Recommandation rapide et justifications detaillees : voir `proposals/README.md`.

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Wizard variante A : stepper horizontal classique</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+body{background:var(--pr-gray)}
+.top{background:var(--pr-ink)}
+.top .topbar{justify-content:space-between;max-width:1040px;margin:0 auto;width:100%;box-sizing:border-box}
+.wrap{max-width:1040px;margin:0 auto;padding:var(--space-6) var(--space-5)}
+/* Stepper horizontal 5 etapes */
+.stepper{background:var(--pr-white);border:1px solid var(--pr-gray-mid);border-radius:var(--radius-md);padding:var(--space-4) var(--space-5);display:flex;gap:6px;margin-bottom:var(--space-5);overflow-x:auto}
+.step{display:flex;align-items:center;gap:10px;font-size:var(--fs-body-s);font-weight:600;color:var(--color-text-muted);white-space:nowrap;min-height:44px}
+.step .n{width:28px;height:28px;border-radius:50%;border:2px solid var(--pr-gray-mid);display:grid;place-items:center;flex:none;background:#fff}
+.step[data-state="done"] .n{background:var(--color-success);border-color:var(--color-success);color:#fff}
+.step[data-state="done"]{color:var(--pr-ink)}
+.step[data-state="active"] .n{background:var(--pr-ink);border-color:var(--pr-ink);color:#fff}
+.step[data-state="active"]{color:var(--pr-ink)}
+.stepsep{flex:1;min-width:18px;height:2px;background:var(--pr-gray-mid);align-self:center}
+.stepsep.done{background:var(--color-success)}
+/* Contenu etape 4 : propagation DNS */
+.panel{background:var(--pr-white);border:1px solid var(--pr-gray-mid);border-radius:var(--radius-md);padding:var(--space-6)}
+.panel h1{font-size:var(--fs-h2)}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--space-6)}
+.rec{border:1px solid var(--pr-gray-mid);border-radius:var(--radius-md);overflow:hidden}
+.rec table{width:100%;border-collapse:collapse;font-size:var(--fs-body-s)}
+.rec th{background:var(--pr-gray);text-align:left;padding:8px 12px;font-size:var(--fs-label);text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-muted)}
+.rec td{padding:10px 12px;border-top:1px solid #EEF0F4;font-family:ui-monospace,Menlo,monospace;color:var(--pr-ink)}
+.rec td .badge{float:right;font-family:var(--font-sans)}
+.actions{display:flex;gap:10px;align-items:center;margin-top:var(--space-6);flex-wrap:wrap}
+.prog{height:6px;background:var(--pr-gray-mid);border-radius:3px;overflow:hidden;margin-top:var(--space-4)}
+.prog i{display:block;height:100%;width:62%;background:var(--pr-steel);border-radius:3px}
+.footline{margin-top:var(--space-4);display:flex;gap:8px;align-items:flex-start;font-size:var(--fs-body-s);color:var(--color-text-muted)}
+/* Etat erreur demontre */
+.errblock{margin-top:var(--space-4)}
+@media(max-width:900px){.stage{grid-template-columns:1fr}}
+</style></head><body>
+<header class="top"><div class="topbar">
+  <img src="assets/logo/domial-horizontal-reversed.svg" alt="Domial" height="26">
+  <a href="dashboard-a.html" class="small" style="color:var(--pr-light-soft)">Quitter et sauvegarder</a>
+</div></header>
+<main class="wrap">
+  <ol class="stepper" aria-label="Progression de l'installation">
+    <li class="step" data-state="done"><span class="n"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>1 · Domaine</li>
+    <li class="stepsep done" aria-hidden="true"></li>
+    <li class="step" data-state="done"><span class="n"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>2 · Alias</li>
+    <li class="stepsep done" aria-hidden="true"></li>
+    <li class="step" data-state="done"><span class="n"><svg class="ic ic-sm" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg></span>3 · DNS</li>
+    <li class="stepsep" aria-hidden="true"></li>
+    <li class="step" data-state="active" aria-current="step"><span class="n">4</span>4 · Gmail</li>
+    <li class="stepsep" aria-hidden="true"></li>
+    <li class="step"><span class="n">5</span>5 · Finalisation</li>
+  </ol>
+  <section class="panel" aria-labelledby="w4">
+    <span class="badge badge-warning">Etape 4 sur 5</span>
+    <h1 id="w4" style="margin-top:var(--space-3)">Branchement Gmail</h1>
+    <p class="small muted" style="max-width:64ch">Deux sous-étapes : vérification de l'alias « Envoyer en tant que » (CDC-1) puis autorisation OAuth. La propagation DNS peut prendre de 15 minutes à 48 heures.</p>
+    <div class="stage">
+      <div>
+        <h2 style="font-size:var(--fs-h3);margin-bottom:var(--space-2)" id="alias-t">Vérifier l'alias « Envoyer en tant que »</h2>
+        <p class="small muted">Gmail demandera un code de confirmation. Récupérez-le dans la boîte puis validez la vérification (CDC-1).</p>
+        <div class="alert alert-info" style="margin-top:var(--space-3)"><svg class="ic ic-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Allez dans Gmail → Paramètres → Comptes → « Envoyer en tant que », ou laissez Domial ouvrir la page pour vous.</span></div>
+        <div style="display:flex;gap:10px;margin-top:var(--space-4);align-items:center;flex-wrap:wrap">
+          <input class="input" style="max-width:220px" type="text" placeholder="Code de confirmation" aria-label="Code de confirmation Gmail">
+          <button class="btn btn-primary">Vérifier l'alias</button>
+          <span class="small muted"><a href="#">Renvoyer le code</a></span>
+        </div>
+      </div>
+      <div>
+        <h2 style="font-size:var(--fs-h3);margin-bottom:var(--space-2)">Enregistrements attendus chez votre registrar</h2>
+        <div class="rec"><table>
+          <thead><tr><th>Type</th><th>Hôte</th><th>Statut</th></tr></thead>
+          <tbody>
+            <tr><td>MX</td><td>@</td><td>Vérifié <span class="badge badge-success">OK</span></td></tr>
+            <tr><td>SPF (TXT)</td><td>@</td><td>Vérifié <span class="badge badge-success">OK</span></td></tr>
+            <tr><td>DKIM</td><td>k1._domainkey</td><td>Vérifié <span class="badge badge-success">OK</span></td></tr>
+            <tr><td>DMARC</td><td>_dmarc</td><td>Vérifié <span class="badge badge-success">OK</span></td></tr>
+            <tr><td>CNAME alias</td><td>contact</td><td>En propagation <span class="pulse pulse-wait" role="img" aria-label="Vérification en cours"></span></td></tr>
+          </tbody></table></div>
+        <div class="prog" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" aria-label="Propagation DNS : 62%"><i></i></div>
+        <p class="footline">La propagation prend de 15 minutes à 48 heures. Vous pouvez quitter le wizard : Domial continue de vérifier et vous enverra un e-mail dès que l'alias sera actif. Pas de manipulation manuelle nécessaire.</p>
+      </div>
+    </div>
+    <!-- Etats de reference -->
+    <div class="errblock"><div class="alert alert-error" role="alert"><svg class="ic ic-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Etat erreur : le code saisi est incorrect ou expiré. <b>Renvoyez le code dans Gmail</b> (valable 10 minutes) ou vérifiez l'adresse saisie. 2 tentatives restantes avant un délai d'attente de 15 minutes.</span></div></div>
+    <div class="actions">
+      <button class="btn btn-secondary">Revenir à l'étape 3</button>
+      <button class="btn btn-primary" disabled aria-disabled="true">Continuer (après vérification)</button>
+      <span class="small muted" style="margin-left:auto">Brouillon d'installation sauvegardé automatiquement</span>
+    </div>
+  </section>
+</main>
+</body></html>
