@@ -81,8 +81,9 @@ body { background: var(--white); }
 .transform-stack {
   display: flex; flex-direction: row;
   align-items: center; justify-content: center; gap: var(--s4);
-  flex-wrap: nowrap; overflow-x: auto;
+  flex-wrap: nowrap;
 }
+.transform-section { overflow: hidden; }
 .email-chip {
   display: inline-flex; align-items: center; gap: var(--s3);
   padding: 14px 28px; border-radius: var(--r-xl);
@@ -298,7 +299,8 @@ footer {
 }
 @media (max-width: 540px) {
   .hero { padding: var(--s7) var(--s5) var(--s6); }
-  .email-chip { font-size: 13px; padding: 11px 18px; }
+  .email-chip { font-size: 11px; padding: 9px 14px; }
+  .transform-section { padding: var(--s6) var(--s4); }
 }
 </style>
 </head>
