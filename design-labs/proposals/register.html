@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Créer un compte</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+body {
+  background: var(--gray);
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: var(--s6) var(--s4);
+}
+
+.auth-card {
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-2);
+  padding: var(--s5) var(--s6);
+  width: 100%;
+  max-width: 460px;
+  text-align: center;
+}
+
+.auth-logo { margin-bottom: var(--s5); }
+.auth-logo img { height: 44px; margin: 0 auto; }
+
+.auth-card h1 {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  letter-spacing: -.03em;
+  margin-bottom: var(--s2);
+}
+.auth-card .sub {
+  font-size: var(--fs-sm);
+  color: var(--ink-55);
+  margin-bottom: var(--s6);
+}
+
+/* Bouton Google */
+.btn-google {
+  display: flex; align-items: center; justify-content: center; gap: var(--s3);
+  width: 100%; min-height: 48px; padding: 12px 20px;
+  font: 600 var(--fs-sm)/1 var(--font); color: var(--ink);
+  background: var(--white); border: 1.5px solid var(--gray-mid);
+  border-radius: var(--r-md); cursor: pointer;
+  transition: border-color .15s, box-shadow .15s;
+  margin-bottom: var(--s5);
+}
+.btn-google:hover { border-color: var(--ink-30); box-shadow: var(--sh-1); }
+.btn-google svg { flex: none; }
+
+/* Séparateur */
+.sep {
+  display: flex; align-items: center; gap: var(--s3);
+  font-size: var(--fs-xs); font-weight: 600; color: var(--ink-30);
+  margin-bottom: var(--s5);
+}
+.sep::before, .sep::after { content: ''; flex: 1; height: 1px; background: var(--gray-mid); }
+
+/* Formulaire */
+.auth-form { text-align: left; }
+.auth-form .field { margin-bottom: var(--s3); }
+.auth-form .field-label {
+  display: block; font-size: var(--fs-xs); font-weight: 700;
+  color: var(--ink-55); margin-bottom: var(--s2);
+}
+.auth-form .input { background: var(--gray); border-color: transparent; }
+.auth-form .input:focus-visible { background: var(--white); border-color: var(--steel); }
+
+/* Ligne prénom / nom côte à côte */
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3); margin-bottom: var(--s3); }
+
+/* Force du mot de passe */
+.pw-meter { display: flex; gap: 3px; margin-top: var(--s2); }
+.pw-seg { height: 3px; flex: 1; border-radius: 2px; background: var(--gray-mid); }
+.pw-seg.on  { background: var(--warning); }
+.pw-seg.ok  { background: var(--success); }
+.pw-hint { font-size: var(--fs-xs); color: var(--ink-30); margin-top: 5px; }
+
+/* Consentement */
+.consent {
+  display: flex; align-items: flex-start; gap: var(--s2);
+  font-size: var(--fs-xs); color: var(--ink-55);
+  margin: var(--s4) 0;
+  text-align: left;
+}
+.consent input[type="checkbox"] { margin-top: 2px; flex: none; accent-color: var(--steel); }
+.consent a { color: var(--steel); font-weight: 600; }
+
+.auth-foot {
+  margin-top: var(--s5);
+  font-size: var(--fs-xs); color: var(--ink-30);
+}
+.auth-foot a { color: var(--steel); font-weight: 600; }
+
+.page-foot {
+  margin-top: var(--s5);
+  font-size: var(--fs-xs); color: var(--ink-30);
+  text-align: center;
+}
+.page-foot a { color: var(--ink-55); }
+
+/* ---- Responsive ---- */
+@media (max-width: 460px) {
+  .field-row { grid-template-columns: 1fr; }
+  .auth-card { padding: var(--s5) var(--s4); }
+}
+</style>
+</head>
+<body>
+
+<div>
+  <div class="auth-card">
+
+    <div class="auth-logo">
+      <img src="assets/logo/domial-horizontal.svg" alt="Domial">
+    </div>
+
+    <h1>Créer un compte</h1>
+    <p class="sub">Votre premier domaine est gratuit. Aucune carte bancaire.</p>
+
+    <!-- Google OAuth -->
+    <button class="btn-google" type="button">
+      <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+      </svg>
+      S'inscrire avec Google
+    </button>
+
+    <div class="sep">ou</div>
+
+    <form class="auth-form" novalidate>
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label" for="firstname">Prénom</label>
+          <input id="firstname" class="input" type="text" placeholder="Thomas" autocomplete="given-name">
+        </div>
+        <div class="field">
+          <label class="field-label" for="lastname">Nom</label>
+          <input id="lastname" class="input" type="text" placeholder="Leclerc" autocomplete="family-name">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="email">Adresse e-mail</label>
+        <input id="email" class="input" type="email" placeholder="vous@exemple.fr" autocomplete="email">
+      </div>
+      <div class="field">
+        <label class="field-label" for="pwd">Mot de passe</label>
+        <input id="pwd" class="input" type="password" placeholder="8 caractères minimum" autocomplete="new-password">
+        <div class="pw-meter" aria-label="Force du mot de passe">
+          <div class="pw-seg ok"></div>
+          <div class="pw-seg ok"></div>
+          <div class="pw-seg on"></div>
+          <div class="pw-seg"></div>
+        </div>
+        <p class="pw-hint">Ajoutez un chiffre ou un symbole pour renforcer le mot de passe</p>
+      </div>
+
+      <label class="consent">
+        <input type="checkbox" checked>
+        <span>J'accepte les <a href="#">conditions d'utilisation</a> et la <a href="#">politique de confidentialité</a>.</span>
+      </label>
+
+      <button class="btn btn-primary btn-block" type="submit">Créer mon compte</button>
+    </form>
+
+    <p class="auth-foot">Déjà un compte ? <a href="auth.html">Se connecter</a></p>
+
+  </div>
+
+  <p class="page-foot">
+    <a href="#">Mentions légales</a> · <a href="#">Confidentialité</a>
+  </p>
+</div>
+
+</body>
+</html>

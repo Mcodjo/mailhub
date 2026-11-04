@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Mot de passe oublié</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+body {
+  background: var(--gray);
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: var(--s6) var(--s4);
+}
+
+.auth-card {
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-2);
+  padding: var(--s5) var(--s6);
+  width: 100%;
+  max-width: 460px;
+  text-align: center;
+}
+
+.auth-logo { margin-bottom: var(--s5); }
+.auth-logo img { height: 44px; margin: 0 auto; }
+
+.auth-card h1 {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  letter-spacing: -.03em;
+  margin-bottom: var(--s2);
+}
+.auth-card .sub {
+  font-size: var(--fs-sm);
+  color: var(--ink-55);
+  line-height: 1.65;
+  margin-bottom: var(--s6);
+  max-width: 32ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.auth-form { text-align: left; }
+.auth-form .field { margin-bottom: var(--s4); }
+.auth-form .field-label {
+  display: block; font-size: var(--fs-xs); font-weight: 700;
+  color: var(--ink-55); margin-bottom: var(--s2);
+}
+.auth-form .input { background: var(--gray); border-color: transparent; }
+.auth-form .input:focus-visible { background: var(--white); border-color: var(--steel); }
+
+.back-link {
+  display: inline-flex; align-items: center; gap: var(--s2);
+  font-size: var(--fs-xs); color: var(--ink-30);
+  margin-top: var(--s5);
+  transition: color .15s;
+}
+.back-link:hover { color: var(--steel); text-decoration: none; }
+
+/* État confirmation (caché par défaut) */
+.confirm-state { display: none; padding: var(--s5) 0; }
+.confirm-icon {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--success-bg); color: var(--success);
+  display: grid; place-items: center; margin: 0 auto var(--s4);
+}
+.confirm-state h2 { font-size: var(--fs-base); font-weight: 700; margin-bottom: var(--s2); }
+.confirm-state p { font-size: var(--fs-sm); color: var(--ink-55); line-height: 1.65; margin: 0; }
+
+.page-foot {
+  margin-top: var(--s5);
+  font-size: var(--fs-xs); color: var(--ink-30);
+  text-align: center;
+}
+.page-foot a { color: var(--ink-55); }
+</style>
+</head>
+<body>
+
+<div>
+  <div class="auth-card">
+
+    <div class="auth-logo">
+      <img src="assets/logo/domial-horizontal.svg" alt="Domial">
+    </div>
+
+    <!-- État formulaire -->
+    <div id="form-state">
+      <h1>Mot de passe oublié</h1>
+      <p class="sub">Entrez votre adresse e-mail. Nous vous enverrons un lien pour réinitialiser votre mot de passe.</p>
+
+      <form class="auth-form" novalidate id="forgot-form">
+        <div class="field">
+          <label class="field-label" for="email">Adresse e-mail</label>
+          <input id="email" class="input" type="email" placeholder="vous@exemple.fr" autocomplete="email">
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Envoyer le lien</button>
+      </form>
+
+      <a class="back-link" href="auth.html">
+        <svg width="14" height="14" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+        Retour à la connexion
+      </a>
+    </div>
+
+    <!-- État confirmation (s'affiche après envoi) -->
+    <div class="confirm-state" id="confirm-state">
+      <div class="confirm-icon" aria-hidden="true">
+        <svg width="22" height="22" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg>
+      </div>
+      <h2>E-mail envoyé</h2>
+      <p>Si cette adresse est associée à un compte Domial, vous recevrez un lien d'ici quelques minutes. Pensez à vérifier vos spams.</p>
+      <a class="back-link" style="justify-content:center;margin-top:var(--s5)" href="auth.html">
+        <svg width="14" height="14" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+        Retour à la connexion
+      </a>
+    </div>
+
+  </div>
+
+  <p class="page-foot">
+    <a href="#">Mentions légales</a> · <a href="#">Confidentialité</a>
+  </p>
+</div>
+
+<script>
+document.getElementById('forgot-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  document.getElementById('form-state').style.display = 'none';
+  document.getElementById('confirm-state').style.display = 'block';
+});
+</script>
+
+</body>
+</html>
