@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\DomainController;
 use App\Http\Controllers\Api\GmailController;
 use App\Http\Controllers\Api\EmailController;
 use App\Http\Controllers\Api\InboundMailController;
+use App\Http\Controllers\Api\SendEmailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -79,11 +80,15 @@ Route::middleware('auth:sanctum')->group(function () {
     | unread-count DOIT être déclaré avant {email} (sinon capturé comme ID)
     |----------------------------------------------------------------------
     */
+    // Routes statiques d'abord (avant {email} pour éviter les collisions)
     Route::get('emails/unread-count',          [EmailController::class, 'unreadCount']);
+    Route::post('emails/send',                 [SendEmailController::class, 'send']);
     Route::get('emails',                       [EmailController::class, 'index']);
+    // Routes dynamiques
     Route::get('emails/{email}',               [EmailController::class, 'show']);
     Route::patch('emails/{email}/read',        [EmailController::class, 'markRead']);
     Route::patch('emails/{email}/unread',      [EmailController::class, 'markUnread']);
+    Route::post('emails/{email}/reply',        [SendEmailController::class, 'reply']);
     Route::delete('emails/{email}',            [EmailController::class, 'destroy']);
 
     /*

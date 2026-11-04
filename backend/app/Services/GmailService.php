@@ -109,4 +109,131 @@ class GmailService
     {
         return base64_encode("user={$userEmail}\x01auth=Bearer {$accessToken}\x01\x01");
     }
+
+    /**
+     * Envoie un email via l'API Gmail (POST /gmail/v1/users/me/messages/send).
+     *
+     * Construit un message RFC 2822 multipart/alternative (texte + HTML),
+     * l'encode en base64url et le soumet à l'API.
+     *
+     * @param  array{
+     *   from_email: string,
+     *   from_name: string|null,
+     *   to: string[],
+     *   cc: string[],
+     *   subject: string,
+     *   body_text: string|null,
+     *   body_html: string|null,
+     *   in_reply_to: string|null,
+     *   references: string|null,
+     *   gmail_thread_id: string|null,
+     * } $params
+     *
+     * @return array{message_id: string, gmail_id: string, gmail_thread_id: string}
+     *
+     * @throws RuntimeException GMAIL_OAUTH_REQUIRED | GMAIL_SEND_FAILED
+     */
+    public function sendViaApi(User $user, array $params): array
+    {
+        $accessToken = $this->getValidAccessToken($user);
+
+        $raw = $this->buildRfc2822($params);
+
+        // base64url sans padding (exigé par l'API Gmail)
+        $encoded = rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');
+
+        $body = ['raw' => $encoded];
+        if (! empty($params['gmail_thread_id'])) {
+            $body['threadId'] = $params['gmail_thread_id'];
+        }
+
+        $response = Http::withToken($accessToken)
+            ->post('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', $body);
+
+        if ($response->failed()) {
+            throw new RuntimeException('GMAIL_SEND_FAILED');
+        }
+
+        $data = $response->json();
+
+        // Extraire le Message-ID de nos headers (fourni dans le message envoyé)
+        preg_match('/Message-ID:\s*(<[^>]+>)/im', $raw, $m);
+
+        return [
+            'message_id'      => $m[1] ?? "<{$data['id']}@gmail.com>",
+            'gmail_id'        => $data['id'],
+            'gmail_thread_id' => $data['threadId'],
+        ];
+    }
+
+    // -------------------------------------------------------------------------
+
+    /**
+     * Construit un message RFC 2822 multipart/alternative complet.
+     */
+    private function buildRfc2822(array $p): string
+    {
+        $boundary = '----=_Part_' . bin2hex(random_bytes(8));
+        $messageId = '<' . bin2hex(random_bytes(16)) . '@domial.local>';
+
+        $from = $p['from_name']
+            ? '"' . $this->encodeHeader($p['from_name']) . '" <' . $p['from_email'] . '>'
+            : $p['from_email'];
+
+        $to = implode(', ', (array) $p['to']);
+
+        $lines = [
+            "MIME-Version: 1.0",
+            "Date: " . now()->format('r'),
+            "Message-ID: {$messageId}",
+            "From: {$from}",
+            "To: {$to}",
+        ];
+
+        if (! empty($p['cc'])) {
+            $lines[] = "Cc: " . implode(', ', (array) $p['cc']);
+        }
+
+        $lines[] = "Subject: =?UTF-8?B?" . base64_encode($p['subject']) . "?=";
+
+        if (! empty($p['in_reply_to'])) {
+            $lines[] = "In-Reply-To: {$p['in_reply_to']}";
+        }
+        if (! empty($p['references'])) {
+            $lines[] = "References: {$p['references']}";
+        }
+
+        $lines[] = "Content-Type: multipart/alternative; boundary=\"{$boundary}\"";
+        $lines[] = "";
+
+        // Partie texte
+        $text = $p['body_text'] ?? strip_tags($p['body_html'] ?? '');
+        $lines[] = "--{$boundary}";
+        $lines[] = "Content-Type: text/plain; charset=UTF-8";
+        $lines[] = "Content-Transfer-Encoding: quoted-printable";
+        $lines[] = "";
+        $lines[] = quoted_printable_encode($text);
+        $lines[] = "";
+
+        // Partie HTML
+        $html = $p['body_html'] ?? nl2br(htmlspecialchars($text, ENT_QUOTES));
+        $lines[] = "--{$boundary}";
+        $lines[] = "Content-Type: text/html; charset=UTF-8";
+        $lines[] = "Content-Transfer-Encoding: quoted-printable";
+        $lines[] = "";
+        $lines[] = quoted_printable_encode($html);
+        $lines[] = "";
+        $lines[] = "--{$boundary}--";
+
+        return implode("\r\n", $lines);
+    }
+
+    private function encodeHeader(string $value): string
+    {
+        // Passe-plat si ASCII pur, sinon encoded-word UTF-8
+        if (mb_detect_encoding($value, 'ASCII', true)) {
+            return addcslashes($value, '"\\');
+        }
+        return '=?UTF-8?B?' . base64_encode($value) . '?=';
+    }
 }
