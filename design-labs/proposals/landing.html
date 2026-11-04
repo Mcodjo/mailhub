@@ -68,8 +68,6 @@ body { background: var(--white); }
 
 /* ---- Transformation visuelle ---- */
 .transform-section {
-  background: var(--gray);
-  border-top: var(--border); border-bottom: var(--border);
   padding: var(--s7) var(--s6);
 }
 .transform-inner {
@@ -113,9 +111,7 @@ body { background: var(--white); }
 }
 .stat {
   text-align: center; padding: var(--s5);
-  border-right: var(--border);
 }
-.stat:last-child { border-right: none; }
 .stat-num {
   font-size: 44px; font-weight: 700; letter-spacing: -.04em;
   line-height: 1; color: var(--ink); margin-bottom: var(--s2);
@@ -128,8 +124,6 @@ body { background: var(--white); }
 
 /* ---- Fonctionnalités grille ---- */
 .features-section {
-  background: var(--gray);
-  border-top: var(--border);
   padding: var(--s8) var(--s6);
 }
 .features-inner {
@@ -186,8 +180,9 @@ body { background: var(--white); }
   line-height: 1.7; margin: 0 0 var(--s5);
 }
 .alt-visual {
-  background: var(--gray); border: var(--border);
+  background: var(--white); border: var(--border);
   border-radius: var(--r-xl); padding: var(--s6);
+  box-shadow: var(--sh-1);
   display: flex; flex-direction: column; gap: var(--s3);
 }
 /* Faux UI DNS wizard */
@@ -263,7 +258,7 @@ body { background: var(--white); }
 /* ---- CTA bande ---- */
 .cta-band {
   padding: var(--s8) var(--s6); text-align: center;
-  background: var(--white); border-top: var(--border);
+  background: var(--white);
 }
 .cta-band h2 {
   font-size: clamp(24px, 3.5vw, 40px); font-weight: 700;
@@ -275,7 +270,7 @@ body { background: var(--white); }
 
 /* ---- Footer ---- */
 footer {
-  background: var(--ink); border-top: var(--border);
+  background: var(--ink);
   padding: var(--s5) var(--s6);
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: var(--s4);
@@ -291,8 +286,7 @@ footer {
 /* ---- Responsive ---- */
 @media (max-width: 860px) {
   .stats-band { grid-template-columns: 1fr; }
-  .stat { border-right: none; border-bottom: var(--border); padding: var(--s4); }
-  .stat:last-child { border-bottom: none; }
+  .stat { padding: var(--s4); }
   .features-grid { grid-template-columns: 1fr; }
   .alt-block { grid-template-columns: 1fr; }
   .alt-block.reverse { direction: ltr; }
@@ -471,7 +465,7 @@ footer {
   </section>
 
   <!-- Bloc alterné 2 : alias -->
-  <section style="background:var(--gray); border-top:var(--border); border-bottom:var(--border);">
+  <section>
     <div class="alt-block reverse">
       <div class="alt-text">
         <p class="section-ey">Alias illimités</p>
