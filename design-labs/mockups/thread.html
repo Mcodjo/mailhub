@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conversation — MailPro Hub</title>
+<link rel="stylesheet" href="assets/design-system.css">
+<style>
+  .thread-grid { flex: 1; display: grid; grid-template-columns: var(--sidebar-w) 1fr; min-height: 100vh; }
+  dt { font-size: var(--fs-overline); text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-on-surface-muted); }
+  dd { margin: var(--space-1) 0 0; font-size: var(--fs-body-s); }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: var(--fs-body-s); flex: none; }
+  .msg-body p + p { margin-top: var(--space-3); }
+  blockquote { margin: var(--space-3) 0 0; padding: var(--space-2) var(--space-3); border-left: 3px solid var(--gray-300); color: var(--gray-500); font-size: var(--fs-body-s); }
+  @media (max-width: 767px) {
+    .thread-grid { grid-template-columns: 1fr; }
+    .sidebar { height: auto !important; position: static !important; }
+  }
+</style>
+</head>
+<body>
+<div class="thread-grid">
+  <aside class="sidebar" aria-label="Navigation des boîtes">
+    <div class="brand">
+      <svg class="icon icon-lg" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+      MailPro Hub
+    </div>
+    <button class="btn btn-accent btn-block" onclick="location.href='compose.html'">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"/></svg>
+      Nouveau mail
+    </button>
+    <div class="nav-group">
+      <div class="nav-title">Boîtes</div>
+      <a class="nav-item" href="inbox.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Boîte de réception<span class="nav-count">7</span></a>
+      <a class="nav-item" href="sent.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>Envoyés</a>
+    </div>
+    <div class="nav-group" style="margin-top:auto;">
+      <a class="nav-item" href="profile.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></svg> Profil</a>
+    </div>
+  </aside>
+
+  <main style="display:flex;flex-direction:column;min-width:0;">
+    <header class="topbar" style="gap:var(--space-4);">
+      <a class="icon-btn" href="inbox.html" aria-label="Retour à la boîte de réception">
+        <svg class="icon" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7m7 7H5"/></svg>
+      </a>
+      <div style="min-width:0;">
+        <h1 class="title" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Devis refonte site vitrine — planning</h1>
+        <p class="body-s">Conversation groupée — 3 messages, 2 participants</p>
+      </div>
+      <div style="margin-left:auto;display:flex;gap:var(--space-2);">
+        <button class="icon-btn" aria-label="Développer la conversation"><svg class="icon" viewBox="0 0 24 24"><path d="m7 15 5 5 5-5M7 9l5-5 5 5"/></svg></button>
+        <button class="icon-btn" aria-label="Imprimer"><svg class="icon" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button>
+      </div>
+    </header>
+
+    <div style="padding:var(--space-5) var(--space-6);display:flex;flex-direction:column;gap:var(--space-4);max-width:880px;">
+      <!-- Message 1 -->
+      <article class="card card-pad" style="padding:var(--space-5);">
+        <header style="display:flex;gap:var(--space-3);align-items:center;">
+          <div class="avatar" style="background:var(--navy-100);color:var(--navy-700);">CR</div>
+          <div style="flex:1;min-width:0;">
+            <p class="label" style="font-size:var(--fs-body-s);">Camille Respaut &lt;camille@exemple.com&gt;</p>
+            <p class="body-s">à contact@agence-nova.fr — mardi 2 juin, 11 h 20</p>
+          </div>
+        </header>
+        <div class="body msg-body" style="margin-top:var(--space-4);color:var(--gray-700);">
+          <p>Bonjour Maurice,</p>
+          <p>Comme convenu, je vous joins le devis actualisé. Les gains attendus portent sur la vitesse de chargement et le SEO local. Nous visons une mise en production mi-juillet.</p>
+          <p>Restant à votre disposition,</p>
+          <p>Camille Respaut</p>
+        </div>
+        <div class="alert alert-info" style="margin-top:var(--space-4);">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 17.5 8.5z"/></svg>
+          <span><strong>devis-refonte-v3.pdf</strong> — 482 Ko · <a href="#">Télécharger</a></span>
+        </div>
+      </article>
+
+      <!-- Message 2 (réponse) -->
+      <article class="card card-pad" style="padding:var(--space-5);">
+        <header style="display:flex;gap:var(--space-3);align-items:center;">
+          <div class="avatar" style="background:var(--amber-100);color:var(--amber-600);">MA</div>
+          <div style="flex:1;min-width:0;">
+            <p class="label" style="font-size:var(--fs-body-s);">Vous — envoyé depuis Gmail OAuth &lt;contact@agence-nova.fr&gt;</p>
+            <p class="body-s">mardi 2 juin, 11 h 26</p>
+          </div>
+        </header>
+        <div class="body msg-body" style="margin-top:var(--space-4);color:var(--gray-700);">
+          <p>Bonjour Camille,</p>
+          <p>Merci pour le devis. Je vous fais un retour complet d'ici jeudi, avec le planning révisé.</p>
+          <p>Maurice</p>
+        </div>
+      </article>
+
+      <!-- Message 3 (dernier, avec citation) -->
+      <article class="card card-pad" style="padding:var(--space-5);border-color:var(--navy-100);">
+        <header style="display:flex;gap:var(--space-3);align-items:center;">
+          <div class="avatar" style="background:var(--navy-100);color:var(--navy-700);">CR</div>
+          <div style="flex:1;min-width:0;">
+            <p class="label" style="font-size:var(--fs-body-s);">Camille Respaut &lt;camille@exemple.com&gt;</p>
+            <p class="body-s">mardi 2 juin, 14 h 05 — <span class="badge badge-unread">Non lu</span></p>
+          </div>
+        </header>
+        <div class="body msg-body" style="margin-top:var(--space-4);color:var(--gray-700);">
+          <p>Parfait. Je viens de revoir la maquette de la page d'accueil, elle est en pièce jointe du premier message.</p>
+          <blockquote>
+            Le 2 juin à 11 h 26, Maurice a écrit :<br>
+            « Je vous fais un retour complet d'ici jeudi, avec le planning révisé. »
+          </blockquote>
+        </div>
+      </article>
+
+      <!-- Barre d'actions -->
+      <div class="card card-pad" style="padding:var(--space-4);display:flex;gap:var(--space-3);align-items:center;position:sticky;bottom:var(--space-4);">
+        <a class="btn btn-primary" href="compose.html">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M3 10h10V3M6.5 3.5 20 17V21H3v-3.5"/></svg>
+          Répondre
+        </a>
+        <a class="btn btn-secondary" href="compose.html">Transférer</a>
+        <div style="margin-left:auto;display:flex;gap:var(--space-2);align-items:center;">
+          <!-- État conflit (démo) : message ouvert sur un autre périphérique -->
+          <span class="badge badge-warning">Conflit : marqué lu sur un autre appareil</span>
+          <button class="btn btn-ghost btn-sm">Ignorer</button>
+          <button class="btn btn-danger">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M3 6h18m-2 0-.713 12.177A2 2 0 0 1 16.29 20H7.71a2 2 0 0 1-1.997-1.823L5 6m5 4v6m4-6v6m1-12V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+            Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

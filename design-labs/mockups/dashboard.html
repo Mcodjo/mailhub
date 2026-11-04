@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — MailPro Hub</title>
+<link rel="stylesheet" href="assets/design-system.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <svg class="icon icon-lg" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+      MailPro Hub
+    </div>
+    <div class="nav-group">
+      <div class="nav-title">Boîtes</div>
+      <a class="nav-item" href="inbox.html" aria-current="page"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Boîte de réception<span class="nav-count">7</span></a>
+      <a class="nav-item" href="sent.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>Envoyés</a>
+    </div>
+    <button class="btn btn-accent btn-block" onclick="location.href='wizard.html'">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"/></svg>
+      Nouveau mail
+    </button>
+    <div class="nav-group">
+      <div class="nav-title">Domaines</div>
+      <a class="nav-item" href="profile.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2m8.66-9.66-1.42 1.42M4.76 19.24l1.42-1.42M2 12h2m16 0h2M4.76 4.76l1.42 1.42m13.48 12.96-1.42-1.42"/></svg>agence-nova.fr<span class="nav-count">4</span></a>
+      <a class="nav-item" href="profile.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2m8.66-9.66-1.42 1.42M4.76 19.24l1.42-1.42M2 12h2m16 0h2M4.76 4.76l1.42 1.42m13.48 12.96-1.42-1.42"/></svg>client-lumen.com</a>
+    </div>
+    <div class="nav-group" style="margin-top:auto;">
+      <a class="nav-item" href="profile.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></svg> Profil</a>
+      <a class="nav-item" href="snippets.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Snippets</a>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <header class="topbar">
+      <h1 style="font-size:var(--fs-headline);font-weight:600;">Tableau de bord</h1>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:var(--space-3);">
+        <span class="badge badge-success"><span style="width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block;"></span> Services opérationnels</span>
+        <button class="icon-btn" aria-label="Notifications">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Paramètres du compte">
+          <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="card-pad" style="padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-6);">
+      <!-- Résumé -->
+      <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--space-4);" aria-label="Synthèse">
+        <div class="card card-pad" style="padding:var(--space-4);">
+          <p class="overline">Domaines actifs</p>
+          <p class="display" style="margin-top:var(--space-1);">2</p>
+        </div>
+        <div class="card card-pad" style="padding:var(--space-4);">
+          <p class="overline">Boîtes</p>
+          <p class="display" style="margin-top:var(--space-1);">5</p>
+        </div>
+        <div class="card card-pad" style="padding:var(--space-4);">
+          <p class="overline">Non lus</p>
+          <p class="display" style="margin-top:var(--space-1);color:var(--color-accent);">7</p>
+        </div>
+        <div class="card card-pad" style="padding:var(--space-4);">
+          <p class="overline">Gmail connecté</p>
+          <p style="margin-top:var(--space-2);"><span class="badge badge-success">Vérifié</span></p>
+          <p class="body-s" style="margin-top:var(--space-2);">maurice@gmail.com — envoi en tant que agence-nova.fr</p>
+        </div>
+      </section>
+
+      <!-- Domaines -->
+      <section aria-labelledby="h-domains">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-4);">
+          <h2 id="h-domains" class="title">Domaines configurés</h2>
+          <button class="btn btn-primary" onclick="location.href='wizard.html'">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"/></svg>
+            Ajouter un domaine
+          </button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:var(--space-4);">
+          <!-- Domaine 1 -->
+          <article class="card card-pad" style="padding:var(--space-5);">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <h3 class="title" style="font-size:var(--fs-body);font-weight:600;">agence-nova.fr</h3>
+              <span class="badge badge-success">Actif</span>
+            </div>
+            <ul style="margin-top:var(--space-4);display:flex;flex-direction:column;">
+              <li style="display:flex;align-items:center;gap:var(--space-3);padding:var(--space-2) 0;border-bottom:1px solid var(--gray-100);">
+                <span class="dot-unread" aria-hidden="true"></span>
+                <a href="inbox.html" style="flex:1;">contact@agence-nova.fr</a>
+                <span class="badge badge-unread">4 non lus</span>
+              </li>
+              <li style="display:flex;align-items:center;gap:var(--space-3);padding:var(--space-2) 0;border-bottom:1px solid var(--gray-100);">
+                <span style="width:8px;flex:none;" aria-hidden="true"></span>
+                <a href="inbox.html" style="flex:1;">info@agence-nova.fr</a>
+                <span class="badge badge-neutral">2 non lus</span>
+              </li>
+              <li style="display:flex;align-items:center;gap:var(--space-3);padding:var(--space-2) 0;">
+                <span style="width:8px;flex:none;" aria-hidden="true"></span>
+                <a href="inbox.html" style="flex:1;">support@agence-nova.fr</a>
+                <span class="badge badge-neutral">1 non lu</span>
+              </li>
+            </ul>
+            <div style="display:flex;gap:var(--space-2);margin-top:var(--space-4);">
+              <a class="btn btn-secondary btn-sm" href="profile.html">Gérer les alias</a>
+              <a class="btn btn-ghost btn-sm" href="wizard.html">Voir la configuration DNS</a>
+            </div>
+          </article>
+
+          <!-- Domaine 2 -->
+          <article class="card card-pad" style="padding:var(--space-5);">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <h3 class="title" style="font-size:var(--fs-body);font-weight:600;">client-lumen.com</h3>
+              <span class="badge badge-warning">Propagation DNS en cours</span>
+            </div>
+            <p class="body-s" style="margin-top:var(--space-4);">
+              Les enregistrements MX sont propagés, DKIM est en attente. La propagation peut prendre de 15 minutes à 48 heures.
+            </p>
+            <ul style="margin-top:var(--space-4);display:flex;flex-direction:column;gap:var(--space-2);">
+              <li style="display:flex;justify-content:space-between;align-items:center;font-size:var(--fs-body-s);"><span>MX</span><span class="badge badge-success">Propagé</span></li>
+              <li style="display:flex;justify-content:space-between;align-items:center;font-size:var(--fs-body-s);"><span>SPF</span><span class="badge badge-success">Propagé</span></li>
+              <li style="display:flex;justify-content:space-between;align-items:center;font-size:var(--fs-body-s);"><span>DKIM</span><span class="badge badge-warning">En attente</span></li>
+              <li style="display:flex;justify-content:space-between;align-items:center;font-size:var(--fs-body-s);"><span>DMARC</span><span class="badge badge-success">Propagé</span></li>
+            </ul>
+            <div style="display:flex;gap:var(--space-2);margin-top:var(--space-5);">
+              <a class="btn btn-primary btn-sm" href="wizard.html">Relancer la vérification</a>
+              <a class="btn btn-ghost btn-sm" href="snippets.html">Snippets</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- État vide (démo) : ce bloc illustre le rendu sans aucun domaine -->
+      <section class="card card-pad" style="border-style:dashed;border-color:var(--gray-300);background:var(--gray-50);" aria-label="Démonstration : état vide">
+        <p class="overline" style="margin-bottom:var(--space-2);">État vide — démonstration</p>
+        <div style="display:flex;gap:var(--space-5);align-items:center;flex-wrap:wrap;">
+          <div style="display:grid;place-items:center;width:64px;height:64px;border-radius:var(--radius-lg);background:var(--navy-100);color:var(--navy-700);">
+            <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6m0 4h.01"/></svg>
+          </div>
+          <div style="flex:1;min-width:240px;">
+            <p class="title" style="font-size:var(--fs-body);">Aucun domaine configuré</p>
+            <p class="body-s">Ajoutez votre premier domaine pour recevoir et envoyer vos mails professionnels depuis MailPro Hub.</p>
+          </div>
+          <a class="btn btn-accent" href="wizard.html">Ajouter un domaine</a>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+</body>
+</html>

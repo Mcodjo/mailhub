@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boîte de réception — MailPro Hub</title>
+<link rel="stylesheet" href="assets/design-system.css">
+<style>
+  .inbox-grid { flex: 1; display: grid; grid-template-columns: var(--sidebar-w) var(--list-w) 1fr; min-height: calc(100vh - 57px); }
+  .mail-list { border-right: 1px solid var(--gray-200); background: var(--color-surface); display: flex; flex-direction: column; min-width: 0; }
+  .mail-list-scroll { overflow-y: auto; flex: 1; }
+  .mail-row { display: flex; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--gray-100); text-decoration: none; color: inherit; }
+  .mail-row:hover { background: var(--gray-50); text-decoration: none; }
+  .mail-row[data-selected="true"] { background: var(--navy-50); border-left: 3px solid var(--color-accent); padding-left: calc(var(--space-4) - 3px); }
+  .mail-row .sender { font-weight: 600; font-size: var(--fs-body-s); }
+  .mail-row[data-unread="true"] .sender { color: var(--color-primary); }
+  .mail-row .subject { font-weight: 500; font-size: var(--fs-body-s); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mail-row[data-unread="false"] .subject { font-weight: 400; color: var(--gray-700); }
+  .mail-row .preview { font-size: var(--fs-label); color: var(--color-on-surface-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mail-row .meta-r { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-1); flex: none; }
+  .mail-row .date { font-size: var(--fs-label); color: var(--color-on-surface-muted); }
+
+  .reading { display: flex; flex-direction: column; min-width: 0; overflow-y: auto; }
+  .reading-header { padding: var(--space-4) var(--space-6); border-bottom: 1px solid var(--gray-200); background: var(--color-surface); }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--navy-100); color: var(--navy-700); display: grid; place-items: center; font-weight: 700; font-size: var(--fs-body-s); flex: none; }
+
+  /* états démo */
+  .demo-state { border-top: 2px dashed var(--gray-300); margin: var(--space-5) var(--space-4) 0; padding-top: var(--space-4); }
+  .demo-label { margin-bottom: var(--space-3); }
+
+  @media (max-width: 1023px) {
+    .inbox-grid { grid-template-columns: 1fr var(--list-w); }
+    .reading-col { display: none; }
+  }
+  @media (max-width: 767px) {
+    .inbox-grid { grid-template-columns: 1fr; min-height: auto; }
+    .mail-list { border-right: none; }
+    .mail-row { padding: var(--space-4) var(--space-4); }
+    .reading-col { display: flex; } /* sur mobile, la lecture remplace plein écran (pattern push) */
+  }
+</style>
+</head>
+<body>
+<div class="inbox-grid">
+  <!-- ======================= Sidebar ======================= -->
+  <aside class="sidebar" aria-label="Navigation des boîtes">
+    <div class="brand">
+      <svg class="icon icon-lg" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+      MailPro Hub
+    </div>
+    <button class="btn btn-accent btn-block" onclick="location.href='compose.html'">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"/></svg>
+      Nouveau mail
+    </button>
+    <div class="nav-group">
+      <div class="nav-title">Boîtes</div>
+      <a class="nav-item" href="inbox.html" aria-current="page"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Boîte de réception<span class="nav-count">7</span></a>
+      <a class="nav-item" href="sent.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>Envoyés</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-title">Domaines</div>
+      <a class="nav-item" href="profile.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2m8.66-9.66-1.42 1.42M4.76 19.24l1.42-1.42M2 12h2m16 0h2M4.76 4.76l1.42 1.42m13.48 12.96-1.42-1.42"/></svg>agence-nova.fr</a>
+      <a class="nav-item" href="inbox.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2m8.66-9.66-1.42 1.42M4.76 19.24l1.42-1.42M2 12h2m16 0h2M4.76 4.76l1.42 1.42m13.48 12.96-1.42-1.42"/></svg>client-lumen.com</a>
+    </div>
+    <div class="nav-group" style="margin-top:auto;">
+      <a class="nav-item" href="snippets.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Snippets</a>
+      <a class="nav-item" href="profile.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></svg> Profil</a>
+    </div>
+  </aside>
+
+  <!-- ======================= Liste des mails ======================= -->
+  <div class="mail-list">
+    <div class="topbar" style="border-bottom:1px solid var(--gray-200);">
+      <div class="field" style="margin:0;flex:1;">
+        <label for="search" class="visually-hidden" style="position:absolute;clip:rect(0 0 0 0);">Rechercher</label>
+        <input class="input" id="search" type="search" placeholder="Rechercher un expéditeur, un objet…" style="min-height:40px;">
+      </div>
+      <button class="icon-btn" aria-label="Options de tri"><svg class="icon" viewBox="0 0 24 24"><path d="M3 5h12M3 12h9m-9 7h6"/></svg></button>
+    </div>
+    <div class="mail-list-scroll">
+      <a class="mail-row" href="thread.html" data-unread="true" data-selected="true">
+        <span class="dot-unread" style="margin-top:14px;" aria-label="Non lu"></span>
+        <div style="min-width:0;flex:1;">
+          <div style="display:flex;justify-content:space-between;gap:var(--space-2);">
+            <span class="sender">Camille Respaut</span>
+            <span class="date">11 h 20</span>
+          </div>
+          <p class="subject">Devis refonte site vitrine — planning</p>
+          <p class="preview">Bonjour Maurice, comme convenu voici le devis actualisé. Les gains…</p>
+        </div>
+        <div class="meta-r">
+          <span class="badge badge-unread">2</span>
+          <svg class="icon icon-sm" style="color:var(--gray-500)" viewBox="0 0 24 24" aria-label="Avec pièce jointe"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 17.5 8.5z"/></svg>
+        </div>
+      </a>
+      <a class="mail-row" href="thread.html" data-unread="true">
+        <span class="dot-unread" style="margin-top:14px;" aria-label="Non lu"></span>
+        <div style="min-width:0;flex:1;">
+          <div style="display:flex;justify-content:space-between;gap:var(--space-2);">
+            <span class="sender">Codex Legal</span>
+            <span class="date">10 h 05</span>
+          </div>
+          <p class="subject">Contrat cadre — versions à signer</p>
+          <p class="preview">Chers échanges, veuillez trouver les deux versions du contrat…</p>
+        </div>
+        <div class="meta-r"><span class="date" style="color:var(--color-accent);font-weight:600;">Nouveau</span></div>
+      </a>
+      <a class="mail-row" href="thread.html" data-unread="false">
+        <span style="width:8px;flex:none;" aria-hidden="true"></span>
+        <div style="min-width:0;flex:1;">
+          <div style="display:flex;justify-content:space-between;gap:var(--space-2);">
+            <span class="sender">Léa Fontaine</span>
+            <span class="date">Hier</span>
+          </div>
+          <p class="subject">RDV point d'avancement jeudi 14 h</p>
+          <p class="preview">Je vous confirme la salle 3B. Pouvez-vous remettre…</p>
+        </div>
+        <div class="meta-r"><svg class="icon icon-sm" style="color:var(--gray-300)" viewBox="0 0 24 24" aria-label="Avec pièce jointe"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 17.5 8.5z"/></svg></div>
+      </a>
+      <a class="mail-row" href="thread.html" data-unread="false">
+        <span style="width:8px;flex:none;" aria-hidden="true"></span>
+        <div style="min-width:0;flex:1;">
+          <div style="display:flex;justify-content:space-between;gap:var(--space-2);">
+            <span class="sender">Netflix Facturation</span>
+            <span class="date">2 juin</span>
+          </div>
+          <p class="subject">Votre facture de mai est disponible</p>
+          <p class="preview">Montant réglé par carte se terminant par 12. Télé…</p>
+        </div>
+        <div class="meta-r"><span class="badge badge-neutral">Auto</span></div>
+      </a>
+
+      <!-- ------- ÉTAT CHARGEMENT (démo) ------- -->
+      <section class="demo-state" aria-label="État chargement — démonstration">
+        <p class="overline demo-label">État chargement — démonstration</p>
+        <div style="display:flex;gap:var(--space-3);padding:var(--space-2) 0;" aria-hidden="true">
+          <span style="width:8px;flex:none;"></span>
+          <div style="flex:1;">
+            <div class="skeleton" style="width:40%;"></div>
+            <div class="skeleton" style="width:80%;margin-top:var(--space-2);"></div>
+            <div class="skeleton" style="width:95%;margin-top:var(--space-1);"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:var(--space-3);padding:var(--space-2) 0;" aria-hidden="true">
+          <span style="width:8px;flex:none;"></span>
+          <div style="flex:1;">
+            <div class="skeleton" style="width:30%;"></div>
+            <div class="skeleton" style="width:70%;margin-top:var(--space-2);"></div>
+            <div class="skeleton" style="width:90%;margin-top:var(--space-1);"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ------- ÉTAT ERREUR (démo) ------- -->
+      <section class="demo-state" aria-label="État erreur — démonstration">
+        <p class="overline demo-label">État erreur — démonstration</p>
+        <div class="alert alert-error" role="alert">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+          <span>Impossible de récupérer les nouveaux messages. Vos mails précédents restent accessibles hors-ligne.</span>
+        </div>
+        <button class="btn btn-secondary btn-sm" style="margin-top:var(--space-3);">Réessayer</button>
+      </section>
+
+      <!-- ------- ÉTAT HORS-LIGNE (démo) ------- -->
+      <section class="demo-state" aria-label="État hors-ligne — démonstration">
+        <p class="overline demo-label">État hors-ligne — démonstration</p>
+        <div class="alert alert-warning" role="status">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m1.42 9.57 10.58 10.41 10.58-10.41M6.26 12.87 12 18.4l5.74-6.51"/></svg>
+          <span>Connexion perdue. La liste affiche la copie locale datée du 4 juin à 11 h 00. Les envois sont mis en file d'attente.</span>
+        </div>
+        <span class="badge badge-warning" style="margin-top:var(--space-3);">Hors-ligne — synchronisation en attente</span>
+      </section>
+
+      <!-- ------- ÉTAT VIDE (démo) ------- -->
+      <section class="demo-state" aria-label="État vide — démonstration">
+        <p class="overline demo-label">État vide — démonstration</p>
+        <div style="text-align:center;padding:var(--space-5);">
+          <div style="display:grid;place-items:center;width:56px;height:56px;border-radius:var(--radius-lg);background:var(--navy-100);color:var(--navy-700);margin:0 auto;">
+            <svg class="icon icon-lg" viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+          </div>
+          <p class="title" style="font-size:var(--fs-body);margin-top:var(--space-3);">Votre boîte est vide</p>
+          <p class="body-s">Les mails reçus via votre domaine apparaîtront ici en quelques secondes.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ======================= Volet lecture ======================= -->
+  <section class="reading reading-col" aria-label="Lecture de la conversation">
+    <div class="reading-header">
+      <div style="display:flex;justify-content:space-between;gap:var(--space-3);">
+        <div>
+          <p class="overline">contact@agence-nova.fr</p>
+          <h1 class="title" style="margin-top:var(--space-1);">Devis refonte site vitrine — planning</h1>
+        </div>
+        <div style="display:flex;gap:var(--space-1);align-items:flex-start;">
+          <button class="icon-btn" aria-label="Marquer comme non lu"><svg class="icon" viewBox="0 0 24 24"><path d="M22 12v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6m8-7 2-2 2 2M2 12l10-9 10 9"/></svg></button>
+          <button class="icon-btn" aria-label="Archiver"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/></svg></button>
+          <button class="icon-btn" aria-label="Étiqueter"><svg class="icon" viewBox="0 0 24 24"><path d="M12 2h10v10L9.46 24.46a2 2 0 0 1-2.83 0L2 19.54a2 2 0 0 1 0-2.83z"/></svg></button>
+        </div>
+      </div>
+      <div style="display:flex;gap:var(--space-2);margin-top:var(--space-4);align-items:center;">
+        <button class="btn btn-primary btn-sm" onclick="location.href='compose.html'">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M3 10h10V3M6.5 3.5 20 17V21H3v-3.5"/></svg>
+          Répondre
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="location.href='compose.html'">Transférer</button>
+        <button class="btn btn-danger btn-sm">Supprimer</button>
+        <span class="body-s" style="margin-left:auto;color:var(--color-on-surface-muted);">2 messages — conversation groupée</span>
+      </div>
+    </div>
+
+    <div style="padding:var(--space-5) var(--space-6);display:flex;flex-direction:column;gap:var(--space-4);">
+      <!-- Message 1 -->
+      <article class="card card-pad" style="padding:var(--space-5);">
+        <header style="display:flex;gap:var(--space-3);align-items:center;">
+          <div class="avatar">CR</div>
+          <div style="flex:1;min-width:0;">
+            <p class="label" style="font-size:var(--fs-body-s);">Camille Respaut &lt;camille@exemple.com&gt;</p>
+            <p class="body-s">à contact@agence-nova.fr — 11 h 20</p>
+          </div>
+          <span class="badge badge-primary">Boîte pro</span>
+        </header>
+        <div class="body" style="margin-top:var(--space-4);color:var(--gray-700);">
+          <p>Bonjour Maurice,</p>
+          <p style="margin-top:var(--space-3);">Comme convenu, je vous joins le devis actualisé. Les gains attendus portent sur la vitesse de chargement et le SEO local. Nous visons une mise en production mi-juillet.</p>
+          <p style="margin-top:var(--space-3);">Restant à votre disposition,</p>
+          <p>Camille Respaut</p>
+        </div>
+        <div class="alert alert-info" style="margin-top:var(--space-4);">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 17.5 8.5z"/></svg>
+          <span><strong>devis-refonte-v3.pdf</strong> — 482 Ko</span>
+        </div>
+      </article>
+
+      <!-- Message 2 (réponse FAQ auto) -->
+      <article class="card card-pad" style="padding:var(--space-5);">
+        <header style="display:flex;gap:var(--space-3);align-items:center;">
+          <div class="avatar">MH</div>
+          <div style="flex:1;min-width:0;">
+            <p class="label" style="font-size:var(--fs-body-s);">Vous — via MailPro Hub &lt;contact@agence-nova.fr&gt;</p>
+            <p class="body-s">11 h 26 — envoyé depuis Gmail OAuth</p>
+          </div>
+        </header>
+        <div class="body" style="margin-top:var(--space-4);color:var(--gray-700);">
+          <p>Bonjour Camille,</p>
+          <p style="margin-top:var(--space-3);">Merci pour le devis. Je vous ferai un retour complet d'ici jeudi, avec le planning des planning révisé.</p>
+          <p>Maurice</p>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>
+</body>
+</html>

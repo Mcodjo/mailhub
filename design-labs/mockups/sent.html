@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Envoyés — MailPro Hub</title>
+<link rel="stylesheet" href="assets/design-system.css">
+<style>
+  .mail-row { display: flex; gap: var(--space-3); padding: var(--space-3) var(--space-5); border-bottom: 1px solid var(--gray-100); text-decoration: none; color: inherit; }
+  .mail-row:hover { background: var(--gray-50); text-decoration: none; }
+  .mail-row .sender { font-weight: 600; font-size: var(--fs-body-s); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+  .mail-row .snippet { font-size: var(--fs-label); color: var(--color-on-surface-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+  .mail-row .date { font-size: var(--fs-label); color: var(--color-on-surface-muted); flex: none; }
+  @media (max-width: 767px) {
+    .mail-row { flex-wrap: wrap; }
+    .mail-row .snippet { flex-basis: 100%; white-space: normal; }
+  }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" aria-label="Navigation des boîtes">
+    <div class="brand">
+      <svg class="icon icon-lg" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+      MailPro Hub
+    </div>
+    <button class="btn btn-accent btn-block" onclick="location.href='compose.html'">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"/></svg>
+      Nouveau mail
+    </button>
+    <div class="nav-group">
+      <div class="nav-title">Boîtes</div>
+      <a class="nav-item" href="inbox.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Boîte de réception<span class="nav-count">7</span></a>
+      <a class="nav-item" href="sent.html" aria-current="page"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>Envoyés</a>
+    </div>
+    <div class="nav-group" style="margin-top:auto;">
+      <a class="nav-item" href="profile.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></svg> Profil</a>
+      <a class="nav-item" href="snippets.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Snippets</a>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <header class="topbar">
+      <h1 style="font-size:var(--fs-headline);font-weight:600;">Envoyés</h1>
+      <p class="body-s">184 messages au nom de vos adresses professionnelles</p>
+      <div class="field" style="margin:0 0 0 auto;max-width:320px;">
+        <label for="search-sent" style="position:absolute;clip:rect(0 0 0 0);">Rechercher dans Envoyés</label>
+        <input class="input" id="search-sent" type="search" placeholder="Rechercher…" style="min-height:40px;">
+      </div>
+    </header>
+
+    <div role="table">
+      <div class="mail-row" style="border-bottom:1px solid var(--gray-200);" role="row">
+        <strong class="body-s" style="width:220px;">Destinataire</strong>
+        <strong class="snippet">Objet et aperçu</strong>
+        <strong class="date" style="width:90px;text-align:right;">Envoyé le</strong>
+      </div>
+
+      <a class="mail-row" href="thread.html" role="row">
+        <span class="sender">camille@exemple.com</span>
+        <span class="snippet"><strong style="font-weight:500;color:var(--color-on-surface);">Proposition revue — remise le 12 juin</strong> — Bonjour Camille, voici la proposition revue…</span>
+        <span class="date" style="width:90px;text-align:right;">11 h 44</span>
+      </a>
+      <a class="mail-row" href="thread.html" role="row">
+        <span class="sender">contact@client-lumen.com</span>
+        <span class="snippet"><strong style="font-weight:500;color:var(--color-on-surface);">Réception de votre commande #4471</strong> — Votre commande a bien été reçue, les délais…</span>
+        <span class="date" style="width:90px;text-align:right;">3 juin</span>
+      </a>
+      <a class="mail-row" href="thread.html" role="row">
+        <span class="sender">leon@partenaire.fr</span>
+        <span class="snippet"><strong style="font-weight:500;color:var(--color-on-surface);">Convention associés — signature</strong> — La version finale est prête, vous pouvez…</span>
+        <span class="date" style="width:90px;text-align:right;">2 juin</span>
+      </a>
+      <a class="mail-row" href="thread.html" role="row">
+        <span class="sender">info@agence-nova.fr</span>
+        <span class="snippet"><strong style="font-weight:500;color:var(--color-on-surface);">Votre accusé de réception</strong> — Nous avons bien reçu votre demande…</span>
+        <span class="date" style="width:90px;text-align:right;">2 juin</span>
+      </a>
+
+      <!-- État chargement (démo) -->
+      <section style="padding:var(--space-4) var(--space-5);border-top:2px dashed var(--gray-300);" aria-label="État chargement — démonstration">
+        <p class="overline" style="margin-bottom:var(--space-3);">État chargement — démonstration</p>
+        <div aria-hidden="true" style="display:flex;flex-direction:column;gap:var(--space-3);">
+          <div class="skeleton" style="width:25%;"></div>
+          <div class="skeleton" style="width:88%;"></div>
+          <div class="skeleton" style="width:92%;"></div>
+          <div class="skeleton" style="width:76%;"></div>
+        </div>
+      </section>
+
+      <!-- État erreur (démo) -->
+      <section style="padding:var(--space-4) var(--space-5);" aria-label="État erreur — démonstration">
+        <p class="overline" style="margin-bottom:var(--space-3);">État erreur — démonstration</p>
+        <div class="alert alert-error" role="alert">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+          <span>L'historique Envoyés n'est pas synchronisé pour client-lumen.com. Réessayez ou consultez vos envois de ce mailbox directement dans Gmail.</span>
+        </div>
+      </section>
+
+      <!-- État vide (démo) -->
+      <section style="padding:var(--space-4) var(--space-5);text-align:center;" aria-label="État vide — démonstration">
+        <p class="overline" style="margin-bottom:var(--space-3);">État vide — démonstration</p>
+        <div style="display:grid;place-items:center;width:56px;height:56px;border-radius:var(--radius-lg);background:var(--navy-100);color:var(--navy-700);margin:0 auto;">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+        </div>
+        <p class="title" style="font-size:var(--fs-body);margin-top:var(--space-3);">Aucun message envoyé</p>
+        <p class="body-s">Vos messages envoyés au nom de vos adresses professionnelles apparaîtront ici.</p>
+      </section>
+    </div>
+  </main>
+</div>
+</body>
+</html>

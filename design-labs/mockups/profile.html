@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profil — MailPro Hub</title>
+<link rel="stylesheet" href="assets/design-system.css">
+<style>
+  .alias-row { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); border: 1px solid var(--gray-200); border-radius: var(--radius-md); margin-bottom: var(--space-2); flex-wrap: wrap; }
+  .token-line { display: flex; gap: var(--space-2); align-items: center; background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); }
+  .kv { display: grid; grid-template-columns: 180px 1fr; gap: var(--space-2) var(--space-4); font-size: var(--fs-body-s); }
+  .kv dt { color: var(--color-on-surface-muted); }
+  .kv dd { margin: 0; }
+  @media (max-width: 767px) { .kv { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" aria-label="Navigation des boîtes">
+    <div class="brand">
+      <svg class="icon icon-lg" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+      MailPro Hub
+    </div>
+    <div class="nav-group" style="margin-top:auto;">
+      <a class="nav-item" href="inbox.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Boîte de réception<span class="nav-count">7</span></a>
+      <a class="nav-item" href="snippets.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Snippets</a>
+      <a class="nav-item" href="profile.html" aria-current="page"><svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></svg> Profil</a>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <header class="topbar">
+      <h1 style="font-size:var(--fs-headline);font-weight:600;">Profil et connexions</h1>
+    </header>
+
+    <div class="card-pad" style="padding:var(--space-6);display:grid;gap:var(--space-6);max-width:1000px;">
+      <!-- Compte Gmail connecté -->
+      <section class="card" aria-labelledby="h-gmail">
+        <div class="card-header">
+          <div>
+            <h2 id="h-gmail" class="title">Compte Gmail connecté</h2>
+            <p class="body-s" style="margin-top:var(--space-1);">Utilisé pour l'envoi au nom de vos adresses professionnelles (SMTP OAuth).</p>
+          </div>
+          <span class="badge badge-success">Connecté</span>
+        </div>
+        <div class="card-pad" style="padding:var(--space-5);">
+          <dl class="kv">
+            <dt>Compte Google</dt><dd><strong>maurice@gmail.com</strong></dd>
+            <dt>Portée de l'autorisation</dt><dd>Envoi SMTP uniquement — aucune lecture de la boîte personnelle</dd>
+            <dt>Connecté le</dt><dd>28 mai 2026 à 09 h 14</dd>
+          </dl>
+
+          <p class="label" style="margin:var(--space-5) 0 var(--space-2);">Jeton d'accès (masqué)</p>
+          <div class="token-line mono" id="token-box">
+            <span id="token-value">ga_9x2f••••••••••••••••4c1b</span>
+            <button class="btn btn-ghost btn-sm" type="button" onclick="tb()">Afficher</button>
+            <span class="badge badge-neutral">Expire dans 46 min — renouvellement automatique</span>
+          </div>
+
+          <div style="display:flex;gap:var(--space-3);margin-top:var(--space-5);flex-wrap:wrap;">
+            <button class="btn btn-secondary">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+              Rafraîchir le jeton
+            </button>
+            <button class="btn btn-danger">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m18 8 5 3m-5 3 5-3"/></svg>
+              Déconnecter (révoquer OAuth)
+            </button>
+          </div>
+
+          <!-- États OAuth (démo) -->
+          <div class="alert alert-error" role="alert" style="margin-top:var(--space-5);">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+            <span><strong>État déconnecté (démo) :</strong> aucun compte Gmail relié. Reliez un compte pour envoyer au nom de contact@agence-nova.fr.</span>
+            <a href="#" style="margin-left:auto;">Relier un compte Google</a>
+          </div>
+          <div class="alert alert-warning" role="status" style="margin-top:var(--space-3);">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3z"/><path d="M12 9v4m0 4h.01"/></svg>
+            <span><strong>État décliné (démo) :</strong> l'autorisation Google a été refusée lors du dernier essai (à 10 h 02). MailPro Hub a besoin de l'accès SMTP pour envoyer vos messages.</span>
+            <a href="#" style="margin-left:auto;">Relancer la demande</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Domaines -->
+      <section class="card" aria-labelledby="h-domains">
+        <div class="card-header">
+          <h2 id="h-domains" class="title">Domaines</h2>
+          <a class="btn btn-secondary btn-sm" href="wizard.html">Ajouter un domaine</a>
+        </div>
+        <div class="card-pad" style="padding:var(--space-4);">
+          <table class="table">
+            <thead><tr><th scope="col">Domaine</th><th scope="col">Statut</th><th scope="col">Boîtes</th><th scope="col">Cloudflare</th><th scope="col"></th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>agence-nova.fr</strong></td>
+                <td><span class="badge badge-success">Actif</span></td>
+                <td>3 alias</td>
+                <td><span class="mono">Zone reliée</span> <span class="badge badge-primary">Token valide</span></td>
+                <td><a href="#" class="body-s">Gérer</a> · <a href="#" class="body-s" style="color:var(--color-error);">Retirer</a></td>
+              </tr>
+              <tr>
+                <td><strong>client-lumen.com</strong></td>
+                <td><span class="badge badge-warning">Propagation DNS en cours</span></td>
+                <td>1 alias</td>
+                <td><span class="mono">Zone reliée</span> <span class="badge badge-primary">Token valide</span></td>
+                <td><a href="#" class="body-s">Gérer</a> · <a href="#" class="body-s" style="color:var(--color-error);">Retirer</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Alias -->
+      <section class="card" aria-labelledby="h-alias">
+        <div class="card-header">
+          <div>
+            <h2 id="h-alias" class="title">Gestion des alias</h2>
+            <p class="body-s" style="margin-top:var(--space-1);">Chaque alias possède sa boîte dédiée et peut servir d'expéditeur dans la rédaction.</p>
+          </div>
+          <button class="btn btn-primary btn-sm">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"/></svg>
+            Ajouter un alias
+          </button>
+        </div>
+        <div class="card-pad" style="padding:var(--space-4);">
+          <div class="alias-row">
+            <div class="avatar" style="width:40px;height:40px;border-radius:50%;background:var(--navy-100);color:var(--navy-700);display:grid;place-items:center;font-weight:700;flex:none;">C</div>
+            <div style="flex:1;min-width:0;">
+              <p class="label" style="font-size:var(--fs-body-s);font-weight:600;">contact@agence-nova.fr</p>
+              <p class="body-s">Alias principal — 4 non lus, 132 messages reçus ce mois-ci</p>
+            </div>
+            <span class="badge badge-success">Actif</span>
+            <button class="btn btn-secondary btn-sm">Modifier</button>
+            <button class="btn btn-ghost btn-sm" style="color:var(--color-error);">Désactiver</button>
+          </div>
+          <div class="alias-row">
+            <div class="avatar" style="width:40px;height:40px;border-radius:50%;background:var(--navy-100);color:var(--navy-700);display:grid;place-items:center;font-weight:700;flex:none;">I</div>
+            <div style="flex:1;min-width:0;">
+              <p class="label" style="font-size:var(--fs-body-s);font-weight:600;">info@agence-nova.fr</p>
+              <p class="body-s">Redirection newsletter — 2 non lus, 45 messages reçus ce mois-ci</p>
+            </div>
+            <span class="badge badge-success">Actif</span>
+            <button class="btn btn-secondary btn-sm">Modifier</button>
+            <button class="btn btn-ghost btn-sm" style="color:var(--color-error);">Désactiver</button>
+          </div>
+          <div class="alias-row" style="border-color:var(--gray-200);background:var(--gray-50);">
+            <div class="avatar" style="width:40px;height:40px;border-radius:50%;background:var(--gray-200);color:var(--gray-700);display:grid;place-items:center;font-weight:700;flex:none;">S</div>
+            <div style="flex:1;min-width:0;">
+              <p class="label" style="font-size:var(--fs-body-s);font-weight:600;">support@agence-nova.fr</p>
+              <p class="body-s">1 non lu, 21 messages reçus ce mois-ci</p>
+            </div>
+            <span class="badge badge-success">Actif</span>
+            <button class="btn btn-secondary btn-sm">Modifier</button>
+            <button class="btn btn-ghost btn-sm" style="color:var(--color-error);">Désactiver</button>
+          </div>
+
+          <!-- État conflit alias (démo) -->
+          <div class="alert alert-warning" role="status" style="margin-top:var(--space-3);">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3z"/><path d="M12 9v4m0 4h.01"/></svg>
+            <span><strong>Conflit (démo) :</strong> l'alias dev@agence-nova.fr existe déjà dans Gmail comme adresse d'envoi. Choisissez un autre préfixe ou retirez l'adresse dans Gmail.</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+<script>
+function tb(){
+  const v=document.getElementById('token-value');
+  v.textContent = v.textContent.includes('••••') ? 'ga_9x2fKpLrTzQmVn8Yw3XhAeJd1Bc02m94c1b' : 'ga_9x2f••••••••••••••••4c1b';
+  const b=document.querySelector('#token-box .btn');
+  b.textContent = v.textContent.includes('••••') ? 'Afficher' : 'Masquer';
+}
+</script>
+</body>
+</html>

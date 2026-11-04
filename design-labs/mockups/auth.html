@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auth — MailPro Hub</title>
+<link rel="stylesheet" href="assets/design-system.css">
+</head>
+<body>
+<main class="auth-layout" style="display:grid;grid-template-columns:1fr;min-height:100vh;">
+  <!-- Colonne de marque -->
+  <aside style="background:var(--sidebar-bg);color:var(--sidebar-fg);padding:var(--space-7);display:flex;flex-direction:column;justify-content:space-between;">
+    <div class="brand" style="display:flex;align-items:center;gap:var(--space-2);color:var(--white);font-weight:700;font-size:1.25rem;">
+      <svg class="icon icon-lg" style="color:var(--sidebar-active-fg)" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+      MailPro Hub
+    </div>
+    <div style="max-width:380px;display:none;" class="hide-mobile">
+      <p class="headline" style="color:var(--white);font-size:1.75rem;">Vos adresses professionnelles, centralisées.</p>
+      <p style="margin-top:var(--space-3);color:var(--sidebar-fg-muted);font-size:var(--fs-body);">
+        Configurez votre domaine en 5 étapes, recevez vos mails via Cloudflare,
+        envoyez depuis Gmail avec votre adresse professionnelle comme expéditeur.
+      </p>
+      <ul style="margin-top:var(--space-5);display:flex;flex-direction:column;gap:var(--space-3);font-size:var(--fs-body-s);color:var(--sidebar-fg);">
+        <li style="display:flex;gap:var(--space-2);align-items:center;"><svg class="icon icon-sm" style="color:var(--sidebar-active-fg)" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Multi-domaines et multi-alias</li>
+        <li style="display:flex;gap:var(--space-2);align-items:center;"><svg class="icon icon-sm" style="color:var(--sidebar-active-fg)" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Délivrabilité Gmail, sans serveur mail</li>
+        <li style="display:flex;gap:var(--space-2);align-items:center;"><svg class="icon icon-sm" style="color:var(--sidebar-active-fg)" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Snippets d'intégration Laravel, Node.js et WordPress</li>
+      </ul>
+    </div>
+    <p style="font-size:var(--fs-label);color:var(--sidebar-fg-muted);">Maquette v1 — drx-mockup, nov. 2026</p>
+  </aside>
+
+  <!-- Colonne formulaire -->
+  <section style="display:grid;place-items:center;padding:var(--space-7) var(--space-4);">
+    <div class="card" style="width:100%;max-width:440px;">
+      <div class="card-pad" style="padding:var(--space-7);">
+        <h1 class="headline">Bienvenue</h1>
+        <p class="body-s" style="margin:var(--space-2) 0 var(--space-5);">Connectez-vous à votre espace ou créez un compte.</p>
+
+        <div class="tabs" role="tablist" aria-label="Authentification">
+          <button class="tab" role="tab" aria-selected="true" id="tab-login" aria-controls="panel-login">Connexion</button>
+          <button class="tab" role="tab" aria-selected="false" id="tab-signup" aria-controls="panel-signup">Inscription</button>
+          <button class="tab" role="tab" aria-selected="false" id="tab-reset" aria-controls="panel-reset">Mot de passe oublié</button>
+        </div>
+
+        <!-- Panneau Connexion -->
+        <form id="panel-login" role="tabpanel" aria-labelledby="tab-login" style="padding-top:var(--space-5);">
+          <div class="field">
+            <label for="login-email">Adresse e-mail</label>
+            <input class="input" id="login-email" type="email" autocomplete="email" placeholder="prenom@exemple.com" required>
+          </div>
+          <div class="field">
+            <label for="login-password">Mot de passe</label>
+            <input class="input" id="login-password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+          </div>
+          <!-- État erreur (exemple) -->
+          <div class="alert alert-error" role="alert" style="margin-bottom:var(--space-4);">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+            <span>E-mail ou mot de passe incorrect. Vérifiez vos identifiants puis réessayez.</span>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Se connecter</button>
+          <div style="text-align:center;margin-top:var(--space-4);">
+            <a href="#" class="body-s">Mot de passe oublié ?</a>
+          </div>
+        </form>
+
+        <!-- Panneau Inscription -->
+        <form id="panel-signup" role="tabpanel" aria-labelledby="tab-signup" hidden style="padding-top:var(--space-5);">
+          <div class="field">
+            <label for="signup-name">Nom complet</label>
+            <input class="input" id="signup-name" type="text" autocomplete="name" placeholder="Prénom Nom" required>
+          </div>
+          <div class="field">
+            <label for="signup-email">Adresse e-mail</label>
+            <input class="input" id="signup-email" type="email" autocomplete="email" placeholder="prenom@exemple.com" required>
+          </div>
+          <div class="field">
+            <label for="signup-password">Mot de passe</label>
+            <input class="input" id="signup-password" type="password" autocomplete="new-password" placeholder="12 caractères minimum" pattern=".{12,}" required>
+            <span class="hint">12 caractères minimum, avec lettres et chiffres.</span>
+          </div>
+          <div class="field">
+            <label class="checkbox">
+              <input type="checkbox" required>
+              <span>J'accepte les <a href="#">conditions d'utilisation</a> et la <a href="#">politique de confidentialité</a>.</span>
+            </label>
+          </div>
+          <button class="btn btn-accent btn-block" type="submit">Créer mon compte</button>
+        </form>
+
+        <!-- Panneau Réinitialisation -->
+        <form id="panel-reset" role="tabpanel" aria-labelledby="tab-reset" hidden style="padding-top:var(--space-5);">
+          <!-- État succès (exemple) -->
+          <div class="alert alert-success" role="status" style="margin-bottom:var(--space-4);">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+            <span>Le lien de réinitialisation a été envoyé. Vérifiez votre boîte de réception — il expire dans 30 minutes.</span>
+          </div>
+          <div class="field">
+            <label for="reset-email">Adresse e-mail</label>
+            <input class="input" id="reset-email" type="email" autocomplete="email" value="prenom@exemple.com" required>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Envoyer le lien de réinitialisation</button>
+          <div style="text-align:center;margin-top:var(--space-4);">
+            <a href="#" class="body-s">Retour à la connexion</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+  // Démo : bascule d'onglets (maquette interactive)
+  const tabs = [['tab-login','panel-login'],['tab-signup','panel-signup'],['tab-reset','panel-reset']];
+  tabs.forEach(([t,p])=>{
+    const tab=document.getElementById(t), panel=document.getElementById(p);
+    if(tab) tab.addEventListener('click',()=>{
+      tabs.forEach(([t2,p2])=>{
+        document.getElementById(t2).setAttribute('aria-selected', String(t2===t));
+        document.getElementById(p2).hidden = (p2!==p);
+      });
+    });
+  });
+</script>
+</body>
+</html>

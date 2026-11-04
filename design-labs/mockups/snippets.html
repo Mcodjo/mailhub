@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snippets d'intégration — MailPro Hub</title>
+<link rel="stylesheet" href="assets/design-system.css">
+<style>
+  .panel { display: none; }
+  .panel.is-visible { display: block; }
+  pre {
+    background: var(--navy-900); color: var(--navy-100);
+    font-family: var(--font-mono); font-size: 0.8125rem; line-height: 1.6;
+    padding: var(--space-5); border-radius: var(--radius-md);
+    overflow-x: auto; margin: 0; max-height: 480px;
+  }
+  pre .k { color: var(--amber-400); }   /* mots-clés */
+  pre .s { color: #9AE6B4; }            /* chaînes */
+  pre .c { color: #7B8DB8; font-style: italic; } /* commentaires */
+  .code-card { position: relative; }
+  .copy-btn { position: absolute; top: var(--space-3); right: var(--space-3); background: rgba(255,255,255,0.08); color: var(--navy-100); border: 1px solid rgba(255,255,255,0.15); }
+  .copy-btn:hover { background: rgba(255,255,255,0.16); text-decoration: none; }
+  .cred-chip { font-family: var(--font-mono); font-size: var(--fs-label); background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 2px var(--space-2); }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" aria-label="Navigation des boîtes">
+    <div class="brand">
+      <svg class="icon icon-lg" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+      MailPro Hub
+    </div>
+    <div class="nav-group" style="margin-top:auto;">
+      <a class="nav-item" href="inbox.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>Boîte de réception<span class="nav-count">7</span></a>
+      <a class="nav-item" href="sent.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>Envoyés</a>
+      <a class="nav-item" href="snippets.html" aria-current="page"><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Snippets</a>
+      <a class="nav-item" href="profile.html"><svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></svg> Profil</a>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <header class="topbar">
+      <h1 style="font-size:var(--fs-headline);font-weight:600;">Snippets d'intégration</h1>
+      <div style="margin-left:auto;">
+        <span class="badge badge-primary">Domaine : agence-nova.fr</span>
+      </div>
+    </header>
+
+    <div class="card-pad" style="padding:var(--space-6);max-width:1000px;display:flex;flex-direction:column;gap:var(--space-5);">
+      <!-- Alert valeur factice -->
+      <div class="alert alert-info" role="note">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
+        <span>Les identifiants affichés ci-dessous sont des <strong>valeurs factices de démonstration</strong>. Ne copiez jamais de clé réelle dans un snippet partagé.</span>
+      </div>
+
+      <!-- Credentials -->
+      <section class="card" aria-labelledby="h-cred">
+        <div class="card-header">
+          <div>
+            <h2 id="h-cred" class="title">Identifiants d'API (démonstration)</h2>
+            <p class="body-s" style="margin-top:var(--space-1);">À insérer dans les variables d'environnement de votre application — jamais dans le code source.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm">Régénérer la clé</button>
+        </div>
+        <div class="card-pad" style="padding:var(--space-4);display:grid;gap:var(--space-2);">
+          <div style="display:flex;gap:var(--space-2);align-items:center;flex-wrap:wrap;">
+            <span class="label" style="width:140px;">Clé API</span>
+            <span class="cred-chip">mph_demo_sk_0000FAKE0000</span>
+            <button class="btn btn-ghost btn-sm">Copier</button>
+          </div>
+          <div style="display:flex;gap:var(--space-2);align-items:center;flex-wrap:wrap;">
+            <span class="label" style="width:140px;">Webhook inbound</span>
+            <span class="cred-chip">https://api.mailpro-hub.demo/v1/inbound/agence-nova</span>
+          </div>
+          <div style="display:flex;gap:var(--space-2);align-items:center;flex-wrap:wrap;">
+            <span class="label" style="width:140px;">Secret HMAC</span>
+            <span class="cred-chip">whsec_demo_FFFFAKEFFFF</span>
+          </div>
+        </div>
+        <!-- État erreur régénération (démo) -->
+        <div style="padding:0 var(--space-4) var(--space-4);">
+          <div class="alert alert-error" role="alert">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+            <span><strong>Régénération impossible (démo) :</strong> la clé actuelle est utilisée par 2 intégrations (WordPress + Laravel). Révoquez-les d'abord dans Profil.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Onglets frameworks -->
+      <section class="card" aria-labelledby="h-code">
+        <div class="card-header">
+          <h2 id="h-code" class="title">Code d'intégration</h2>
+        </div>
+        <div style="padding:var(--space-4);">
+          <div class="tabs" role="tablist" aria-label="Framework d'intégration">
+            <button class="tab" role="tab" id="tab-laravel" aria-selected="true" aria-controls="panel-laravel">Laravel</button>
+            <button class="tab" role="tab" id="tab-node" aria-selected="false" aria-controls="panel-node">Node.js</button>
+            <button class="tab" role="tab" id="tab-wp" aria-selected="false" aria-controls="panel-wp">WordPress</button>
+          </div>
+
+          <!-- Laravel -->
+          <div class="panel is-visible" id="panel-laravel" role="tabpanel" aria-labelledby="tab-laravel" style="padding-top:var(--space-4);">
+            <div class="code-card">
+              <button class="btn btn-sm copy-btn">Copier le snippet</button>
+<pre><span class="c">// .env (valeurs factices de démonstration)</span>
+<span class="k">MAILHUB_API_KEY</span>=mph_demo_sk_0000FAKE0000
+<span class="k">MAILHUB_WEBHOOK</span>=https://api.mailpro-hub.demo/v1/inbound/agence-nova
+
+<span class="c">// config/services.php</span>
+<span class="s">'mailhub'</span> =&gt; [<span class="s">'key'</span> =&gt; env(<span class="s">'MAILHUB_API_KEY'</span>)],
+
+<span class="c">// app/Http/Controllers/MailController.php</span>
+<span class="k">public function</span> send(Request <span class="s">$request</span>)
+{
+    <span class="k">$response</span> = Http::withToken(config(<span class="s">'services.mailhub.key'</span>))
+        -&gt;post(<span class="s">'https://api.mailpro-hub.demo/v1/send'</span>, [
+            <span class="s">'from'</span>    =&gt; <span class="s">'contact@agence-nova.fr'</span>,   <span class="c">// adresse pro, envoi via Gmail OAuth</span>
+            <span class="s">'to'</span>      =&gt; <span class="s">$request-&gt;input</span>(<span class="s">'to'</span>),
+            <span class="s">'subject'</span> =&gt; <span class="s">$request-&gt;input</span>(<span class="s">'subject'</span>),
+            <span class="s">'html'</span>    =&gt; <span class="s">$request-&gt;input</span>(<span class="s">'html'</span>),
+        ]);
+
+    <span class="k">return</span> <span class="s">$response-&gt;json</span>();
+}</pre>
+            </div>
+          </div>
+
+          <!-- Node.js -->
+          <div class="panel" id="panel-node" role="tabpanel" aria-labelledby="tab-node" hidden style="padding-top:var(--space-4);">
+            <div class="code-card">
+              <button class="btn btn-sm copy-btn">Copier le snippet</button>
+<pre><span class="c">// .env (valeurs factices de démonstration)</span>
+<span class="k">MAILHUB_API_KEY</span>=mph_demo_sk_0000FAKE0000
+<span class="k">MAILHUB_WEBHOOK</span>=https://api.mailpro-hub.demo/v1/inbound/agence-nova
+
+<span class="c">// src/mail.ts</span>
+<span class="k">import</span> { MailHubClient } <span class="k">from</span> <span class="s">"@mailpro-hub/sdk"</span>;
+
+<span class="k">const</span> client = <span class="k">new</span> MailHubClient({
+  apiKey: process.env.<span class="k">MAILHUB_API_KEY</span>, <span class="c">// jamais en dur dans le code</span>
+});
+
+<span class="k">export async function</span> sendProMail(to: string, subject: string, html: string) {
+  <span class="k">return</span> client.send({
+    from: <span class="s">"contact@agence-nova.fr"</span>, <span class="c">// envoi au nom de l'adresse pro (Gmail OAuth)</span>
+    to, subject, html,
+  });
+}</pre>
+            </div>
+          </div>
+
+          <!-- WordPress -->
+          <div class="panel" id="panel-wp" role="tabpanel" aria-labelledby="tab-wp" hidden style="padding-top:var(--space-4);">
+            <div class="code-card">
+              <button class="btn btn-sm copy-btn">Copier le snippet</button>
+<pre><span class="c">// wp-config.php (ajouter une constante — valeur factice)</span>
+<span class="k">define</span>( <span class="s">'MAILHUB_API_KEY'</span>, <span class="s">'mph_demo_sk_0000FAKE0000'</span> );
+
+<span class="c">// functions.php — formulaire de contact</span>
+<span class="k">function</span> mailhub_send_contact( <span class="s">$to</span>, <span class="s">$subject</span>, <span class="s">$html</span> ) {
+    <span class="s">$response</span> = wp_remote_post( <span class="s">'https://api.mailpro-hub.demo/v1/send'</span>, array(
+        <span class="s">'headers'</span> =&gt; array(
+            <span class="s">'Authorization'</span> =&gt; <span class="s">'Bearer '</span> . MAILHUB_API_KEY,
+            <span class="s">'Content-Type'</span>  =&gt; <span class="s">'application/json'</span>,
+        ),
+        <span class="s">'body'</span> =&gt; wp_json_encode( array(
+            <span class="s">'from'</span>    =&gt; <span class="s">'contact@agence-nova.fr'</span>,
+            <span class="s">'to'</span>      =&gt; <span class="s">$to</span>,
+            <span class="s">'subject'</span> =&gt; <span class="s">$subject</span>,
+            <span class="s">'html'</span>    =&gt; <span class="s">$html</span>,
+        ) ),
+    ) );
+    <span class="k">return</span> <span class="s">200</span> === wp_remote_retrieve_response_code( <span class="s">$response</span> );
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Réception webhook -->
+        <div class="card-header" style="border-top:1px solid var(--gray-200);">
+          <div>
+            <p class="label">Réception des mails — webhook inbound</p>
+            <p class="body-s" style="margin-top:var(--space-1);">Votre application reçoit chaque mail via un POST signé (HMAC-SHA256).</p>
+          </div>
+        </div>
+        <div style="padding:var(--space-4);">
+<pre><span class="c">// Vérification de signature (tous frameworks) — pseudo-code</span>
+<span class="k">const</span> signature = headers[<span class="s">'x-mailpro-signature'</span>];
+<span class="k">const</span> expected  = hmacSha256(process.env.<span class="k">MAILHUB_SECRET</span>, rawBody);
+<span class="k">if</span> (!timingSafeEqual(signature, expected)) {
+  <span class="k">return</span> res.status(<span class="s">401</span>).json({ error: <span class="s">'signature invalide'</span> });
+}
+<span class="c">// payload : { from, to, subject, html, attachments[], received_at }</span></pre>
+        <div class="alert alert-success" role="status" style="margin-top:var(--space-3);">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+          <span>Webhook testé avec succès le 3 juin à 16 h 20 — latence moyenne 120 ms sur 24 h.</span>
+        </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+<script>
+  const groups = [['tab-laravel','panel-laravel'],['tab-node','panel-node'],['tab-wp','panel-wp']];
+  groups.forEach(([t,p])=>{
+    document.getElementById(t).addEventListener('click',()=>{
+      groups.forEach(([t2,p2])=>{
+        const tab=document.getElementById(t2), pan=document.getElementById(p2);
+        const on = t2===t;
+        tab.setAttribute('aria-selected',String(on));
+        if(on){ pan.removeAttribute('hidden'); pan.classList.add('is-visible'); }
+        else { pan.setAttribute('hidden',''); pan.classList.remove('is-visible'); }
+      });
+    });
+  });
+</script>
+</body>
+</html>

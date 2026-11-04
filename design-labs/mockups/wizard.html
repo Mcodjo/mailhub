@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assistant de configuration — MailPro Hub</title>
+<link rel="stylesheet" href="assets/design-system.css">
+<style>
+  .wizard-wrap { max-width: 880px; margin: 0 auto; padding: var(--space-7) var(--space-4); }
+  .panel { display: none; }
+  .panel.is-visible { display: block; }
+  .dns-cell { font-family: var(--font-mono); font-size: 0.8125rem; word-break: break-all; }
+  .progress-log { font-family: var(--font-mono); font-size: var(--fs-label); color: var(--color-on-surface-muted); }
+  .api-scopes li { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) 0; font-size: var(--fs-body-s); border-bottom: 1px solid var(--gray-100); }
+  .api-scopes li:last-child { border-bottom: none; }
+  .check-ok { color: var(--color-success); }
+  .check-wait { color: var(--color-warning); }
+  .check-bad { color: var(--color-error); }
+</style>
+</head>
+<body>
+<header style="background:var(--sidebar-bg);color:var(--white);padding:var(--space-3) var(--space-5);display:flex;align-items:center;gap:var(--space-3);">
+  <a href="dashboard.html" style="color:var(--white);display:inline-flex;align-items:center;gap:var(--space-2);" aria-label="Retour au tableau de bord">
+    <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7m7 7H5"/></svg>
+  </a>
+  <div style="display:flex;align-items:center;gap:var(--space-2);font-weight:700;">
+    <svg class="icon" style="color:var(--sidebar-active-fg)" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+    MailPro Hub — Assistant de configuration
+  </div>
+</header>
+
+<main class="wizard-wrap">
+  <!-- Stepper -->
+  <nav aria-label="Progression de la configuration">
+    <ol class="stepper" style="margin-bottom:var(--space-7);padding:0;">
+      <li class="step" data-state="done" aria-current="false"><span class="step-dot"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="step-label">Domaine</span></li>
+      <li class="step" data-state="done"><span class="step-dot"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="step-label">Cloudflare API</span></li>
+      <li class="step" data-state="done"><span class="step-dot"><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><span class="step-label">Enregistrements DNS</span></li>
+      <li class="step" data-state="active" aria-current="step"><span class="step-dot">4</span><span class="step-label">Propagation DNS</span></li>
+      <li class="step" data-state=""><span class="step-dot">5</span><span class="step-label">Gmail &amp; test final</span></li>
+    </ol>
+  </nav>
+
+  <!-- ==================== Étape 4 : propagation (étape active) ==================== -->
+  <section class="panel is-visible" aria-labelledby="h-step4">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h1 id="h-step4" class="title">Vérification de la propagation DNS</h1>
+          <p class="body-s" style="margin-top:var(--space-1);">client-lumen.com — MailPro Hub vérifie les enregistrements toutes les 60 secondes.</p>
+        </div>
+        <button class="btn btn-primary btn-sm" aria-label="Relancer manuellement la vérification DNS">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+          Relancer la vérification
+        </button>
+      </div>
+      <div class="card-pad" style="padding:var(--space-5);">
+        <div class="alert alert-warning" style="margin-bottom:var(--space-5);">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3z"/><path d="M12 9v4m0 4h.01"/></svg>
+          <span>La propagation DNS peut prendre entre 15 minutes et 48 heures selon les zones. Vous pouvez quitter cette page, la vérification continue en arrière-plan et vous serez prévenu dès qu'elle est terminée.</span>
+        </div>
+
+        <table class="table" aria-describedby="dns-desc">
+          <caption id="dns-desc" class="body-s" style="caption-side:bottom;text-align:left;padding-top:var(--space-2);">Statut des enregistrements mis à jour il y a 12 secondes.</caption>
+          <thead>
+            <tr><th scope="col">Enregistrement</th><th scope="col">Statut</th><th scope="col">Détail</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>MX</strong> <span class="body-s">— acheminement des mails</span></td>
+              <td><span class="badge badge-success">Propagé</span></td>
+              <td class="dns-cell">1.2s — 3 enregistrements visibles sur 4 zones</td>
+            </tr>
+            <tr>
+              <td><strong>SPF</strong> <span class="body-s">— autorisation d'expédition</span></td>
+              <td><span class="badge badge-success">Propagé</span></td>
+              <td class="dns-cell">TXT v=spf1 include:_spf.mx.cloudflare.net ~all</td>
+            </tr>
+            <tr>
+              <td><strong>DKIM</strong> <span class="body-s">— signature des messages</span></td>
+              <td><span class="badge badge-warning">En attente</span></td>
+              <td class="dns-cell">TXT cf2024-1._domainkey — 2 zones sur 4</td>
+            </tr>
+            <tr>
+              <td><strong>DMARC</strong> <span class="body-s">— politique anti-usurpation</span></td>
+              <td><span class="badge badge-success">Propagé</span></td>
+              <td class="dns-cell">TXT _dmarc p=quarantine; rua=mailto:admin@client-lumen.com</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Journal de vérification -->
+        <div class="card" style="margin-top:var(--space-5);background:var(--gray-50);border-color:var(--gray-200);">
+          <div class="card-header" style="padding:var(--space-3) var(--space-4);">
+            <p class="label">Journal de vérification</p>
+            <span class="body-s">Dernière vérification : 11 h 42 min 08 s</span>
+          </div>
+          <div class="progress-log" style="padding:var(--space-4);">
+            <p>11:42:08 — DKIM : 2/4 zones visibles (ATTENTE)</p>
+            <p>11:41:08 — DKIM : 2/4 zones visibles (ATTENTE)</p>
+            <p>11:40:08 — DKIM : 1/4 zones visibles (ATTENTE)</p>
+            <p style="color:var(--color-success);">11:38:02 — MX propagé sur les 4 zones</p>
+            <p style="color:var(--color-success);">11:36:44 — SPF propagé sur les 4 zones</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-header" style="justify-content:flex-end;border-top:1px solid var(--gray-200);border-bottom:none;">
+        <!-- État erreur (exemple de blocage) -->
+        <div style="margin-right:auto;display:flex;gap:var(--space-3);align-items:center;">
+          <span class="badge badge-neutral" aria-hidden="true">Passé 48 h : contactez le support</span>
+        </div>
+        <a class="btn btn-ghost" href="#">Ignorer l'étape (risqué)</a>
+        <button class="btn btn-primary" disabled aria-disabled="true" title="Active automatiquement quand DKIM est propagé">Continuer vers Gmail</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Étape 5 : connexion Gmail + test final (état maquetté) ==================== -->
+  <section class="panel" aria-labelledby="h-step5">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h1 id="h-step5" class="title">Connexion Gmail et test final</h1>
+          <p class="body-s" style="margin-top:var(--space-1);">MailPro Hub envoie via Gmail SMTP relié à votre compte Google.</p>
+        </div>
+      </div>
+      <div class="card-pad" style="padding:var(--space-5);display:grid;gap:var(--space-5);">
+        <!-- 5a OAuth -->
+        <div>
+          <p class="label" style="margin-bottom:var(--space-2);">5a — Autoriser Gmail</p>
+          <div style="display:flex;gap:var(--space-4);align-items:center;flex-wrap:wrap;border:1px solid var(--gray-200);border-radius:var(--radius-md);padding:var(--space-4);">
+            <div style="display:grid;place-items:center;width:48px;height:48px;border-radius:var(--radius-md);background:var(--gray-100);color:var(--gray-700);">
+              <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10h-10z"/></svg>
+            </div>
+            <div style="flex:1;min-width:220px;">
+              <p>Compte Google : <strong>maurice@gmail.com</strong></p>
+              <p class="body-s">MailPro Hub demandera l'accès en envoi (SMTP) uniquement. Aucune lecture de votre boîte personnelle.</p>
+            </div>
+            <button class="btn btn-primary">Connecter Gmail</button>
+          </div>
+          <!-- État OAuth refusé (démo) -->
+          <div class="alert alert-error" role="alert" style="margin-top:var(--space-3);">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6m0-6 6 6"/></svg>
+            <span>Autorisation refusée — MailPro Hub ne peut pas envoyer de mails sans l'accès SMTP. Relancez la connexion puis acceptez la demande d'autorisation Google.</span>
+          </div>
+        </div>
+
+        <!-- 5b Alias Envoyer en tant que -->
+        <div>
+          <p class="label" style="margin-bottom:var(--space-2);">5b — Alias « Envoyer en tant que »</p>
+          <div style="border:1px solid var(--gray-200);border-radius:var(--radius-md);overflow:hidden;">
+            <div style="padding:var(--space-4);border-bottom:1px solid var(--gray-200);">
+              <p class="body-s">Dans Gmail, ajoutez l'adresse professionnelle comme alias. Google vous enverra un code de vérification qui arrive <strong>dans votre boîte MailPro Hub</strong>, sur l'adresse pro.</p>
+            </div>
+            <div style="padding:var(--space-4);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-4);">
+              <div class="field" style="margin-bottom:0;">
+                <label for="alias-name">Nom affiché</label>
+                <input class="input" id="alias-name" value="Maurice — Client Lumen">
+              </div>
+              <div class="field" style="margin-bottom:0;">
+                <label for="alias-addr">Adresse</label>
+                <input class="input" id="alias-addr" value="contact@client-lumen.com">
+              </div>
+              <div class="field" style="margin-bottom:0;">
+                <label for="alias-smtp">Serveur SMTP</label>
+                <input class="input" id="alias-smtp" value="smtp.gmail.com : TLS 587" readonly>
+              </div>
+              <div class="field" style="margin-bottom:0;">
+                <label for="alias-code">Code de vérification reçu</label>
+                <div style="display:flex;gap:var(--space-2);">
+                  <input class="input" id="alias-code" placeholder="Ex. 732187" inputmode="numeric">
+                  <button class="btn btn-secondary" style="flex:none;">Vérifier</button>
+                </div>
+              </div>
+            </div>
+            <div style="padding:var(--space-3) var(--space-4);background:var(--mint-50);border-top:1px solid #B8ECD2;display:flex;gap:var(--space-2);align-items:center;">
+              <svg class="icon icon-sm check-ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+              <span class="body-s" style="color:var(--color-success);">Alias vérifié : Gmail accepte l'envoi au nom de contact@client-lumen.com.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5c test envoi/réception -->
+        <div>
+          <p class="label" style="margin-bottom:var(--space-2);">5c — Test d'envoi et de réception</p>
+          <div style="display:grid;gap:var(--space-3);">
+            <div class="alert alert-success" role="status">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+              <span><strong>Envoi :</strong> message de test livré à prenom@exemple.com depuis contact@client-lumen.com (délivarabilité 9,4/10 — mail-tester).</span>
+            </div>
+            <div class="alert alert-success" role="status">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+              <span><strong>Réception :</strong> message accusé de réception arrivé dans contact@client-lumen.com via Cloudflare Worker (temps d'acheminement 2,1 s).</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-header" style="justify-content:flex-end;border-top:1px solid var(--gray-200);border-bottom:none;">
+        <a class="btn btn-ghost" href="#">Retour</a>
+        <button class="btn btn-accent">
+          Terminer la configuration
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Étape 3 : DNS (état maquetté, replié) ==================== -->
+  <section class="panel" aria-labelledby="h-step3">
+    <div class="card">
+      <div class="card-header">
+        <h1 id="h-step3" class="title">Enregistrements DNS à créer</h1>
+        <button class="btn btn-secondary btn-sm">Copier tous les enregistrements</button>
+      </div>
+      <div class="card-pad" style="padding:var(--space-4);overflow-x:auto;">
+        <table class="table">
+          <thead><tr><th>Type</th><th>Nom</th><th>Valeur</th><th>Priority</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><strong>MX</strong></td><td class="dns-cell">@</td><td class="dns-cell">route1.mx.cloudflare.net</td><td>10</td><td><button class="icon-btn" style="height:32px;width:32px;" aria-label="Copier l'enregistrement MX"><svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></td></tr>
+            <tr><td><strong>SPF</strong></td><td class="dns-cell">@ (TXT)</td><td class="dns-cell">v=spf1 include:_spf.mx.cloudflare.net ~all</td><td>—</td><td><button class="icon-btn" style="height:32px;width:32px;" aria-label="Copier l'enregistrement SPF"><svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></td></tr>
+            <tr><td><strong>DKIM</strong></td><td class="dns-cell">cf2024-1._domainkey (TXT)</td><td class="dns-cell">v=DKIM1; k=rsa; p=MIIBIjANBgkq...</td><td>—</td><td><button class="icon-btn" style="height:32px;width:32px;" aria-label="Copier l'enregistrement DKIM"><svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></td></tr>
+            <tr><td><strong>DMARC</strong></td><td class="dns-cell">_dmarc (TXT)</td><td class="dns-cell">v=DMARC1; p=quarantine; rua=mailto:admin@client-lumen.com</td><td>—</td><td><button class="icon-btn" style="height:32px;width:32px;" aria-label="Copier l'enregistrement DMARC"><svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Étapes 1-2 (état maquetté, replié) ==================== -->
+  <section class="panel" aria-labelledby="h-step1">
+    <div class="card card-pad" style="padding:var(--space-6);">
+      <h1 id="h-step1" class="title">Domaine et préfixe</h1>
+      <div class="field" style="margin-top:var(--space-5);max-width:420px;">
+        <label for="w-domain">Votre domaine</label>
+        <input class="input" id="w-domain" placeholder="ex. mon-domaine.fr" aria-describedby="w-domain-hint">
+        <span class="hint" id="w-domain-hint">Le domaine doit être hébergé sur Cloudflare. Le préfixe définit votre première boîte (ex. contact@mon-domaine.fr).</span>
+      </div>
+      <div class="field" style="max-width:420px;">
+        <label for="w-prefix">Préfixe de la première boîte</label>
+        <select class="select" id="w-prefix">
+          <option>contact@</option><option>info@</option><option>support@</option><option>hello@</option><option>Personnalisé</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-step2">
+    <div class="card card-pad" style="padding:var(--space-6);">
+      <h1 id="h-step2" class="title">Connexion à l'API Cloudflare</h1>
+      <div class="field" style="margin-top:var(--space-5);max-width:520px;">
+        <label for="cf-token">Token API Cloudflare</label>
+        <input class="input" id="cf-token" type="password" value="cf-token-demo-0xA7f2… substitué" readonly>
+        <span class="hint">Créez un token avec les permissions Zone / DNS / Edit et Email Routing / Edit. Vos identifiants sont chiffrés et ne sont jamais affichés après validation.</span>
+      </div>
+      <div class="field" style="max-width:520px;">
+        <label for="cf-zone">Zone sélectionnée</label>
+        <select class="select" id="cf-zone"><option>client-lumen.com</option></select>
+      </div>
+      <details style="max-width:520px;">
+        <summary class="label" style="cursor:pointer;">Détail des autorisations attendues</summary>
+        <ul class="api-scopes">
+          <li><svg class="icon icon-sm check-ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Zone → DNS → Modifier</li>
+          <li><svg class="icon icon-sm check-ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Zone → Email Routing → Modifier</li>
+        </ul>
+      </details>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Démo : navigation par étapes via le stepper (maquette interactive)
+  const order = ['h-step1','h-step2','h-step3','h-step4','h-step5'];
+  document.querySelectorAll('.step').forEach((step, i) => {
+    if (i === 3) return; // étape active par défaut
+    step.style.cursor = 'pointer';
+    step.addEventListener('click', () => {
+      document.querySelectorAll('.step').forEach((s, j) => {
+        if (j < i) s.dataset.state = 'done';
+        else if (j === i) s.dataset.state = 'active';
+        else s.dataset.state = '';
+      });
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('is-visible'));
+      document.getElementById(order[i]).closest('.panel').classList.add('is-visible');
+    });
+  });
+</script>
+</body>
+</html>
