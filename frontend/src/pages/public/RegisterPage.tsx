@@ -6,19 +6,25 @@ import { Logo } from '../../components/ui/Logo'
 import { Spinner } from '../../components/ui/Spinner'
 
 export function RegisterPage() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirm, setConfirm] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName]   = useState('')
+  const [email, setEmail]         = useState('')
+  const [password, setPassword]   = useState('')
+  const [confirm, setConfirm]     = useState('')
+  const [consent, setConsent]     = useState(false)
+  const [loading, setLoading]     = useState(false)
+  const [error, setError]         = useState<string | null>(null)
   const { setUser } = useAuthStore()
   const navigate = useNavigate()
+
+  const strength = pwStrength(password)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (password !== confirm) { setError('Les mots de passe ne correspondent pas.'); return }
+    if (!consent) { setError('Veuillez accepter les conditions d\'utilisation.'); return }
     setLoading(true); setError(null)
+    const name = [firstName, lastName].filter(Boolean).join(' ') || firstName
     try {
       const { user } = await register(name, email, password, confirm)
       setUser(user)
@@ -38,61 +44,104 @@ export function RegisterPage() {
 
   return (
     <div style={{ background: 'var(--gray)', minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 'var(--s6) var(--s4)' }}>
-      <div className="auth-card">
-        <div className="auth-logo"><Logo height={44} /></div>
+      <div>
+        <div className="auth-card">
+          <div className="auth-logo"><Logo height={44} /></div>
 
-        <h1>Créer un compte</h1>
-        <p className="sub">Commencez à recevoir vos emails pro depuis votre domaine.</p>
+          <h1>Créer un compte</h1>
+          <p className="sub">Votre premier domaine est gratuit. Aucune carte bancaire.</p>
 
-        {error && <div className="alert alert-error" style={{ marginBottom: 'var(--s4)' }}>{error}</div>}
+          {error && <div className="alert alert-error" style={{ marginBottom: 'var(--s4)' }}>{error}</div>}
 
-        <a href={googleAuthUrl()} className="btn-google">
-          <GoogleIcon />
-          Continuer avec Google
-        </a>
-        <div className="sep">ou</div>
+          <a href={googleAuthUrl()} className="btn-google">
+            <GoogleIcon />
+            S'inscrire avec Google
+          </a>
+          <div className="sep">ou</div>
 
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <div className="field">
-            <label className="field-label" htmlFor="name">Nom complet</label>
-            <input id="name" type="text" className="input" value={name} onChange={(e) => setName(e.target.value)}
-              placeholder="Jean Dupont" autoComplete="name" required />
-          </div>
-          <div className="field">
-            <label className="field-label" htmlFor="email">Adresse email</label>
-            <input id="email" type="email" className="input" value={email} onChange={(e) => setEmail(e.target.value)}
-              placeholder="vous@exemple.com" autoComplete="email" required />
-          </div>
-          <div className="field">
-            <label className="field-label" htmlFor="password">Mot de passe</label>
-            <input id="password" type="password" className="input" value={password} onChange={(e) => setPassword(e.target.value)}
-              placeholder="Min. 8 caractères" autoComplete="new-password" required />
-          </div>
-          <div className="field">
-            <label className="field-label" htmlFor="confirm">Confirmer le mot de passe</label>
-            <input id="confirm" type="password" className="input" value={confirm} onChange={(e) => setConfirm(e.target.value)}
-              placeholder="••••••••" autoComplete="new-password" required />
-          </div>
-          <button type="submit" className="btn btn-primary btn-lg btn-full" style={{ marginTop: 'var(--s2)' }} disabled={loading}>
-            {loading ? <Spinner size={16} /> : 'Créer mon compte'}
-          </button>
-        </form>
+          <form className="auth-form" onSubmit={handleSubmit}>
+            <div className="field-row">
+              <div className="field">
+                <label className="field-label" htmlFor="firstName">Prénom</label>
+                <input id="firstName" type="text" className="input" value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="Thomas" autoComplete="given-name" required />
+              </div>
+              <div className="field">
+                <label className="field-label" htmlFor="lastName">Nom</label>
+                <input id="lastName" type="text" className="input" value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder="Leclerc" autoComplete="family-name" />
+              </div>
+            </div>
+            <div className="field">
+              <label className="field-label" htmlFor="email">Adresse e-mail</label>
+              <input id="email" type="email" className="input" value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="vous@exemple.fr" autoComplete="email" required />
+            </div>
+            <div className="field">
+              <label className="field-label" htmlFor="password">Mot de passe</label>
+              <input id="password" type="password" className="input" value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="8 caractères minimum" autoComplete="new-password" required minLength={8} />
+              <div className="pw-meter" aria-label="Force du mot de passe">
+                <div className={`pw-seg${strength >= 1 ? ' on' : ''}`} />
+                <div className={`pw-seg${strength >= 2 ? ' on' : ''}${strength >= 3 ? ' ok' : ''}`} />
+                <div className={`pw-seg${strength >= 3 ? ' ok' : ''}`} />
+                <div className={`pw-seg${strength >= 4 ? ' ok' : ''}`} />
+              </div>
+              {strength < 3 && password && (
+                <p className="pw-hint">Ajoutez un chiffre ou un symbole pour renforcer le mot de passe</p>
+              )}
+            </div>
+            <div className="field">
+              <label className="field-label" htmlFor="confirm">Confirmer le mot de passe</label>
+              <input id="confirm" type="password" className="input" value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                placeholder="••••••••" autoComplete="new-password" required />
+            </div>
 
-        <p style={{ marginTop: 'var(--s5)', fontSize: 'var(--fs-sm)', color: 'var(--ink-55)', textAlign: 'center' }}>
-          Déjà un compte ? <Link to="/login" style={{ fontWeight: 700 }}>Se connecter</Link>
+            <label className="consent">
+              <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
+              <span>
+                J'accepte les <a href="#">conditions d'utilisation</a> et la{' '}
+                <a href="#">politique de confidentialité</a>.
+              </span>
+            </label>
+
+            <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+              {loading ? <Spinner size={16} /> : 'Créer mon compte'}
+            </button>
+          </form>
+
+          <p className="auth-foot">Déjà un compte ? <Link to="/login">Se connecter</Link></p>
+        </div>
+
+        <p className="page-foot">
+          <a href="#">Mentions légales</a> · <a href="#">Confidentialité</a>
         </p>
       </div>
     </div>
   )
 }
 
+function pwStrength(pw: string): number {
+  let score = 0
+  if (pw.length >= 8) score++
+  if (pw.length >= 12) score++
+  if (/[0-9]/.test(pw)) score++
+  if (/[^a-zA-Z0-9]/.test(pw)) score++
+  return score
+}
+
 function GoogleIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-      <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
-      <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/>
-      <path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
-      <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+    <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/>
+      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
     </svg>
   )
 }

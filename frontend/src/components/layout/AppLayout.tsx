@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../../store/auth'
 import { useAppStore } from '../../store/app'
@@ -7,16 +7,18 @@ import { emailsApi } from '../../api/emails'
 import { Sidebar } from './Sidebar'
 import { Spinner } from '../ui/Spinner'
 
+const POLL_INTERVAL = 30_000
+
 export function AppLayout() {
   const { user, ready } = useAuthStore()
   const { setDomains, setAliases, setUnreadCount } = useAppStore()
   const navigate = useNavigate()
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   useEffect(() => {
     if (!ready) return
     if (!user) { navigate('/login', { replace: true }); return }
 
-    // Charger domaines, alias, compteur non-lus en parallèle
     Promise.all([
       domainsApi.list(),
       aliasesApi.list(),
@@ -26,6 +28,17 @@ export function AppLayout() {
       setAliases(aliases)
       setUnreadCount(unread_count)
     }).catch(() => {})
+
+    // Polling non-lus toutes les 30 s
+    pollRef.current = setInterval(() => {
+      emailsApi.unreadCount()
+        .then(({ unread_count }) => setUnreadCount(unread_count))
+        .catch(() => {})
+    }, POLL_INTERVAL)
+
+    return () => {
+      if (pollRef.current) clearInterval(pollRef.current)
+    }
   }, [user, ready])
 
   if (!ready) {
