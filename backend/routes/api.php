@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Api\AliasController;
 use App\Http\Controllers\Api\DomainController;
 use App\Http\Controllers\Api\GmailController;
+use App\Http\Controllers\Api\EmailController;
 use App\Http\Controllers\Api\InboundMailController;
 use Illuminate\Support\Facades\Route;
 
@@ -71,6 +72,19 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Callback public (redirige le navigateur après OAuth, pas de Sanctum)
     // défini hors du groupe auth:sanctum ci-dessous
+
+    /*
+    |----------------------------------------------------------------------
+    | Emails — inbox (F05)
+    | unread-count DOIT être déclaré avant {email} (sinon capturé comme ID)
+    |----------------------------------------------------------------------
+    */
+    Route::get('emails/unread-count',          [EmailController::class, 'unreadCount']);
+    Route::get('emails',                       [EmailController::class, 'index']);
+    Route::get('emails/{email}',               [EmailController::class, 'show']);
+    Route::patch('emails/{email}/read',        [EmailController::class, 'markRead']);
+    Route::patch('emails/{email}/unread',      [EmailController::class, 'markUnread']);
+    Route::delete('emails/{email}',            [EmailController::class, 'destroy']);
 
     /*
     |----------------------------------------------------------------------
