@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Boîte de réception</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+html, body { height: 100%; overflow: hidden; }
+body { background: var(--gray); display: flex; flex-direction: column; }
+
+/* ---- Topbar ---- */
+.nav {
+  background: var(--ink); height: 56px; flex: none;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.nav-inner {
+  height: 100%; display: flex; align-items: center; gap: var(--s4);
+  padding: 0 var(--s5);
+}
+.nav-org {
+  display: flex; align-items: center; gap: var(--s2);
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.08);
+  border-radius: var(--r-md); padding: 4px 10px;
+  font-size: var(--fs-xs); font-weight: 600; color: rgba(191,209,240,.7);
+}
+.nav-sep { flex: 1; }
+.nav-av {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--steel); color: var(--white);
+  display: grid; place-items: center;
+  font-size: var(--fs-xs); font-weight: 700; flex: none;
+}
+
+/* ---- Layout 3 colonnes ---- */
+.layout {
+  flex: 1; display: grid; overflow: hidden;
+  grid-template-columns: 200px 300px 1fr;
+}
+
+/* ===== Colonne 1 : canaux ===== */
+.rail {
+  background: #111E32;
+  display: flex; flex-direction: column;
+  overflow-y: auto;
+  padding: var(--s3) var(--s3);
+  gap: 1px;
+}
+.rail-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(143,176,232,.35); padding: var(--s2) var(--s3) var(--s3);
+}
+.chan {
+  display: flex; align-items: center; gap: var(--s3);
+  padding: 9px var(--s3); border-radius: var(--r-md);
+  font-size: var(--fs-sm); font-weight: 500; color: rgba(191,209,240,.65);
+  cursor: pointer; min-height: 40px; text-decoration: none;
+  transition: background .12s, color .12s;
+}
+.chan:hover { background: rgba(255,255,255,.07); color: rgba(255,255,255,.9); text-decoration: none; }
+.chan.active {
+  background: rgba(91,132,196,.2);
+  color: var(--white); font-weight: 600;
+  border: 1px solid rgba(91,132,196,.22);
+}
+.chan-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+.chan-name { flex: 1; }
+.chan-count {
+  font-size: 10px; font-weight: 700;
+  background: var(--steel); color: var(--white);
+  border-radius: 99px; padding: 1px 7px; min-width: 18px; text-align: center;
+}
+.chan.active .chan-count { background: rgba(143,176,232,.35); color: rgba(255,255,255,.9); }
+
+/* ===== Colonne 2 : liste conversations ===== */
+.conv-col {
+  background: var(--white);
+  border-right: var(--border);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.conv-head {
+  padding: 14px var(--s4);
+  border-bottom: var(--border);
+  flex: none;
+}
+.conv-head h1 { font-size: var(--fs-base); font-weight: 700; margin-bottom: 1px; }
+.conv-head .sub { font-size: var(--fs-xs); color: var(--ink-55); }
+.conv-head-row { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s3); }
+.conv-list { flex: 1; overflow-y: auto; padding: var(--s3); display: flex; flex-direction: column; gap: 4px; }
+.cv {
+  padding: 11px 13px; border-radius: var(--r-md);
+  border: 1.5px solid var(--gray-mid);
+  background: var(--white); cursor: pointer;
+  transition: border-color .12s, background .1s;
+}
+.cv:hover { border-color: var(--steel-mid); background: var(--gray); }
+.cv.active { border-color: var(--steel); background: #F6F9FF; box-shadow: 0 0 0 2px rgba(91,132,196,.1); }
+.cv-top { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s2); margin-bottom: 3px; }
+.cv-who { font-size: var(--fs-sm); font-weight: 700; color: var(--ink); }
+.cv-time { font-size: var(--fs-xs); color: var(--ink-55); white-space: nowrap; }
+.cv-preview {
+  font-size: var(--fs-xs); color: var(--ink-55); line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.cv-tags { display: flex; gap: 4px; margin-top: 7px; flex-wrap: wrap; }
+
+/* ===== Colonne 3 : thread ===== */
+.thread-col {
+  background: var(--gray);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.thread-head {
+  background: var(--white); border-bottom: var(--border);
+  padding: 12px var(--s5); flex: none;
+  display: flex; align-items: center; gap: var(--s3);
+}
+.thread-head h2 { font-size: var(--fs-sm); font-weight: 700; flex: 1; }
+.messages {
+  flex: 1; overflow-y: auto;
+  padding: var(--s5); display: flex; flex-direction: column; gap: var(--s4);
+}
+/* Bulles */
+.msg { display: flex; gap: var(--s3); max-width: 72%; }
+.msg.me { align-self: flex-end; flex-direction: row-reverse; }
+.msg-av {
+  width: 28px; height: 28px; border-radius: 50%; flex: none;
+  background: var(--gray-mid); color: var(--ink);
+  display: grid; place-items: center;
+  font-size: 10px; font-weight: 700; margin-top: 2px;
+}
+.msg.me .msg-av { background: var(--ink); color: var(--white); }
+.msg-body {}
+.msg-meta { font-size: var(--fs-xs); color: var(--ink-55); margin-bottom: 4px; }
+.msg.me .msg-meta { text-align: right; }
+.msg-meta strong { color: var(--ink); font-weight: 600; }
+.msg-bubble {
+  background: var(--white); border: var(--border);
+  border-radius: 3px 12px 12px 12px;
+  padding: 11px 14px;
+  font-size: var(--fs-sm); line-height: 1.65;
+  box-shadow: var(--sh-1);
+}
+.msg.me .msg-bubble {
+  background: var(--ink); color: rgba(255,255,255,.9);
+  border-color: var(--ink);
+  border-radius: 12px 3px 12px 12px;
+}
+
+/* Barre de réponse */
+.compose-bar {
+  background: var(--white); border-top: var(--border);
+  padding: var(--s3) var(--s4);
+  display: flex; gap: var(--s3); align-items: center;
+  flex: none;
+}
+.compose-bar .input {
+  flex: 1; min-height: 42px; border-radius: 21px;
+  background: var(--gray); border-color: transparent;
+}
+.compose-bar .input:focus-visible { background: var(--white); border-color: var(--steel); }
+
+/* ---- Responsive ---- */
+@media (max-width: 1023px) {
+  .layout { grid-template-columns: 220px 1fr; }
+  .thread-col { display: none; }
+}
+@media (max-width: 700px) {
+  html, body { overflow: auto; }
+  .layout { grid-template-columns: 1fr; height: auto; }
+  .rail { display: none; }
+  .conv-col { height: 100vh; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="nav">
+  <div class="nav-inner">
+    <img src="assets/logo/domial-horizontal-reversed.svg" alt="Domial" height="22">
+    <span class="nav-org">
+      <svg stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;color:rgba(143,176,232,.5)" viewBox="0 0 24 24"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
+      lumen-agence.fr
+    </span>
+    <span class="nav-sep"></span>
+    <a href="dashboard.html" class="btn btn-sm" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12);color:rgba(191,209,240,.8)">Tableau de bord</a>
+    <span class="nav-av" aria-label="Profil">CL</span>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- Canaux -->
+  <nav class="rail" aria-label="Canaux">
+    <p class="rail-label">Boîtes</p>
+    <a class="chan active" href="inbox.html" aria-current="page">
+      <span class="chan-dot" style="background:rgba(143,176,232,.7)"></span>
+      <span class="chan-name">contact@</span>
+      <span class="chan-count">9</span>
+    </a>
+    <a class="chan" href="inbox.html">
+      <span class="chan-dot" style="background:var(--steel)"></span>
+      <span class="chan-name">devis@</span>
+      <span class="chan-count">3</span>
+    </a>
+    <a class="chan" href="inbox.html">
+      <span class="chan-dot" style="background:rgba(255,255,255,.25)"></span>
+      <span class="chan-name">prenom@</span>
+    </a>
+    <a class="chan" href="inbox.html">
+      <span class="chan-dot" style="background:rgba(143,176,232,.4)"></span>
+      <span class="chan-name">presse@</span>
+    </a>
+    <a class="chan" href="inbox.html">
+      <span class="chan-dot" style="background:rgba(255,255,255,.12)"></span>
+      <span class="chan-name">trav.-honor.@</span>
+    </a>
+  </nav>
+
+  <!-- Liste conversations -->
+  <section class="conv-col" aria-label="Conversations">
+    <div class="conv-head">
+      <div class="conv-head-row">
+        <div>
+          <h1>contact@lumen-agence.fr</h1>
+          <p class="sub">9 conversations ouvertes</p>
+        </div>
+        <a href="compose.html" class="btn btn-primary btn-sm">Nouveau</a>
+      </div>
+    </div>
+    <div class="conv-list">
+      <article class="cv active" tabindex="0">
+        <div class="cv-top"><span class="cv-who">Mairie de Blois</span><span class="cv-time">09:24</span></div>
+        <p class="cv-preview">Demande de devis — signalétique quartier Foch. Nous attendons trois propositions avant le 20 novembre…</p>
+        <div class="cv-tags"><span class="badge badge-steel">Priorité</span><span class="badge badge-unread">2</span></div>
+      </article>
+      <article class="cv" tabindex="0">
+        <div class="cv-top"><span class="cv-who">Nina Fabre</span><span class="cv-time">08:12</span></div>
+        <p class="cv-preview">Re: affiches festival — j'ai besoin des visuels aujourd'hui si possible, le bureau ferme demain…</p>
+        <div class="cv-tags"><span class="badge badge-neutral">Devis</span></div>
+      </article>
+      <article class="cv" tabindex="0">
+        <div class="cv-top"><span class="cv-who">Contact site web</span><span class="cv-time">hier</span></div>
+        <p class="cv-preview">Bonjour, j'ai trouvé vos coordonnées via le site de la CCI. Pourrions-nous échanger par téléphone…</p>
+        <div class="cv-tags"><span class="badge badge-neutral">Prospect</span><span class="badge badge-unread">1</span></div>
+      </article>
+      <article class="cv" tabindex="0">
+        <div class="cv-top"><span class="cv-who">Fournisseur Papier &amp; Toile</span><span class="cv-time">hier</span></div>
+        <p class="cv-preview">Catalogue 2026 : la remise annuelle sur les papiers teintés expire vendredi si vous souhaitez prolonger…</p>
+        <div class="cv-tags"><span class="badge badge-neutral">Fournisseur</span></div>
+      </article>
+      <article class="cv" tabindex="0">
+        <div class="cv-top"><span class="cv-who">Maintenance stockage</span><span class="cv-time">hier</span></div>
+        <p class="cv-preview">Ticket IT-4481 : votre quota de stockage a atteint 82 % de sa limite.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Thread -->
+  <section class="thread-col" aria-label="Conversation">
+    <div class="thread-head">
+      <h2>Mairie de Blois — demande de devis</h2>
+      <span class="badge badge-steel">contact@</span>
+    </div>
+    <div class="messages">
+      <div class="msg">
+        <span class="msg-av" aria-hidden="true">MB</span>
+        <div class="msg-body">
+          <div class="msg-meta"><strong>Mairie de Blois</strong> · 09:24</div>
+          <div class="msg-bubble">Bonjour,<br><br>La ville souhaite refondre sa signalétique de quartier (environ 40 panneaux, format A0–A2). Pourrions-nous recevoir votre proposition avant le 20 novembre ?<br><br>Direction technique — service signalétique.</div>
+        </div>
+      </div>
+      <div class="msg me">
+        <span class="msg-av" aria-hidden="true">CL</span>
+        <div class="msg-body">
+          <div class="msg-meta"><strong>Lumen Agence (vous)</strong> · 09:41</div>
+          <div class="msg-bubble">Bonjour, c'est noté. Je rédige une proposition en trois formats — réponse d'ici demain midi. Nous démarrerons par un lot pilote de huit panneaux.</div>
+        </div>
+      </div>
+      <div class="msg">
+        <span class="msg-av" aria-hidden="true">MB</span>
+        <div class="msg-body">
+          <div class="msg-meta"><strong>Mairie de Blois</strong> · 09:55</div>
+          <div class="msg-bubble">Parfait. Merci de joindre une estimation du délai total d'installation, le comité la demandera.</div>
+        </div>
+      </div>
+    </div>
+    <div class="compose-bar">
+      <input class="input" type="text" placeholder="Répondre en tant que contact@lumen-agence.fr…" aria-label="Réponse">
+      <a href="compose.html" class="btn btn-primary btn-sm">
+        <svg class="ic" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m3 9 18-6-6 18-3-9z"/></svg>
+        Envoyer
+      </a>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

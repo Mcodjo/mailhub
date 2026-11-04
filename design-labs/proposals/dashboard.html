@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domial — Tableau de bord</title>
+<link rel="stylesheet" href="design-system.css">
+<style>
+/* ---- Topbar ---- */
+.nav {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--ink);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  height: 60px;
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; gap: var(--s4);
+  padding: 0 var(--s6); height: 100%;
+}
+.nav-org {
+  display: flex; align-items: center; gap: var(--s2);
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.08);
+  border-radius: var(--r-md); padding: 5px 12px;
+  font-size: var(--fs-xs); font-weight: 600; color: rgba(191,209,240,.75);
+}
+.nav-sep { flex: 1; }
+.nav-cta {
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18);
+  color: var(--white); padding: 8px 16px; min-height: 36px;
+  font-size: var(--fs-xs); font-weight: 600;
+  display: inline-flex; align-items: center; gap: var(--s2);
+  border-radius: var(--r-md); cursor: pointer;
+  transition: background .15s;
+}
+.nav-cta:hover { background: rgba(255,255,255,.18); }
+.nav-cta .ic { width: 14px; height: 14px; }
+.av {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--steel); color: var(--white);
+  display: grid; place-items: center;
+  font-size: var(--fs-xs); font-weight: 700; flex: none;
+  border: 2px solid rgba(255,255,255,.12);
+}
+
+/* ---- Page ---- */
+.page {
+  max-width: 1200px; margin: 0 auto;
+  padding: var(--s7) var(--s6) var(--s8);
+}
+.page-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: var(--s5); margin-bottom: var(--s6);
+}
+.page-header h1 { font-size: var(--fs-xl); font-weight: 700; margin-bottom: 3px; }
+.page-header .sub { font-size: var(--fs-sm); color: var(--ink-55); }
+
+/* ---- KPI ---- */
+.kpi-row {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: var(--s4); margin-bottom: var(--s7);
+}
+.kpi {
+  background: var(--white); border: var(--border);
+  border-radius: var(--r-lg); padding: var(--s5);
+  display: flex; flex-direction: column; gap: var(--s3);
+  transition: box-shadow .18s;
+}
+.kpi:hover { box-shadow: var(--sh-2); }
+.kpi-top { display: flex; align-items: center; justify-content: space-between; }
+.kpi-label { font-size: var(--fs-xs); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-55); }
+.kpi-icon {
+  width: 32px; height: 32px; border-radius: var(--r-sm);
+  background: var(--steel-soft); color: var(--steel);
+  display: grid; place-items: center;
+}
+.kpi-icon.g { background: var(--success-bg); color: var(--success); }
+.kpi-value { font-size: 34px; font-weight: 700; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; letter-spacing: -.03em; }
+.kpi-value.g { font-size: 24px; color: var(--success); }
+.kpi-foot { font-size: var(--fs-xs); color: var(--ink-55); display: flex; align-items: center; gap: 5px; }
+.kpi-foot .ok { color: var(--success); font-weight: 600; }
+.kpi-foot .w  { color: var(--warning); font-weight: 600; }
+
+/* ---- Section ---- */
+.section { margin-bottom: var(--s6); }
+.section-head {
+  display: flex; align-items: center; gap: var(--s3);
+  margin-bottom: var(--s4);
+}
+.section-head h2 { font-size: var(--fs-md); font-weight: 700; }
+.count {
+  font-size: var(--fs-xs); font-weight: 600; color: var(--ink-55);
+  background: var(--gray); border: var(--border);
+  border-radius: 99px; padding: 2px 10px;
+}
+.section-link {
+  margin-left: auto; font-size: var(--fs-sm); font-weight: 600; color: var(--steel);
+  display: flex; align-items: center; gap: 4px;
+  transition: color .15s;
+}
+.section-link:hover { color: var(--ink); text-decoration: none; }
+
+/* ---- Table domaines ---- */
+.tbl-wrap {
+  background: var(--white); border: var(--border);
+  border-radius: var(--r-lg); overflow: hidden;
+}
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  font-size: var(--fs-xs); font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ink-55); background: var(--gray);
+  padding: 10px var(--s5); border-bottom: var(--border); text-align: left;
+}
+thead th.r { text-align: right; }
+tbody td {
+  padding: 14px var(--s5); border-bottom: var(--border);
+  font-size: var(--fs-sm); color: var(--ink);
+  vertical-align: middle;
+}
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover td { background: var(--gray); }
+td.r { text-align: right; font-variant-numeric: tabular-nums; }
+.dom-name { font-weight: 600; font-size: var(--fs-base); }
+.dom-aliases { font-size: var(--fs-xs); color: var(--ink-55); margin-top: 2px; }
+.dns-ok   { display: flex; align-items: center; gap: 5px; color: var(--success); font-weight: 600; font-size: var(--fs-xs); }
+.dns-wait { display: flex; align-items: center; gap: 5px; color: var(--warning); font-weight: 600; font-size: var(--fs-xs); }
+.dns-ok svg, .dns-wait svg { width: 13px; height: 13px; }
+.td-acts { display: flex; gap: var(--s2); justify-content: flex-end; }
+.btn-row {
+  display: inline-flex; align-items: center; gap: 4px;
+  font: 600 var(--fs-xs) var(--font); color: var(--ink);
+  padding: 5px 10px; min-height: 28px;
+  background: var(--white); border: var(--border); border-radius: var(--r-sm);
+  cursor: pointer; text-decoration: none;
+  transition: border-color .12s, background .12s;
+}
+.btn-row:hover { border-color: var(--ink-30); background: var(--gray); text-decoration: none; }
+
+/* ---- Activité ---- */
+.activity {
+  background: var(--white); border: var(--border);
+  border-radius: var(--r-lg); overflow: hidden;
+}
+.act-row {
+  display: flex; align-items: center; gap: var(--s4);
+  padding: 13px var(--s5); border-bottom: var(--border);
+  transition: background .1s;
+}
+.act-row:last-child { border-bottom: 0; }
+.act-row:hover { background: var(--gray); }
+.act-av {
+  width: 34px; height: 34px; border-radius: 50%; flex: none;
+  background: var(--steel-soft); border: 1.5px solid var(--steel-mid);
+  display: grid; place-items: center;
+  font-size: var(--fs-xs); font-weight: 700; color: var(--steel);
+}
+.act-body { flex: 1; min-width: 0; }
+.act-who { font-size: var(--fs-sm); font-weight: 600; color: var(--ink); }
+.act-subj { font-size: var(--fs-xs); color: var(--ink-55); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+.act-alias {
+  font-size: var(--fs-xs); font-weight: 700;
+  background: var(--steel-soft); color: var(--steel);
+  border: 1px solid var(--steel-mid); border-radius: 99px; padding: 3px 10px;
+  white-space: nowrap; flex: none;
+}
+.act-time { font-size: var(--fs-xs); color: var(--ink-55); white-space: nowrap; flex: none; min-width: 36px; text-align: right; }
+
+/* ---- Footer ---- */
+.page-foot {
+  margin-top: var(--s7); padding-top: var(--s5);
+  border-top: var(--border);
+  font-size: var(--fs-xs); color: var(--ink-55);
+  display: flex; gap: var(--s5); flex-wrap: wrap;
+}
+.page-foot span { display: flex; align-items: center; gap: 5px; }
+
+/* ---- Responsive ---- */
+@media (max-width: 1023px) { .kpi-row { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 767px) {
+  .page { padding: var(--s5) var(--s4) var(--s7); }
+  .nav-inner { padding: 0 var(--s4); }
+  .kpi-row { grid-template-columns: 1fr 1fr; gap: var(--s3); }
+  .kpi-value { font-size: 26px; }
+  .tbl-wrap { overflow-x: auto; } table { min-width: 540px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="nav">
+  <div class="nav-inner">
+    <img src="assets/logo/domial-horizontal-reversed.svg" alt="Domial" height="24">
+    <span class="nav-org">
+      <svg stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;color:rgba(143,176,232,.6)" viewBox="0 0 24 24"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
+      lumen-agence.fr
+    </span>
+    <span class="nav-sep"></span>
+    <button class="nav-cta" type="button">
+      <svg class="ic" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      Ajouter un domaine
+    </button>
+    <span class="av" aria-label="Profil">CL</span>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- En-tête -->
+  <div class="page-header">
+    <div>
+      <h1>Tableau de bord</h1>
+      <p class="sub">Vue d'ensemble · domaines, alias et activité</p>
+    </div>
+    <time datetime="2026-11-04" style="font-size:var(--fs-xs);color:var(--ink-55);align-self:center">4 novembre 2026</time>
+  </div>
+
+  <!-- KPI -->
+  <div class="kpi-row" role="region" aria-label="Indicateurs">
+    <article class="kpi">
+      <div class="kpi-top">
+        <span class="kpi-label">Mails non lus</span>
+        <span class="kpi-icon">
+          <svg class="ic ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 8h16v12H4z"/><path d="m4 8 8 6 8-6"/></svg>
+        </span>
+      </div>
+      <div class="kpi-value">17</div>
+      <div class="kpi-foot">7 conversations ouvertes</div>
+    </article>
+
+    <article class="kpi">
+      <div class="kpi-top">
+        <span class="kpi-label">Domaines</span>
+        <span class="kpi-icon">
+          <svg class="ic ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>
+        </span>
+      </div>
+      <div class="kpi-value">3</div>
+      <div class="kpi-foot"><span class="ok">3 actifs</span>&nbsp;·&nbsp;<span class="w">1 en attente</span></div>
+    </article>
+
+    <article class="kpi">
+      <div class="kpi-top">
+        <span class="kpi-label">Alias configurés</span>
+        <span class="kpi-icon">
+          <svg class="ic ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 4h4v4M4 20 20 4M20 16v4h-4M4 4l6 6"/></svg>
+        </span>
+      </div>
+      <div class="kpi-value">12</div>
+      <div class="kpi-foot">4 boîtes de réception</div>
+    </article>
+
+    <article class="kpi">
+      <div class="kpi-top">
+        <span class="kpi-label">Délivrabilité</span>
+        <span class="kpi-icon g">
+          <svg class="ic ic-sm" stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 3 4 7v6c0 5 8 8 8 8s8-3 8-8V7z"/></svg>
+        </span>
+      </div>
+      <div class="kpi-value g">98 %</div>
+      <div class="kpi-foot"><span class="ok">Gmail connecté</span>&nbsp;· SPF · DKIM</div>
+    </article>
+  </div>
+
+  <!-- Domaines -->
+  <section class="section" aria-labelledby="s-dom">
+    <div class="section-head">
+      <h2 id="s-dom">Domaines configurés</h2>
+      <span class="count">4 entrées</span>
+      <a href="#" class="section-link">
+        Tout gérer
+        <svg stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <caption style="position:absolute;left:-9999px">Domaines configurés</caption>
+        <thead>
+          <tr>
+            <th>Domaine</th>
+            <th class="r">Alias</th>
+            <th class="r">Non lus</th>
+            <th>Enregistrements DNS</th>
+            <th>Statut</th>
+            <th><span style="position:absolute;left:-9999px">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="dom-name">lumen-agence.fr</div>
+              <div class="dom-aliases">contact@ · devis@ · presse@ · travaux-honoraires@</div>
+            </td>
+            <td class="r">4</td><td class="r">9</td>
+            <td><span class="dns-ok"><svg stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>SPF · DKIM · DMARC</span></td>
+            <td><span class="badge badge-success">Actif</span></td>
+            <td><div class="td-acts"><a href="inbox.html" class="btn-row">Réception</a><a href="#" class="btn-row">Gérer</a></div></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="dom-name">atelier-remy.fr</div>
+              <div class="dom-aliases">bonjour@ · commande@ · facture@</div>
+            </td>
+            <td class="r">3</td><td class="r">5</td>
+            <td><span class="dns-ok"><svg stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>SPF · DKIM · DMARC</span></td>
+            <td><span class="badge badge-success">Actif</span></td>
+            <td><div class="td-acts"><a href="inbox.html" class="btn-row">Réception</a><a href="#" class="btn-row">Gérer</a></div></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="dom-name">librairie-ancrage.fr</div>
+              <div class="dom-aliases">info@ · evenements@ · ateliers@</div>
+            </td>
+            <td class="r">3</td><td class="r">3</td>
+            <td><span class="dns-ok"><svg stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg>SPF · DKIM validés</span></td>
+            <td><span class="badge badge-success">Actif</span></td>
+            <td><div class="td-acts"><a href="inbox.html" class="btn-row">Réception</a><a href="#" class="btn-row">Gérer</a></div></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="dom-name">studio-broch.fr</div>
+              <div class="dom-aliases">studio@ · admin@</div>
+            </td>
+            <td class="r">2</td><td class="r">0</td>
+            <td><span class="dns-wait"><svg stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>DMARC en propagation</span></td>
+            <td><span class="badge badge-warning">En attente</span></td>
+            <td><div class="td-acts"><a href="wizard.html" class="btn-row">Voir la config.</a></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Activité récente -->
+  <section class="section" aria-labelledby="s-act">
+    <div class="section-head">
+      <h2 id="s-act">Activité récente</h2>
+      <span class="count">24 h</span>
+      <a href="inbox.html" class="section-link">
+        Tout voir
+        <svg stroke="currentColor" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="activity">
+      <article class="act-row"><span class="act-av" aria-hidden="true">MB</span><div class="act-body"><div class="act-who">Mairie de Blois</div><div class="act-subj">Demande de devis — signalétique quartier Foch</div></div><span class="act-alias">contact@</span><span class="act-time">09:24</span></article>
+      <article class="act-row"><span class="act-av" aria-hidden="true">NF</span><div class="act-body"><div class="act-who">Nina Fabre</div><div class="act-subj">Affiches festival — validation des visuels finaux</div></div><span class="act-alias">contact@</span><span class="act-time">08:12</span></article>
+      <article class="act-row"><span class="act-av" aria-hidden="true">LP</span><div class="act-body"><div class="act-who">Logistique Plus SARL</div><div class="act-subj">Confirmation de commande n°2451</div></div><span class="act-alias">commande@</span><span class="act-time">hier</span></article>
+      <article class="act-row"><span class="act-av" aria-hidden="true">QR</span><div class="act-body"><div class="act-who">Quotidien Régional</div><div class="act-subj">Interview — inauguration de la librairie</div></div><span class="act-alias">presse@</span><span class="act-time">hier</span></article>
+      <article class="act-row"><span class="act-av" aria-hidden="true">CA</span><div class="act-body"><div class="act-who">Comité des ateliers</div><div class="act-subj">Programme des ateliers de décembre</div></div><span class="act-alias">ateliers@</span><span class="act-time">hier</span></article>
+    </div>
+  </section>
+
+  <footer class="page-foot">
+    <span>3 domaines actifs</span>
+    <span>12 alias</span>
+    <span>4 boîtes de réception</span>
+    <span>Gmail connecté · délivrabilité 98 %</span>
+  </footer>
+
+</main>
+</body>
+</html>
