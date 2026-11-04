@@ -41,4 +41,9 @@ return [
         'redirect'      => env('GOOGLE_REDIRECT_URI', '/api/auth/google/callback'),
     ],
 
+    'cloudflare' => [
+        'webhook_secret' => env('CLOUDFLARE_WEBHOOK_SECRET'),
+        'webhook_skew'   => env('CLOUDFLARE_WEBHOOK_SKEW', 300),
+    ],
+
 ];

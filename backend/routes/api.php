@@ -5,7 +5,17 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Api\AliasController;
 use App\Http\Controllers\Api\DomainController;
 use App\Http\Controllers\Api\GmailController;
+use App\Http\Controllers\Api\InboundMailController;
 use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Webhook Cloudflare Worker — inbound mail (F03)
+|--------------------------------------------------------------------------
+| Exempté de CSRF, protégé par HMAC-SHA256 (VerifyInboundSignature).
+*/
+Route::post('inbound-mail', [InboundMailController::class, 'receive'])
+    ->middleware('inbound.signature');
 
 /*
 |--------------------------------------------------------------------------
