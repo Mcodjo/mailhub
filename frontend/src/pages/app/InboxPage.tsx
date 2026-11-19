@@ -14,18 +14,24 @@ export function InboxPage() {
   const [loading, setLoading] = useState(true)
   const [replyBody, setReplyBody] = useState('')
   const [replying, setReplying] = useState(false)
+  const [page, setPage] = useState(1)
+  const [lastPage, setLastPage] = useState(1)
+  const [total, setTotal] = useState(0)
   const { decrementUnread, aliases } = useAppStore()
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (p: number) => {
     setLoading(true)
     try {
-      const res = await emailsApi.list({ alias_id: aliasId, per_page: 50 })
+      const res = await emailsApi.list({ alias_id: aliasId, per_page: 25, page: p })
       setEmails(res.data)
+      setLastPage(res.last_page)
+      setTotal(res.total)
     } catch {}
     setLoading(false)
   }, [aliasId])
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => { setPage(1) }, [aliasId])
+  useEffect(() => { load(page) }, [load, page])
 
   async function open(email: Email) {
     setSelected(email)
@@ -87,7 +93,7 @@ export function InboxPage() {
         <Link to="/app/compose" className="btn btn-primary btn-sm">
           + Nouveau message
         </Link>
-        <button className="btn btn-ghost btn-sm" onClick={load} title="Actualiser">
+        <button className="btn btn-ghost btn-sm" onClick={() => load(page)} title="Actualiser">
           <RefreshIcon />
         </button>
       </div>
@@ -111,6 +117,7 @@ export function InboxPage() {
               Aucun message
             </div>
           ) : (
+            <>
             <div className="conv-list">
               {emails.map((email) => (
                 <div
@@ -130,6 +137,16 @@ export function InboxPage() {
                 </div>
               ))}
             </div>
+
+            {/* Pagination */}
+            {lastPage > 1 && (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--s3)', padding: 'var(--s3)', borderTop: 'var(--border)', fontSize: 'var(--fs-xs)', color: 'var(--ink-55)' }}>
+                <button className="btn btn-ghost btn-sm" disabled={page === 1} onClick={() => setPage(p => p - 1)}>‹ Préc.</button>
+                <span>{page} / {lastPage} · {total} messages</span>
+                <button className="btn btn-ghost btn-sm" disabled={page === lastPage} onClick={() => setPage(p => p + 1)}>Suiv. ›</button>
+              </div>
+            )}
+            </>
           )}
         </div>
 

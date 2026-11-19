@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\GmailController;
 use App\Http\Controllers\Api\EmailController;
 use App\Http\Controllers\Api\InboundMailController;
 use App\Http\Controllers\Api\SendEmailController;
+use App\Http\Controllers\Api\SentEmailController;
+use App\Http\Controllers\Api\ThreadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,10 +23,10 @@ Route::post('inbound-mail', [InboundMailController::class, 'receive'])
 
 /*
 |--------------------------------------------------------------------------
-| Auth — public
+| Auth — public (rate-limited : 5 tentatives/minute/IP)
 |--------------------------------------------------------------------------
 */
-Route::prefix('auth')->group(function () {
+Route::prefix('auth')->middleware('throttle:5,1')->group(function () {
     Route::post('register',        [AuthController::class, 'register']);
     Route::post('login',           [AuthController::class, 'login']);
     Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
@@ -92,6 +94,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('emails/{email}/unread',      [EmailController::class, 'markUnread']);
     Route::post('emails/{email}/reply',        [SendEmailController::class, 'reply']);
     Route::delete('emails/{email}',            [EmailController::class, 'destroy']);
+
+    /*
+    |----------------------------------------------------------------------
+    | Boîte Envoyés (F08)
+    |----------------------------------------------------------------------
+    */
+    Route::get('sent',          [SentEmailController::class, 'index']);
+    Route::get('sent/{sentEmail}', [SentEmailController::class, 'show']);
+
+    /*
+    |----------------------------------------------------------------------
+    | Threads (conversations)
+    |----------------------------------------------------------------------
+    */
+    Route::get('threads/{thread}', [ThreadController::class, 'show']);
 
     /*
     |----------------------------------------------------------------------

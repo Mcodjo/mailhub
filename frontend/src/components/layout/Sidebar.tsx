@@ -66,6 +66,10 @@ export function Sidebar() {
             </span>
           )}
         </NavLink>
+        <NavLink to="/app/sent" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
+          <SentIcon />
+          Envoyés
+        </NavLink>
         <NavLink to="/app/compose" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>
           <ComposeIcon />
           Composer
@@ -132,6 +136,13 @@ function InboxIcon() {
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flex: 'none' }}>
       <rect x="1" y="2" width="14" height="12" rx="2" stroke="currentColor" strokeWidth="1.5" fill="none"/>
       <path d="M1 10h3l1.5 2h5L12 10h3" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
+    </svg>
+  )
+}
+function SentIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flex: 'none' }}>
+      <path d="M2 14L14 8 2 2v5l8 1-8 1v5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
     </svg>
   )
 }

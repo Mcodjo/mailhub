@@ -23,7 +23,7 @@ class SentEmail extends Model
     ];
 
     protected $casts = [
-        'from_email' => 'array',
+        'from_email' => 'string',
         'to_emails'  => 'array',
         'cc_emails'  => 'array',
         'sent_at'    => 'datetime',

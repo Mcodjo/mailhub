@@ -44,4 +44,15 @@ export const emailsApi = {
     body_text?: string
     cc?: string[]
   }) => api.post<SentEmail>(`/emails/${id}/reply`, data),
+
+  listSent: (params: { per_page?: number; page?: number; alias_id?: number } = {}) => {
+    const q = new URLSearchParams()
+    if (params.alias_id) q.set('alias_id', String(params.alias_id))
+    if (params.per_page) q.set('per_page', String(params.per_page))
+    if (params.page)     q.set('page',     String(params.page))
+    const qs = q.toString()
+    return api.get<PaginatedResponse<SentEmail>>(`/sent${qs ? `?${qs}` : ''}`)
+  },
+
+  showSent: (id: number) => api.get<SentEmail>(`/sent/${id}`),
 }

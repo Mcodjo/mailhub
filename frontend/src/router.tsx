@@ -11,6 +11,7 @@ import { ComposePage }         from './pages/app/ComposePage'
 import { WizardPage }          from './pages/app/WizardPage'
 import { SettingsPage }        from './pages/app/SettingsPage'
 import { OnboardingPage }      from './pages/app/OnboardingPage'
+import { SentPage }            from './pages/app/SentPage'
 
 export const router = createBrowserRouter([
   /* ── Marketing ── */
@@ -29,6 +30,7 @@ export const router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       { path: 'inbox',      element: <InboxPage /> },
+      { path: 'sent',       element: <SentPage /> },
       { path: 'compose',    element: <ComposePage /> },
       { path: 'wizard',     element: <WizardPage /> },
       { path: 'settings',   element: <SettingsPage /> },

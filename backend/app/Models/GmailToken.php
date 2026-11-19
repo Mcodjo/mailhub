@@ -42,6 +42,6 @@ class GmailToken extends Model
 
     public function hasMailScope(): bool
     {
-        return str_contains($this->scope, 'https://mail.google.com/');
+        return str_contains((string) $this->scope, 'https://mail.google.com/');
     }
 }
